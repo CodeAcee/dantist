@@ -35,7 +35,9 @@ a { text-decoration: none; }
 @keyframes gradShift { 0%{background-position:0 50%} 50%{background-position:100% 50%} 100%{background-position:0 50%} }
 @keyframes slideIn   { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
 @keyframes slideOut  { from{transform:translateX(0);opacity:1} to{transform:translateX(120%);opacity:0} }
-@keyframes navSlide  { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes navSlide        { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes grainientShift  { 0%{opacity:.85} 50%{opacity:1} 100%{opacity:.85} }
+@keyframes grainientSweep  { 0%{background-position:-100% 0} 100%{background-position:200% 0} }
 
 /* ── Scroll-reveal helpers (used by Astro static sections) ─ */
 .sr-hidden { opacity: 0; transform: translateY(32px); }

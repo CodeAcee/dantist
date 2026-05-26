@@ -1,27 +1,32 @@
 ---
 import ContactForm from './ContactForm';
+import BeamsBg    from './backgrounds/BeamsBg';
+interface Detail { icon: string; label: string; val: string }
+interface Props {
+  t: { eyebrow: string; h2: string[]; sub: string; details: Detail[]; socialsLabel: string; formEyebrow: string; formH2: string[]; formSub: string };
+  ft: Record<string, any>;
+}
+const { t, ft } = Astro.props;
 
 const socials = [
-  { name: 'TikTok',     href: 'https://www.tiktok.com/@naturadentalstudio',     label: 'TikTok'     },
-  { name: 'Instagram',  href: 'https://www.instagram.com/naturadentalstudio',   label: 'Instagram'  },
-  { name: 'Telegram',   href: 'https://t.me/naturadentalstudio',                label: 'Telegram'   },
-  { name: 'Viber',      href: 'viber://chat?number=%2B380561234567',            label: 'Viber'      },
-  { name: 'WhatsApp',   href: 'https://wa.me/380561234567',                     label: 'WhatsApp'   },
+  { label: 'TikTok',    href: 'https://www.tiktok.com/@chirkovadentist' },
+  { label: 'Instagram', href: 'https://www.instagram.com/chirkovadentist' },
+  { label: 'Telegram',  href: 'https://t.me/chirkovadentist' },
+  { label: 'Viber',     href: 'viber://chat?number=%2B380561234567' },
+  { label: 'WhatsApp',  href: 'https://wa.me/380561234567' },
 ];
 ---
 <section class="contact-section" id="contact" aria-label="Contact">
-  <!-- Left — info -->
   <div class="contact-info">
+    <BeamsBg client:visible />
     <div class="contact-info-inner">
-      <div class="eyebrow eyebrow--light">Get in touch</div>
-      <h2 class="contact-h2">Let's talk<br/>about your<br/><em>smile.</em></h2>
-      <p class="contact-sub">We respond within 2 hours.</p>
+      <div class="eyebrow eyebrow--light">{t.eyebrow}</div>
+      <h2 class="contact-h2">
+        {t.h2[0]}<br/>{t.h2[1]}<br/><em>{t.h2[2]}</em>
+      </h2>
+      <p class="contact-sub">{t.sub}</p>
       <div class="contact-details">
-        {[
-          { icon: '☏', label: 'Phone',   val: '+38 (056) 123-45-67' },
-          { icon: '✉', label: 'Email',   val: 'hello@naturasmile.ua' },
-          { icon: '⊙', label: 'Address', val: 'Yavornytskoho Ave 22, Dnipro' },
-        ].map(d => (
+        {t.details.map(d => (
           <div class="detail-row">
             <div class="detail-icon">{d.icon}</div>
             <div>
@@ -33,106 +38,43 @@ const socials = [
       </div>
     </div>
     <div class="contact-socials">
-      <div class="socials-label">Find us on</div>
+      <div class="socials-label">{t.socialsLabel}</div>
       <div class="socials-row">
         {socials.map(s => (
-          <a href={s.href} class="social-btn" target="_blank" rel="noopener noreferrer" aria-label={s.name}>
-            {s.label}
-          </a>
+          <a href={s.href} class="social-btn" target="_blank" rel="noopener noreferrer">{s.label}</a>
         ))}
       </div>
     </div>
   </div>
 
-  <!-- Right — form -->
   <div class="contact-form-side">
-    <div class="eyebrow">Quick request</div>
-    <h2 class="contact-form-h2">We'll call <em>you</em> back</h2>
-    <p class="contact-form-sub">Fill in the form — we'll reach out within 2 hours.</p>
-    <ContactForm client:visible source="main_form" />
+    <div class="eyebrow">{t.formEyebrow}</div>
+    <h2 class="contact-form-h2">{t.formH2[0]}<em>{t.formH2[1]}</em></h2>
+    <p class="contact-form-sub">{t.formSub}</p>
+    <ContactForm client:visible ft={ft} source="main_form" />
   </div>
 </section>
-
 <style>
-.contact-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 600px;
-}
-.contact-info {
-  background: var(--forest);
-  padding: 5rem 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-.contact-info::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.02'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-}
-.contact-info-inner { position: relative; z-index: 1; }
-.contact-h2 {
-  font-family: var(--serif);
-  font-size: clamp(32px, 4vw, 46px);
-  font-weight: 300;
-  color: var(--cream);
-  line-height: 1.05;
-  margin-bottom: 16px;
-}
-.contact-h2 em { font-style: italic; color: var(--gold-light); }
-.contact-sub { font-size: 13px; color: rgba(245,240,232,.45); line-height: 1.75; margin-bottom: 32px; }
-
-.contact-details { display: flex; flex-direction: column; gap: 16px; }
-.detail-row   { display: flex; align-items: flex-start; gap: 12px; }
-.detail-icon  { width: 34px; height: 34px; border-radius: 2px; border: 1px solid rgba(200,169,110,.3); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--gold); flex-shrink: 0; }
-.detail-label { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: rgba(245,240,232,.3); margin-bottom: 2px; }
-.detail-val   { font-size: 14px; color: var(--cream); font-weight: 300; }
-
-.contact-socials { position: relative; z-index: 1; }
-.socials-label { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: rgba(245,240,232,.25); margin-bottom: 12px; }
-.socials-row   { display: flex; gap: 8px; flex-wrap: wrap; }
-.social-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 14px;
-  border: 1px solid rgba(200,169,110,.2);
-  border-radius: 2px;
-  background: transparent;
-  font-size: 11px;
-  color: rgba(245,240,232,.5);
-  letter-spacing: .05em;
-  cursor: pointer;
-  transition: all .25s;
-  font-family: var(--sans);
-  text-decoration: none;
-}
-.social-btn:hover {
-  border-color: var(--gold);
-  background: var(--gold);
-  color: var(--forest);
-}
-
-/* Form side */
-.contact-form-side {
-  background: var(--cream);
-  padding: 5rem 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.contact-form-h2 { font-family: var(--serif); font-size: clamp(26px, 3vw, 36px); font-weight: 300; color: var(--forest); margin-bottom: 6px; }
-.contact-form-h2 em { font-style: italic; }
-.contact-form-sub { font-size: 12px; color: var(--text-light); margin-bottom: 32px; line-height: 1.6; }
-
-@media (max-width: 900px) {
-  .contact-section    { grid-template-columns: 1fr; }
-  .contact-info       { padding: 4rem var(--px); }
-  .contact-form-side  { padding: 4rem var(--px); }
-}
+.contact-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+.contact-info { background: var(--forest); padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+.contact-info::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.02'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
+.contact-info-inner { position:relative; z-index:1; }
+.contact-h2 { font-family:var(--serif); font-size:clamp(28px,4vw,46px); font-weight:300; color:var(--cream); line-height:1.05; margin-bottom:16px; }
+.contact-h2 em { font-style:italic; color:var(--gold-light); }
+.contact-sub { font-size:13px; color:rgba(245,240,232,.45); line-height:1.75; margin-bottom:32px; }
+.contact-details { display:flex; flex-direction:column; gap:16px; }
+.detail-row   { display:flex; align-items:flex-start; gap:12px; }
+.detail-icon  { width:34px; height:34px; border-radius:2px; border:1px solid rgba(200,169,110,.3); display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--gold); flex-shrink:0; }
+.detail-label { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:rgba(245,240,232,.3); margin-bottom:2px; }
+.detail-val   { font-size:14px; color:var(--cream); font-weight:300; }
+.contact-socials { position:relative; z-index:1; }
+.socials-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(245,240,232,.25); margin-bottom:12px; }
+.socials-row   { display:flex; gap:8px; flex-wrap:wrap; }
+.social-btn { display:inline-flex; align-items:center; padding:9px 14px; border:1px solid rgba(200,169,110,.2); border-radius:2px; background:transparent; font-size:11px; color:rgba(245,240,232,.5); letter-spacing:.05em; cursor:pointer; transition:all .25s; font-family:var(--sans); text-decoration:none; }
+.social-btn:hover { border-color:var(--gold); background:var(--gold); color:var(--forest); }
+.contact-form-side { background:var(--cream); padding:5rem 4rem; display:flex; flex-direction:column; justify-content:center; }
+.contact-form-h2 { font-family:var(--serif); font-size:clamp(24px,3vw,36px); font-weight:300; color:var(--forest); margin-bottom:6px; }
+.contact-form-h2 em { font-style:italic; }
+.contact-form-sub { font-size:12px; color:var(--text-light); margin-bottom:32px; line-height:1.6; }
+@media (max-width:900px) { .contact-section { grid-template-columns:1fr; } .contact-info, .contact-form-side { padding:4rem var(--px); } }
 </style>

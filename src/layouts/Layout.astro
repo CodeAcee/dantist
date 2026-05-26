@@ -4,28 +4,33 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  lang?: string;
 }
 const {
-  title = 'Natura Dental Studio — Cosmetic & Restorative Dentistry in Dnipro',
-  description = 'Boutique dental practice in Dnipro. Veneers, implants, Invisalign, whitening. Free first consultation. Book online today.',
+  title = 'Chirkova Dentist — Косметична стоматологія у Дніпрі',
+  description = 'Бутикова стоматологія у Дніпрі. Вініри, імпланти, елайнери, відбілювання. Перша консультація безкоштовно.',
   image = '/og-image.jpg',
+  lang = 'uk',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!DOCTYPE html>
-<html lang="uk">
+<html lang={lang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#2a3d2e" />
   <link rel="canonical" href={canonical} />
 
-  <!-- SEO -->
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="robots" content="index, follow" />
-  <meta name="keywords" content="стоматологія Дніпро, veneers Dnipro, dental implants Ukraine, Natura Dental, Dr Kateryna Melnyk, cosmetic dentistry, teeth whitening Dnipro, Invisalign" />
+
+  <!-- Alternate language links -->
+  <link rel="alternate" hreflang="uk" href={new URL('/dantist/', Astro.site)} />
+  <link rel="alternate" hreflang="en" href={new URL('/dantist/en/', Astro.site)} />
+  <link rel="alternate" hreflang="x-default" href={new URL('/dantist/', Astro.site)} />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -33,61 +38,37 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={new URL(image, Astro.site)} />
-  <meta property="og:locale" content="uk_UA" />
-  <meta property="og:locale:alternate" content="en_US" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={new URL(image, Astro.site)} />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/dantist/favicon.svg" />
 
-  <!-- Local Business Schema.org -->
+  <!-- LocalBusiness Schema -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Dentist",
-    "name": "Natura Dental Studio",
+    "name": "Chirkova Dentist Studio",
     "description": description,
-    "url": "https://naturasmile.ua",
+    "url": "https://codeacee.github.io/dantist",
     "telephone": "+380561234567",
-    "email": "hello@naturasmile.ua",
+    "email": "hello@chirkovadentist.ua",
     "foundingDate": "2011",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "просп. Яворницького 22",
       "addressLocality": "Дніпро",
-      "addressCountry": "UA",
-      "postalCode": "49000"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "48.4647",
-      "longitude": "35.0462"
+      "addressCountry": "UA"
     },
     "openingHoursSpecification": [
       { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "20:00" },
       { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday"], "opens": "10:00", "closes": "18:00" }
     ],
     "sameAs": [
-      "https://www.instagram.com/naturadentalstudio",
-      "https://www.tiktok.com/@naturadentalstudio"
+      "https://www.instagram.com/chirkovadentist",
+      "https://www.tiktok.com/@chirkovadentist"
     ],
-    "employee": {
-      "@type": "Person",
-      "name": "Dr. Kateryna Melnyk",
-      "jobTitle": "Lead Dentist — Cosmetic & Restorative Specialist"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "reviewCount": "127"
-    }
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "127" }
   })} />
-
 </head>
 <body>
   <slot />

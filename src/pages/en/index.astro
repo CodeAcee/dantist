@@ -1,22 +1,22 @@
 ---
-import { translations } from '../i18n/translations';
-import Layout          from '../layouts/Layout.astro';
-import AnnouncementBar from '../components/AnnouncementBar.astro';
-import Nav             from '../components/Nav.astro';
-import Hero            from '../components/Hero.astro';
-import Marquee         from '../components/Marquee.astro';
-import Services        from '../components/Services.astro';
-import Results         from '../components/Results.astro';
-import About           from '../components/About.astro';
-import Process         from '../components/Process.astro';
-import Reviews         from '../components/Reviews.astro';
-import Gallery         from '../components/Gallery.astro';
-import Prices          from '../components/Prices.astro';
-import Contact         from '../components/Contact.astro';
-import Footer          from '../components/Footer.astro';
-import ScrollPopup     from '../components/ScrollPopup';
+import { translations } from '../../i18n/translations';
+import Layout          from '../../layouts/Layout.astro';
+import AnnouncementBar from '../../components/AnnouncementBar.astro';
+import Nav             from '../../components/Nav.astro';
+import Hero            from '../../components/Hero.astro';
+import Marquee         from '../../components/Marquee.astro';
+import Services        from '../../components/Services.astro';
+import Results         from '../../components/Results.astro';
+import About           from '../../components/About.astro';
+import Process         from '../../components/Process.astro';
+import Reviews         from '../../components/Reviews.astro';
+import Gallery         from '../../components/Gallery.astro';
+import Prices          from '../../components/Prices.astro';
+import Contact         from '../../components/Contact.astro';
+import Footer          from '../../components/Footer.astro';
+import ScrollPopup     from '../../components/ScrollPopup';
 
-const t = translations.uk;
+const t = translations.en;
 ---
 <Layout title={t.seo.title} description={t.seo.description} lang={t.htmlLang}>
   <ScrollPopup client:idle t={t.popup} ft={t.form} />

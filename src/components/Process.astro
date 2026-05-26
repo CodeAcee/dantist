@@ -1,21 +1,20 @@
 ---
-const steps = [
-  { n: '01', t: 'Consultation', d: 'A relaxed conversation about your goals and concerns.' },
-  { n: '02', t: 'Diagnosis',    d: 'Full digital imaging and a personalised treatment roadmap.' },
-  { n: '03', t: 'Treatment',    d: 'Expert care using the finest materials, at your pace.' },
-  { n: '04', t: 'Aftercare',    d: 'Follow-ups, advice, and a direct line for questions.' },
-];
+import BeamsBg from './backgrounds/BeamsBg';
+interface Step { n: string; t: string; d: string }
+interface Props { t: { eyebrow: string; h2a: string; h2em: string; h2b: string; steps: Step[] } }
+const { t } = Astro.props;
 ---
-<section class="process-section js-section" aria-label="How it works">
-  <div class="section-inner">
+<section class="process-section" id="process" aria-label="Process">
+  <BeamsBg client:visible />
+  <div class="section-inner" style="position:relative;z-index:1">
     <div class="process-header js-reveal">
-      <div class="eyebrow eyebrow--light">How it works</div>
-      <h2 class="process-h2">Your path to a <em>perfect</em> smile</h2>
+      <div class="eyebrow eyebrow--light">{t.eyebrow}</div>
+      <h2 class="process-h2">{t.h2a}<em>{t.h2em}</em>{t.h2b}</h2>
     </div>
     <div class="steps">
       <div class="steps-line" aria-hidden="true"></div>
-      {steps.map((s, i) => (
-        <div class="step js-reveal" style={`animation-delay: ${0.15 + i * 0.12}s`}>
+      {t.steps.map((s, i) => (
+        <div class="step js-reveal" style={`animation-delay:${0.15+i*0.12}s`}>
           <div class="step-circle">{s.n}</div>
           <h3 class="step-title">{s.t}</h3>
           <p class="step-desc">{s.d}</p>
@@ -24,75 +23,18 @@ const steps = [
     </div>
   </div>
 </section>
-
 <style>
-.process-section {
-  background: var(--forest);
-  padding: 6rem 0;
-}
-.process-header {
-  text-align: center;
-  margin-bottom: 56px;
-}
-.process-h2 {
-  font-family: var(--serif);
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 300;
-  color: var(--cream);
-  line-height: 1.1;
-}
-.process-h2 em {
-  font-style: italic;
-  background: linear-gradient(120deg, var(--gold) 40%, var(--gold-light) 50%, var(--gold) 60%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
-}
-.steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  position: relative;
-}
-.steps-line {
-  position: absolute;
-  top: 28px;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,169,110,.35), transparent);
-}
+.process-section { background: var(--forest); padding: 6rem 0; position: relative; overflow: hidden; }
+.process-header { text-align: center; margin-bottom: 56px; }
+.process-h2 { font-family: var(--serif); font-size: clamp(26px,3.5vw,44px); font-weight: 300; color: var(--cream); line-height: 1.1; }
+.process-h2 em { font-style: italic; background: linear-gradient(120deg,var(--gold) 40%,var(--gold-light) 50%,var(--gold) 60%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; position: relative; }
+.steps-line { position: absolute; top: 28px; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg,transparent,rgba(200,169,110,.35),transparent); }
 .step { text-align: center; }
-.step-circle {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1px solid rgba(200,169,110,.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  font-family: var(--serif);
-  font-size: 18px;
-  color: var(--gold-light);
-  transition: all .3s;
-  cursor: default;
-}
-.step-circle:hover {
-  border-color: var(--gold);
-  background: var(--gold);
-  color: var(--forest);
-}
+.step-circle { width: 56px; height: 56px; border-radius: 50%; border: 1px solid rgba(200,169,110,.35); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: var(--serif); font-size: 18px; color: var(--gold-light); transition: all .3s; cursor: default; }
+.step-circle:hover { border-color: var(--gold); background: var(--gold); color: var(--forest); }
 .step-title { font-family: var(--serif); font-size: 19px; color: var(--cream); margin-bottom: 8px; }
 .step-desc  { font-size: 12px; color: rgba(245,240,232,.45); line-height: 1.65; }
-
-@media (max-width: 768px) {
-  .steps { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .steps-line { display: none; }
-}
-@media (max-width: 400px) {
-  .steps { grid-template-columns: 1fr; }
-}
+@media (max-width: 768px) { .steps { grid-template-columns: repeat(2,1fr); gap: 24px; } .steps-line { display: none; } }
+@media (max-width: 400px) { .steps { grid-template-columns: 1fr; } }
 </style>
