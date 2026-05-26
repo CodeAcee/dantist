@@ -30,6 +30,11 @@ const hrefs = ['#services','#gallery','#results','#about','#reviews','#prices','
     <a href={t.langSwitch.href} class="lang-switch" aria-label="Switch language">
       {t.langSwitch.label}
     </a>
+
+    <!-- Modern Mode toggle -->
+    <button id="modern-mode-btn" class="modern-mode-btn" aria-label="Switch to Modern Mode">
+      ◆ Modern
+    </button>
   </div>
 </nav>
 
@@ -54,6 +59,10 @@ menu.querySelectorAll('a').forEach(a => {
     btn.setAttribute('aria-expanded', 'false');
     btn.classList.remove('hamburger--open');
   });
+});
+
+document.getElementById('modern-mode-btn')!.addEventListener('click', () => {
+  window.dispatchEvent(new CustomEvent('zoomer:open'));
 });
 </script>
 
@@ -118,6 +127,23 @@ menu.querySelectorAll('a').forEach(a => {
   background: var(--gold);
   border-color: var(--gold);
   color: var(--forest);
+}
+
+/* ── Modern Mode button ─────────────────── */
+.modern-mode-btn {
+  margin-left: 8px;
+  font-family: var(--sans); font-size: 9px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--cream); background: var(--forest);
+  border: 1px solid var(--forest); border-radius: 2px;
+  padding: 5px 12px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+  align-self: center;
+}
+.modern-mode-btn:hover {
+  background: #0a0a0a;
+  border-color: #c8ff00;
+  color: #c8ff00;
 }
 
 /* ── Hamburger ───────────────────────────── */

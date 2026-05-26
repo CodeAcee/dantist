@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ZoomerMode from '../components/ZoomerMode';
 interface Props {
   title?: string;
   description?: string;
@@ -72,5 +73,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 </head>
 <body>
   <slot />
+  <ZoomerMode client:load />
 </body>
 </html>
