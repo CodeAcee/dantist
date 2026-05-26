@@ -30,35 +30,24 @@ export default function PriceList({ locale, fallback }: Props) {
   }, [locale]);
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-      gap: 32,
-    }}>
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:32 }}>
       {cats.map((cat, i) => (
         <div key={i} style={{
-          background: '#fff',
-          padding: '28px 24px',
-          border: '1px solid rgba(200,169,110,.15)',
-          borderRadius: 2,
+          background:'#fff', padding:'28px 24px',
+          border:'1px solid rgba(201,168,124,.12)', borderRadius:2,
         }}>
           <div style={{
-            fontSize: 9, letterSpacing: '.18em', textTransform: 'uppercase',
-            color: '#c8a96e', marginBottom: 20, paddingBottom: 12,
-            borderBottom: '1px solid rgba(200,169,110,.2)',
+            fontSize:9, letterSpacing:'.18em', textTransform:'uppercase',
+            color:'var(--gold)', marginBottom:20, paddingBottom:12,
+            borderBottom:'1px solid rgba(201,168,124,.18)',
           }}>
             {cat.cat}
           </div>
           {cat.items.map((item, j) => (
-            <div key={j} style={{
-              display: 'flex', alignItems: 'baseline', gap: 6,
-              marginBottom: 10, fontSize: 13,
-            }}>
-              <span style={{ color: '#1a1f1b', whiteSpace: 'nowrap' }}>{item.name}</span>
-              <span style={{
-                flex: 1, borderBottom: '1px dotted rgba(200,169,110,.4)', marginBottom: 3,
-              }} />
-              <span style={{ color: '#2a3d2e', fontWeight: 500, whiteSpace: 'nowrap' }}>{item.price}</span>
+            <div key={j} style={{ display:'flex', alignItems:'baseline', gap:6, marginBottom:10, fontSize:13 }}>
+              <span style={{ color:'var(--text-dark)', whiteSpace:'nowrap' }}>{item.name}</span>
+              <span style={{ flex:1, borderBottom:'1px dotted rgba(196,132,154,.35)', marginBottom:3 }} />
+              <span style={{ color:'var(--forest)', fontWeight:500, whiteSpace:'nowrap' }}>{item.price}</span>
             </div>
           ))}
         </div>

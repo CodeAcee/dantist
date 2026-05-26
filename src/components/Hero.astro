@@ -21,7 +21,7 @@ const stats = [
     </div>
     <h1 class="hero-h1">
       <SplitText client:load delay={0.2}>{h.h1[0]}</SplitText><br/>
-      <SplitText client:load delay={0.55} style={{ fontStyle:'italic', color:'#c8a96e' }}>{h.h1[1]}</SplitText>
+      <SplitText client:load delay={0.55} style={{ fontStyle:'italic', color:'var(--gold)' }}>{h.h1[1]}</SplitText>
       <SplitText client:load delay={0.75}>{h.h1[2]}</SplitText><br/>
       <SplitText client:load delay={0.95}>{h.h1[3]}</SplitText>
     </h1>
@@ -76,7 +76,7 @@ const stats = [
 .stat-num { font-family: var(--serif); font-size: 40px; font-weight: 300; line-height: 1; }
 .stat-label { font-size: 10px; color: var(--text-light); letter-spacing: .08em; text-transform: uppercase; margin-top: 6px; }
 .hero-image { position: relative; overflow: hidden; min-height: 400px; }
-.hero-image-bg { position: absolute; inset: 0; background: linear-gradient(135deg,var(--forest) 0%,var(--forest-mid) 50%,#4a6b4f 100%); }
+.hero-image-bg { position: absolute; inset: 0; background: linear-gradient(135deg,var(--forest) 0%,var(--forest-mid) 50%,var(--forest-light) 100%); }
 .hero-image-overlay { position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23fff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
 .hero-img-slot { position: absolute; inset: 0; background: transparent; color: rgba(245,240,232,.4); }
 .hero-badge-free { position: absolute; top: 32px; right: 32px; background: rgba(200,169,110,.12); border: 1px solid rgba(200,169,110,.3); border-radius: 2px; padding: 8px 14px; font-size: 10px; color: var(--gold-light); letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); animation: fadeUp .5s 1s both; }

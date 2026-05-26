@@ -81,20 +81,23 @@ export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLa
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <div style={{
             width: 200, height: 240, borderRadius: 2, overflow: 'hidden',
-            background: 'linear-gradient(135deg,#3d5941,#2a3d2e)',
+            background: 'linear-gradient(135deg, var(--forest-mid), var(--forest))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            border: '1px solid rgba(200,169,110,0.2)',
+            border: '1px solid rgba(201,168,124,0.2)',
           }}>
-            <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, color: 'rgba(245,240,232,.15)', textAlign: 'center', padding: 16, lineHeight: 1.3 }}>
+            <div style={{
+              fontFamily: "'Cormorant Garamond',serif", fontSize: 32,
+              color: 'rgba(253,249,248,.12)', textAlign: 'center', padding: 16, lineHeight: 1.3,
+            }}>
               {m.imgAlt}
             </div>
           </div>
           {/* Years badge */}
           <div style={{
             position: 'absolute', bottom: -14, right: -14,
-            background: '#c8a96e', color: '#2a3d2e',
+            background: 'var(--gold)', color: 'var(--forest)',
             padding: '12px 16px', borderRadius: 2, textAlign: 'center',
-            boxShadow: '0 4px 20px rgba(200,169,110,.3)',
+            boxShadow: '0 4px 20px rgba(201,168,124,.35)',
           }}>
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 300, lineHeight: 1 }}>{m.years}</div>
             <div style={{ fontSize: 8, letterSpacing: '.12em', textTransform: 'uppercase', marginTop: 3 }}>{m.yearsLabel}</div>
@@ -103,13 +106,13 @@ export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLa
 
         {/* Text */}
         <div>
-          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontStyle: 'italic', color: '#2a3d2e', marginBottom: 4 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontStyle: 'italic', color: 'var(--forest)', marginBottom: 4 }}>
             {m.name}
           </div>
-          <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: '#c8a96e', marginBottom: 20 }}>
+          <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--rose)', marginBottom: 20 }}>
             {m.title}
           </div>
-          <p style={{ fontSize: 14, color: '#5a6b5c', lineHeight: 1.8, margin: 0 }}>{m.bio}</p>
+          <p style={{ fontSize: 14, color: 'var(--text-mid)', lineHeight: 1.8, margin: 0 }}>{m.bio}</p>
         </div>
       </div>
 
@@ -122,7 +125,7 @@ export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLa
               <button key={i} onClick={() => go(i, i > idx ? 'left' : 'right')}
                 style={{
                   width: i === idx ? 24 : 6, height: 6, borderRadius: 3,
-                  background: i === idx ? '#c8a96e' : 'rgba(200,169,110,.3)',
+                  background: i === idx ? 'var(--rose)' : 'rgba(196,132,154,.3)',
                   border: 'none', cursor: 'pointer', padding: 0,
                   transition: 'all .3s ease',
                 }}
@@ -138,8 +141,9 @@ export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLa
 }
 
 const btnStyle: React.CSSProperties = {
-  width: 40, height: 40, borderRadius: 2, border: '1px solid rgba(200,169,110,0.3)',
-  background: 'transparent', color: '#c8a96e', fontSize: 16, cursor: 'pointer',
+  width: 40, height: 40, borderRadius: 2,
+  border: '1px solid rgba(196,132,154,0.3)',
+  background: 'transparent', color: 'var(--rose)', fontSize: 16, cursor: 'pointer',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   transition: 'all .2s ease',
 };

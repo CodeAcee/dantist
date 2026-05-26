@@ -17,12 +17,12 @@ interface Props { ft: FormT; source?: string; compact?: boolean }
 
 const base: React.CSSProperties = {
   width:'100%', padding:'10px 12px', background:'#fff',
-  border:'1px solid rgba(200,169,110,0.25)', fontFamily:"'DM Sans',system-ui,sans-serif",
-  fontSize:13, color:'#1a1f1b', outline:'none', marginBottom:10, borderRadius:2,
+  border:'1px solid rgba(201,168,124,0.25)', fontFamily:"'DM Sans',system-ui,sans-serif",
+  fontSize:13, color:'var(--text-dark)', outline:'none', marginBottom:10, borderRadius:2,
 };
 const lbl: React.CSSProperties = {
   display:'block', fontSize:9, letterSpacing:'.14em',
-  textTransform:'uppercase', color:'#7a8578', marginBottom:5,
+  textTransform:'uppercase', color:'var(--text-light)', marginBottom:5,
 };
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
@@ -56,9 +56,9 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
 
   if (status === 'success') return (
     <div style={{ textAlign:'center', padding:'40px 20px' }}>
-      <div style={{ fontSize:36, marginBottom:12, color:'#2a3d2e' }}>✓</div>
-      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, color:'#2a3d2e', marginBottom:8 }}>{ft.successTitle}</div>
-      <p style={{ fontSize:13, color:'#7a8578', lineHeight:1.6 }}>{ft.successBody}</p>
+      <div style={{ fontSize:36, marginBottom:12, color:'var(--rose)' }}>✓</div>
+      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, color:'var(--forest)', marginBottom:8 }}>{ft.successTitle}</div>
+      <p style={{ fontSize:13, color:'var(--text-light)', lineHeight:1.6 }}>{ft.successBody}</p>
     </div>
   );
 
@@ -77,7 +77,7 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
 
       <div>
         <label style={lbl}>{ft.service}</label>
-        <select value={form.service} onChange={set('service')} style={{ ...base, appearance:'none', cursor:'pointer', color: form.service ? '#1a1f1b' : '#7a8578' }}>
+        <select value={form.service} onChange={set('service')} style={{ ...base, appearance:'none', cursor:'pointer', color: form.service ? 'var(--text-dark)' : 'var(--text-light)' }}>
           <option value="">{ft.servicePlaceholder}</option>
           {ft.services.map((s: string) => <option key={s} value={s}>{s}</option>)}
         </select>
@@ -85,7 +85,7 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
 
       <div>
         <label style={lbl}>{ft.via}</label>
-        <select value={form.contact_via} onChange={set('contact_via')} style={{ ...base, appearance:'none', cursor:'pointer', color: form.contact_via ? '#1a1f1b' : '#7a8578' }}>
+        <select value={form.contact_via} onChange={set('contact_via')} style={{ ...base, appearance:'none', cursor:'pointer', color: form.contact_via ? 'var(--text-dark)' : 'var(--text-light)' }}>
           <option value="">{ft.viaPlaceholder}</option>
           {ft.vias.map((v: string) => <option key={v} value={v}>{v}</option>)}
         </select>
@@ -100,7 +100,7 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
       )}
 
       <button type="submit" disabled={status === 'loading'}
-        style={{ width:'100%', background: status === 'loading' ? '#3d5941' : '#2a3d2e', color:'#f5f0e8', fontFamily:"'DM Sans',sans-serif", fontSize:11, fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', padding:15, border:'none', borderRadius:2, cursor: status === 'loading' ? 'wait' : 'pointer', transition:'background .2s', marginTop:4 }}>
+        style={{ width:'100%', background: status === 'loading' ? 'var(--forest-mid)' : 'var(--forest)', color:'var(--cream)', fontFamily:"'DM Sans',sans-serif", fontSize:11, fontWeight:500, letterSpacing:'.2em', textTransform:'uppercase', padding:15, border:'none', borderRadius:2, cursor: status === 'loading' ? 'wait' : 'pointer', transition:'background .2s', marginTop:4 }}>
         {status === 'loading' ? ft.sending : ft.submit}
       </button>
 
@@ -108,10 +108,10 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
         <p style={{ marginTop:10, fontSize:12, color:'#c0392b', textAlign:'center' }}>{ft.error}</p>
       )}
 
-      <div style={{ display:'flex', gap:20, marginTop:16, paddingTop:14, borderTop:'1px solid rgba(200,169,110,0.2)', flexWrap:'wrap' }}>
+      <div style={{ display:'flex', gap:20, marginTop:16, paddingTop:14, borderTop:'1px solid rgba(201,168,124,0.2)', flexWrap:'wrap' }}>
         {ft.trust.map((t: string) => (
-          <div key={t} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:'#7a8578' }}>
-            <span style={{ width:5, height:5, borderRadius:'50%', background:'#c8a96e', flexShrink:0 }} />{t}
+          <div key={t} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:'var(--text-light)' }}>
+            <span style={{ width:5, height:5, borderRadius:'50%', background:'var(--rose)', flexShrink:0 }} />{t}
           </div>
         ))}
       </div>

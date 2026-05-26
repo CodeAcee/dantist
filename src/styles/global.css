@@ -1,18 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
 
 :root {
-  --cream: #f5f0e8;
-  --cream-dark: #ede6d6;
-  --cream-light: #faf8f3;
-  --forest: #2a3d2e;
-  --forest-mid: #3d5941;
-  --forest-light: #587a5c;
-  --gold: #c8a96e;
-  --gold-light: #e2c898;
-  --gold-pale: rgba(200,169,110,0.15);
-  --text-dark: #1a1f1b;
-  --text-mid: #4a5448;
-  --text-light: #7a8578;
+  /* ── Backgrounds — clearly pink ── */
+  --cream:       #FDF0F4;   /* warm rose-white      */
+  --cream-dark:  #F5DCE8;   /* blush-pink sections  */
+  --cream-light: #FEF5F8;   /* palest rose-white    */
+
+  /* ── Dark — deep rose-plum ── */
+  --forest:       #261620;
+  --forest-mid:   #402538;
+  --forest-light: #70506A;
+
+  /* ── Gold ── */
+  --gold:       #C9A87C;
+  --gold-light: #E0C89E;
+  --gold-pale:  rgba(201,168,124,0.15);
+
+  /* ── Rose — vivid luxury pink ── */
+  --rose:       #C4406E;
+  --rose-light: #E0709A;
+  --rose-pale:  rgba(196,64,110,0.12);
+
+  /* ── Text ── */
+  --text-dark:  #1E1422;
+  --text-mid:   #4A3246;
+  --text-light: #8A6880;
+
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'DM Sans', system-ui, sans-serif;
   --max-w: 1200px;
@@ -74,8 +87,8 @@ a { text-decoration: none; }
 .eyebrow::before {
   content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
 }
-.eyebrow--light { color: var(--gold-light); }
-.eyebrow--light::before { background: var(--gold-light); }
+.eyebrow--light { color: var(--rose-light); }
+.eyebrow--light::before { background: var(--rose-light); }
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
