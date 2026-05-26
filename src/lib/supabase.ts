@@ -1,10 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url  = import.meta.env.PUBLIC_SUPABASE_URL;
-const anon = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const url  = (import.meta as any).env.PUBLIC_SUPABASE_URL  as string | undefined;
+const anon = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY as string | undefined;
 
-if (!url || !anon) {
-  throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY. Copy .env.example → .env and fill in values.');
-}
-
-export const supabase = createClient(url, anon);
+// Returns null during build or when env vars are missing — components fall back to translation data.
+export const supabase = (url && anon && !url.includes('dummy'))
+  ? createClient(url, anon)
+  : null;

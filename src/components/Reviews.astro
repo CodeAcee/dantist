@@ -1,7 +1,15 @@
 ---
+import ReviewsList from './ReviewsList';
 interface Review { q: string; n: string; s: string; bg: string; c: string; ini: string }
-interface Props { t: { eyebrow: string; h2: string; h2em: string; list: Review[] } }
-const { t } = Astro.props;
+interface Props {
+  t: { eyebrow: string; h2: string; h2em: string; sinceLabel: string; list: Review[] };
+  locale: string;
+}
+const { t, locale } = Astro.props;
+
+const fallback = t.list.map(r => ({
+  quote: r.q, name: r.n, since: r.s, bg: r.bg, color: r.c, initials: r.ini,
+}));
 ---
 <section class="reviews-section" id="reviews" aria-label="Reviews">
   <div class="section-inner">
@@ -11,21 +19,7 @@ const { t } = Astro.props;
         <h2 class="reviews-h2">{t.h2}<em>{t.h2em}</em></h2>
       </div>
     </div>
-    <div class="reviews-grid">
-      {t.list.map((r, i) => (
-        <article class="review-card js-reveal" style={`animation-delay:${0.1+i*0.12}s`}>
-          <div class="review-stars">★★★★★</div>
-          <blockquote class="review-q">"{r.q}"</blockquote>
-          <div class="review-author">
-            <div class="review-avatar" style={`background:${r.bg};color:${r.c}`}>{r.ini}</div>
-            <div>
-              <div class="review-name">{r.n}</div>
-              <div class="review-since">{t.eyebrow.includes('оси') ? 'Пацієнт з' : 'Patient since'} {r.s}</div>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
+    <ReviewsList client:visible locale={locale} sinceLabel={t.sinceLabel} fallback={fallback} />
   </div>
 </section>
 <style>
@@ -33,15 +27,5 @@ const { t } = Astro.props;
 .reviews-header  { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
 .reviews-h2 { font-family: var(--serif); font-size: clamp(26px,3.5vw,44px); font-weight: 300; color: var(--forest); }
 .reviews-h2 em { font-style: italic; }
-.reviews-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-.review-card { background: #fff; border-radius: 2px; padding: 32px 28px; border: 1px solid rgba(200,169,110,.12); transition: box-shadow .3s; }
-.review-card:hover { box-shadow: 0 12px 40px rgba(42,61,46,.08); }
-.review-stars  { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 16px; }
-.review-q      { font-family: var(--serif); font-size: 17px; font-weight: 400; font-style: italic; color: var(--forest); line-height: 1.5; margin-bottom: 24px; }
-.review-author { display: flex; align-items: center; gap: 10px; }
-.review-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
-.review-name   { font-size: 13px; font-weight: 500; }
-.review-since  { font-size: 11px; color: var(--text-light); }
-@media (max-width: 900px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 580px) { .reviews-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .reviews-section { padding: 5rem 0; } }
 </style>

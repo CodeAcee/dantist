@@ -95,6 +95,7 @@ const uk = {
     eyebrow: 'Голоси пацієнтів',
     h2: 'Що вони ',
     h2em: 'кажуть',
+    sinceLabel: 'Пацієнт з',
     list: [
       { q: 'Все своє життя я боялась стоматологів. Тут я відчула себе спокійно, шанованою та по-справжньому почутою.', n: 'Аліна Коваленко',  s: '2019', bg: '#E1F5EE', c: '#2a6b4f', ini: 'АК' },
       { q: 'Вініри, які створила для мене лікар, неймовірні. Здається, вона ліпила їх під моє обличчя.',               n: 'Максим Дубенко',   s: '2022', bg: '#FAEEDA', c: '#633806', ini: 'МД' },
@@ -262,6 +263,7 @@ const en = {
     eyebrow: 'Patient voices',
     h2: 'What they ',
     h2em: 'say',
+    sinceLabel: 'Patient since',
     list: [
       { q: 'I was terrified of dentists my whole life. Here I felt calm, respected, and genuinely cared for.', n: 'Alina Kovalenko',  s: '2019', bg: '#E1F5EE', c: '#2a6b4f', ini: 'AK' },
       { q: 'The veneers are extraordinary. It feels like they were sculpted for my face.',                     n: 'Maksym Dubenko',   s: '2022', bg: '#FAEEDA', c: '#633806', ini: 'MD' },

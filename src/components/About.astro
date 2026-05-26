@@ -1,8 +1,11 @@
 ---
 import TeamSlider from './TeamSlider';
 interface Member { name: string; title: string; bio: string; years: number; yearsLabel: string; imgAlt: string }
-interface Props { t: { eyebrow: string; quote: string; prevLabel: string; nextLabel: string; team: Member[] } }
-const { t } = Astro.props;
+interface Props {
+  t: { eyebrow: string; quote: string; prevLabel: string; nextLabel: string; team: Member[] };
+  locale: string;
+}
+const { t, locale } = Astro.props;
 ---
 <section class="about-section" id="about" aria-label="About">
   <div class="about-left">
@@ -13,7 +16,13 @@ const { t } = Astro.props;
     </div>
   </div>
   <div class="about-right js-reveal">
-    <TeamSlider client:visible members={t.team} prevLabel={t.prevLabel} nextLabel={t.nextLabel} />
+    <TeamSlider
+      client:visible
+      locale={locale}
+      fallback={t.team}
+      prevLabel={t.prevLabel}
+      nextLabel={t.nextLabel}
+    />
   </div>
 </section>
 <style>

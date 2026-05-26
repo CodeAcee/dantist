@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { supabase } from '../lib/supabase';
 
 interface Member {
   name: string;
@@ -10,16 +11,42 @@ interface Member {
 }
 
 interface Props {
-  members: Member[];
+  locale: string;
+  fallback: Member[];
   prevLabel?: string;
   nextLabel?: string;
 }
 
-export default function TeamSlider({ members, prevLabel = '←', nextLabel = '→' }: Props) {
+function fromRow(r: any): Member {
+  return {
+    name: r.name,
+    title: r.title,
+    bio: r.bio,
+    years: r.years,
+    yearsLabel: r.years_label,
+    imgAlt: r.img_alt,
+  };
+}
+
+export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLabel = '→' }: Props) {
+  const [members, setMembers] = useState<Member[]>(fallback);
   const [idx, setIdx] = useState(0);
   const [dir, setDir] = useState<'left' | 'right'>('right');
   const [animating, setAnimating] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('team')
+      .select('*')
+      .eq('locale', locale)
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) setMembers(data.map(fromRow));
+      });
+  }, [locale]);
 
   const go = (next: number, direction: 'left' | 'right') => {
     if (animating) return;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 interface FormT {
   name: string; namePlaceholder: string;
@@ -14,8 +14,6 @@ interface FormT {
 
 interface Props { ft: FormT; source?: string; compact?: boolean }
 
-const supabaseUrl  = (import.meta as any).env.PUBLIC_SUPABASE_URL  as string;
-const supabaseAnon = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY as string;
 
 const base: React.CSSProperties = {
   width:'100%', padding:'10px 12px', background:'#fff',
@@ -41,13 +39,12 @@ export default function ContactForm({ ft, source = 'main_form', compact = false 
     if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('loading');
     try {
-      if (!supabaseUrl || !supabaseAnon || supabaseUrl.includes('dummy')) {
+      if (!supabase) {
         await new Promise(r => setTimeout(r, 800));
         setStatus('success');
         return;
       }
-      const sb = createClient(supabaseUrl, supabaseAnon);
-      const { error } = await sb.from('contact_requests').insert({
+      const { error } = await supabase.from('contact_requests').insert({
         name: form.name.trim(), phone: form.phone.trim(),
         service: form.service || null, contact_via: form.contact_via || null,
         note: form.note.trim() || null, source,

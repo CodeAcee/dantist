@@ -1,8 +1,12 @@
 ---
+import PriceList from './PriceList';
 interface Item { name: string; price: string }
 interface Cat  { cat: string; items: Item[] }
-interface Props { t: { eyebrow: string; h2: string; h2em: string; h2b: string; sub: string; cats: Cat[]; note: string } }
-const { t } = Astro.props;
+interface Props {
+  t: { eyebrow: string; h2: string; h2em: string; h2b: string; sub: string; cats: Cat[]; note: string };
+  locale: string;
+}
+const { t, locale } = Astro.props;
 ---
 <section class="prices-section" id="prices" aria-label="Prices">
   <div class="section-inner">
@@ -11,20 +15,7 @@ const { t } = Astro.props;
       <h2 class="prices-h2">{t.h2}<em>{t.h2em}</em>{t.h2b}</h2>
       <p class="prices-sub">{t.sub}</p>
     </div>
-    <div class="prices-grid">
-      {t.cats.map((cat, i) => (
-        <div class="price-cat js-reveal" style={`animation-delay:${i*0.1}s`}>
-          <div class="price-cat-name">{cat.cat}</div>
-          {cat.items.map(item => (
-            <div class="price-row">
-              <span class="price-item-name">{item.name}</span>
-              <span class="price-dots"></span>
-              <span class="price-val">{item.price}</span>
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
+    <PriceList client:visible locale={locale} fallback={t.cats} />
     <p class="prices-note">{t.note}</p>
   </div>
 </section>
@@ -34,14 +25,5 @@ const { t } = Astro.props;
 .prices-h2 { font-family: var(--serif); font-size: clamp(28px,4vw,48px); font-weight: 300; color: var(--forest); line-height: 1.1; margin-bottom: 12px; white-space: pre-line; }
 .prices-h2 em { font-style: italic; color: var(--gold); }
 .prices-sub { font-size: 14px; color: var(--text-mid); max-width: 500px; line-height: 1.7; }
-.prices-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-bottom: 32px; }
-.price-cat { background: #fff; padding: 28px 24px; border: 1px solid rgba(200,169,110,.15); border-radius: 2px; }
-.price-cat-name { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(200,169,110,.2); }
-.price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; font-size: 13px; }
-.price-item-name { color: var(--text-dark); white-space: nowrap; }
-.price-dots { flex: 1; border-bottom: 1px dotted rgba(200,169,110,.4); margin-bottom: 3px; }
-.price-val  { color: var(--forest); font-weight: 500; white-space: nowrap; }
-.prices-note { font-size: 12px; color: var(--text-light); text-align: center; }
-@media (max-width: 900px) { .prices-grid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 580px) { .prices-grid { grid-template-columns: 1fr; } }
+.prices-note { font-size: 12px; color: var(--text-light); text-align: center; margin-top: 32px; }
 </style>

@@ -3,8 +3,11 @@ import BeforeAfter from './BeforeAfter';
 import BlurText    from './animations/BlurText';
 import ShinyText   from './animations/ShinyText';
 interface Case { beforeLabel: string; afterLabel: string; treatment: string; duration: string }
-interface Props { t: { eyebrow: string; h2a: string; h2em: string; sub: string; cases: Case[] } }
-const { t } = Astro.props;
+interface Props {
+  t: { eyebrow: string; h2a: string; h2em: string; sub: string; cases: Case[] };
+  locale: string;
+}
+const { t, locale } = Astro.props;
 ---
 <section class="results-section" id="results" aria-label="Before and after">
   <div class="section-inner">
@@ -18,7 +21,7 @@ const { t } = Astro.props;
       </h2>
       <p class="results-sub">{t.sub}</p>
     </div>
-    <BeforeAfter client:visible cases={t.cases} />
+    <BeforeAfter client:visible locale={locale} fallback={t.cases} />
   </div>
 </section>
 <style>
