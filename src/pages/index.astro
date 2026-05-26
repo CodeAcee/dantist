@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
+import Nav      from '../components/Nav.astro';
+import Hero     from '../components/Hero.astro';
+import Marquee  from '../components/Marquee.astro';
+import Services from '../components/Services.astro';
+import Results  from '../components/Results.astro';
+import About    from '../components/About.astro';
+import Process  from '../components/Process.astro';
+import Reviews  from '../components/Reviews.astro';
+import Gallery  from '../components/Gallery.astro';
+import Prices   from '../components/Prices.astro';
+import Contact  from '../components/Contact.astro';
+import Footer   from '../components/Footer.astro';
+import ScrollPopup from '../components/ScrollPopup';
+
+---
+<Layout>
+  <ScrollPopup client:idle />
+  <AnnouncementBar />
+  <Nav />
+  <main>
+    <Hero />
+    <Marquee />
+    <Services />
+    <Results />
+    <About />
+    <Process />
+    <Reviews />
+    <Gallery />
+    <Prices />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>
+
+<!-- Scroll-reveal for static Astro sections -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.js-reveal').forEach(el => {
+        el.classList.remove('sr-hidden');
+        el.classList.add('sr-visible');
+      });
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.js-reveal').forEach(el => {
+  el.classList.add('sr-hidden');
+  const parent = el.closest('section') ?? el.parentElement;
+  if (parent) observer.observe(parent);
+});
+</script>

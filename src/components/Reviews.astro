@@ -1,0 +1,58 @@
+---
+const reviews = [
+  { q: "I was terrified of dentists my whole life. Here I felt calm, respected, and genuinely cared for.", n: "Alina Kovalenko",  s: '2019', bg: '#E1F5EE', c: '#2a6b4f', ini: 'AK' },
+  { q: "The veneers Dr. Melnyk designed for me are extraordinary. It feels like she sculpted them for my face.", n: "Maksym Dubenko",  s: '2022', bg: '#FAEEDA', c: '#633806', ini: 'MD' },
+  { q: "Professional, warm, and honest. No upselling, no pressure. I travel 2 hours each way — worth it.", n: "Olena Sydorenko", s: '2021', bg: '#EEEDFE', c: '#3C3489', ini: 'OS' },
+];
+---
+<section class="reviews-section" id="reviews" aria-label="Patient reviews">
+  <div class="section-inner">
+    <div class="reviews-header">
+      <div>
+        <div class="eyebrow">Patient voices</div>
+        <h2 class="reviews-h2">What they <em>say</em></h2>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      {reviews.map((r, i) => (
+        <article class="review-card js-reveal" style={`animation-delay: ${0.1 + i * 0.12}s`}>
+          <div class="review-stars">★★★★★</div>
+          <blockquote class="review-q">"{r.q}"</blockquote>
+          <div class="review-author">
+            <div class="review-avatar" style={`background: ${r.bg}; color: ${r.c}`}>{r.ini}</div>
+            <div>
+              <div class="review-name">{r.n}</div>
+              <div class="review-since">Patient since {r.s}</div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.reviews-section { background: var(--cream); padding: 7rem 0; }
+.reviews-header  { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+.reviews-h2 { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px); font-weight: 300; color: var(--forest); }
+.reviews-h2 em { font-style: italic; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.review-card {
+  background: #fff;
+  border-radius: 2px;
+  padding: 32px 28px;
+  border: 1px solid rgba(200,169,110,.12);
+  transition: box-shadow .3s;
+}
+.review-card:hover { box-shadow: 0 12px 40px rgba(42,61,46,.08); }
+.review-stars  { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 16px; }
+.review-q      { font-family: var(--serif); font-size: 17px; font-weight: 400; font-style: italic; color: var(--forest); line-height: 1.5; margin-bottom: 24px; }
+.review-author { display: flex; align-items: center; gap: 10px; }
+.review-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+.review-name   { font-size: 13px; font-weight: 500; }
+.review-since  { font-size: 11px; color: var(--text-light); }
+
+@media (max-width: 900px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .reviews-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,73 @@
+---
+const pricelist = [
+  { cat: 'Consultation',     items: [{ name: 'Initial consultation',   price: 'Free' }, { name: 'Repeat consultation',  price: '200 ₴' }] },
+  { cat: 'Cosmetic',         items: [{ name: 'Porcelain veneer (1)',   price: 'from 8 000 ₴' }, { name: 'Composite bonding (1)', price: 'from 2 500 ₴' }, { name: 'Zoom whitening',       price: '4 500 ₴' }] },
+  { cat: 'Implants',         items: [{ name: 'Implant (all-in)',       price: 'from 25 000 ₴' }, { name: 'Crown (ceramic)',      price: 'from 5 500 ₴' }] },
+  { cat: 'Orthodontics',     items: [{ name: 'Invisalign (full)',      price: 'from 45 000 ₴' }, { name: 'Metal braces',         price: 'from 18 000 ₴' }] },
+  { cat: 'Preventive',       items: [{ name: 'Cleaning + polish',     price: '1 500 ₴' }, { name: 'Digital X-ray (full)', price: '800 ₴' }] },
+];
+---
+<section class="prices-section" id="prices" aria-label="Prices">
+  <div class="section-inner">
+    <div class="prices-header js-reveal">
+      <div class="eyebrow">Transparent pricing</div>
+      <h2 class="prices-h2">Clear <em>prices</em>,<br/>no surprises</h2>
+      <p class="prices-sub">All prices include materials. Treatment plans are discussed individually before any work begins.</p>
+    </div>
+    <div class="prices-grid">
+      {pricelist.map((cat, i) => (
+        <div class="price-cat js-reveal" style={`animation-delay: ${i * 0.1}s`}>
+          <div class="price-cat-name">{cat.cat}</div>
+          {cat.items.map(item => (
+            <div class="price-row">
+              <span class="price-item-name">{item.name}</span>
+              <span class="price-dots"></span>
+              <span class="price-val">{item.price}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <p class="prices-note">Prices effective 2025. Payment: cash, card, Apple Pay, installment plans available.</p>
+  </div>
+</section>
+
+<style>
+.prices-section { background: var(--cream-light); padding: 7rem 0; }
+.prices-header  { margin-bottom: 56px; }
+.prices-h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 48px); font-weight: 300; color: var(--forest); line-height: 1.1; margin-bottom: 12px; }
+.prices-h2 em { font-style: italic; color: var(--gold); }
+.prices-sub { font-size: 14px; color: var(--text-mid); max-width: 500px; line-height: 1.7; }
+
+.prices-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 32px;
+}
+.price-cat { background: #fff; padding: 28px 24px; border: 1px solid rgba(200,169,110,.15); border-radius: 2px; }
+.price-cat-name {
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(200,169,110,.2);
+}
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.price-item-name { color: var(--text-dark); white-space: nowrap; }
+.price-dots { flex: 1; border-bottom: 1px dotted rgba(200,169,110,.4); margin-bottom: 3px; }
+.price-val { color: var(--forest); font-weight: 500; white-space: nowrap; }
+
+.prices-note { font-size: 12px; color: var(--text-light); text-align: center; margin-top: 8px; }
+
+@media (max-width: 900px) { .prices-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px) { .prices-grid { grid-template-columns: 1fr; } }
+</style>

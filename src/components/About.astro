@@ -1,0 +1,95 @@
+---
+---
+<section class="about-section" id="about" aria-label="About">
+  <div class="about-image">
+    <!-- Replace with <img> when you have the photo -->
+    <div class="img-slot about-img">Dr. Kateryna Melnyk — editorial portrait</div>
+    <div class="about-img-overlay" aria-hidden="true"></div>
+    <div class="about-years">
+      <div class="about-years-num">14</div>
+      <div class="about-years-label">Years of practice</div>
+    </div>
+  </div>
+  <div class="about-text js-reveal">
+    <div class="eyebrow">Our philosophy</div>
+    <blockquote class="about-quote">
+      "Dentistry is not just technique — it is listening, trust, and artistry together."
+    </blockquote>
+    <p class="about-p">
+      I started Natura Dental with one belief: that patients deserve a space where they feel genuinely seen — not rushed through a procedure.
+    </p>
+    <div class="about-sig">
+      <div class="about-sig-name">Dr. Kateryna Melnyk</div>
+      <div class="about-sig-title">DMD · Cosmetic &amp; Restorative Dentistry</div>
+    </div>
+  </div>
+</section>
+
+<style>
+.about-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--cream-dark);
+}
+.about-image {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+}
+.about-img {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--forest-mid), var(--forest));
+  color: rgba(245,240,232,.4);
+}
+.about-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,.015) 30px, rgba(255,255,255,.015) 31px);
+}
+.about-years {
+  position: absolute;
+  bottom: 40px;
+  right: 32px;
+  background: var(--gold);
+  color: var(--forest);
+  padding: 20px 24px;
+  border-radius: 2px;
+  text-align: center;
+  animation: fadeUp .5s .5s both;
+}
+.about-years-num   { font-family: var(--serif); font-size: 44px; font-weight: 300; line-height: 1; }
+.about-years-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; margin-top: 4px; }
+
+.about-text {
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.about-quote {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--forest);
+  line-height: 1.4;
+  margin-bottom: 28px;
+  padding-left: 20px;
+  border-left: 2px solid var(--gold);
+}
+.about-p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+.about-sig-name  { font-family: var(--serif); font-size: 30px; font-style: italic; color: var(--forest-light); }
+.about-sig-title { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-light); margin-top: 6px; }
+
+@media (max-width: 900px) {
+  .about-section { grid-template-columns: 1fr; }
+  .about-image   { min-height: 320px; }
+  .about-text    { padding: 3rem var(--px); }
+}
+</style>

@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+:root {
+  --cream: #f5f0e8;
+  --cream-dark: #ede6d6;
+  --cream-light: #faf8f3;
+  --forest: #2a3d2e;
+  --forest-mid: #3d5941;
+  --forest-light: #587a5c;
+  --gold: #c8a96e;
+  --gold-light: #e2c898;
+  --gold-pale: rgba(200,169,110,0.15);
+  --text-dark: #1a1f1b;
+  --text-mid: #4a5448;
+  --text-light: #7a8578;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --max-w: 1200px;
+  --px: 3rem;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+::selection { background: var(--gold-pale); color: var(--forest); }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; }
+
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes fadeUp    { from { opacity:0; transform:translateY(32px) } to { opacity:1; transform:translateY(0) } }
+@keyframes marquee   { from { transform:translateX(0) } to { transform:translateX(-50%) } }
+@keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes shimmer   { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes scaleIn   { from{transform:scale(.92);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes gradShift { 0%{background-position:0 50%} 50%{background-position:100% 50%} 100%{background-position:0 50%} }
+@keyframes slideIn   { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes slideOut  { from{transform:translateX(0);opacity:1} to{transform:translateX(120%);opacity:0} }
+@keyframes navSlide  { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Scroll-reveal helpers (used by Astro static sections) ─ */
+.sr-hidden { opacity: 0; transform: translateY(32px); }
+.sr-visible { animation: fadeUp .7s cubic-bezier(.16,1,.3,1) both; }
+.sr-visible-d1 { animation: fadeUp .7s .1s cubic-bezier(.16,1,.3,1) both; }
+.sr-visible-d2 { animation: fadeUp .7s .2s cubic-bezier(.16,1,.3,1) both; }
+.sr-visible-d3 { animation: fadeUp .7s .3s cubic-bezier(.16,1,.3,1) both; }
+
+/* ── Image placeholder ────────────────────────────────────── */
+.img-slot {
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; font-size: 12px; color: var(--text-light);
+  letter-spacing: .03em; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--cream-dark) 0%, var(--cream) 50%, var(--cream-dark) 100%);
+}
+.img-slot::after {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='0.02'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Section wrapper ─────────────────────────────────────── */
+.section-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--px);
+}
+
+/* ── Eyebrow label ───────────────────────────────────────── */
+.eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.eyebrow::before {
+  content: ''; display: block; width: 28px; height: 1px; background: var(--gold);
+}
+.eyebrow--light { color: var(--gold-light); }
+.eyebrow--light::before { background: var(--gold-light); }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  :root { --px: 2rem; }
+}
+@media (max-width: 768px) {
+  :root { --px: 1.25rem; }
+}

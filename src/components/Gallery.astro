@@ -1,0 +1,50 @@
+---
+const cells = [
+  { span: 'gallery-cell--tall', label: 'Reception — warm light, plants' },
+  { label: 'Treatment room' },
+  { label: 'Panoramic X-ray' },
+  { label: 'Sterilisation room' },
+  { label: 'Waiting lounge' },
+];
+---
+<section class="gallery-section" id="gallery" aria-label="Clinic gallery">
+  <div class="section-inner">
+    <div class="gallery-header">
+      <div class="eyebrow">Our space</div>
+      <h2 class="gallery-h2">Step <em>inside</em></h2>
+    </div>
+    <div class="gallery-grid js-gallery">
+      {cells.map((c, i) => (
+        <div class={`gallery-cell ${c.span ?? ''} js-reveal`} style={`animation-delay: ${i * 0.1}s`}>
+          <div class="img-slot" style="height:100%; border-radius: 2px;">{c.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.gallery-section { background: var(--cream-dark); padding: 6rem 0; }
+.gallery-header  { text-align: center; margin-bottom: 48px; }
+.gallery-h2 { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 44px); font-weight: 300; color: var(--forest); }
+.gallery-h2 em { font-style: italic; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 280px 240px;
+  gap: 12px;
+}
+.gallery-cell--tall { grid-row: 1 / 3; }
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 200px);
+  }
+  .gallery-cell--tall { grid-row: auto; }
+}
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr; grid-template-rows: repeat(5, 180px); }
+}
+</style>

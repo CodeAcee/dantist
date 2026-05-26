@@ -1,0 +1,40 @@
+---
+import BeforeAfter from './BeforeAfter';
+import BlurText from './animations/BlurText';
+import ShinyText from './animations/ShinyText';
+---
+<section class="results-section" id="results" aria-label="Before and after results">
+  <div class="section-inner">
+    <div class="results-header">
+      <div class="eyebrow">Smile transformations</div>
+      <h2 class="results-h2">
+        <BlurText client:visible delay={0}>See the</BlurText>{' '}
+        <ShinyText client:visible style={{ fontStyle: 'italic' }}>
+          <BlurText client:visible delay={0.4}>difference</BlurText>
+        </ShinyText>
+      </h2>
+      <p class="results-sub">Drag the slider to compare — every case is a real patient.</p>
+    </div>
+    <BeforeAfter client:visible />
+  </div>
+</section>
+
+<style>
+.results-section { background: var(--cream-light); padding: 7rem 0 8rem; }
+.results-header  { text-align: center; margin-bottom: 64px; }
+.results-h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300;
+  line-height: 1.08;
+}
+.results-sub {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-top: 12px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+</style>
