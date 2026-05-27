@@ -16383,16 +16383,14 @@ function ml({ scrollY: t, isMobile: e }) {
         o("loading");
         try {
           (gr
-            ? await gr
-                .from("contact_requests")
-                .insert({
-                  name: n.name.trim(),
-                  phone: n.phone.trim(),
-                  service: n.service || null,
-                  contact_via: n.contact_via || null,
-                  note: n.note.trim() || null,
-                  source: "zoomer_form",
-                })
+            ? await gr.from("contact_requests").insert({
+                name: n.name.trim(),
+                phone: n.phone.trim(),
+                service: n.service || null,
+                contact_via: n.contact_via || null,
+                note: n.note.trim() || null,
+                source: "zoomer_form",
+              })
             : await new Promise((p) => setTimeout(p, 600)),
             o("ok"));
         } catch {
