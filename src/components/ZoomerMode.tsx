@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
+import Aurora from './backgrounds/Aurora';
 
 // ── Constants ──────────────────────────────────────────────────────
 const SPR = 900; // scroll pixels per scene
@@ -30,7 +31,12 @@ const SCENES = [
     sub: 'Реальні слова. Без фільтрів.',
   },
   {
-    id: 'contact', label: '06 / КОНТАКТ', accent: '#00e5ff',
+    id: 'tiktok', label: '06 / ТІКТОК', accent: '#ff3d8b',
+    headline: ['ДИВИСЬ.', 'ЯК МИ', 'ЖИВЕМО.'],
+    sub: 'Реальне життя клініки — без постановок.',
+  },
+  {
+    id: 'contact', label: '07 / КОНТАКТ', accent: '#00e5ff',
     headline: ['ХВАТИТЬ', 'ДУМАТИ.', 'ПОЧИНАЙ.'],
     sub: 'Перша консультація — безкоштовно.',
   },
@@ -50,6 +56,13 @@ const REVIEWS_LIST = [
   { initials: 'МД', name: 'Максим Д.', age: 27, color: '#00e5ff', text: 'Зробив вініри — мечів стало втричі більше. Збіг? Не думаю. 10/10 посміхнувся б знову.' },
   { initials: 'ОС', name: 'Олена С.', age: 22, color: '#ff3d8b', text: 'Нарешті стоматолог, який не читає лекцій про нитку. Просто лагодять. І вайби — бездоганні.' },
 ];
+
+const TIKTOK_VIDEOS = [
+  { id: '7643038472294386965', caption: 'Half Price у Дніпрі' },
+  { id: '7584496719946173708', caption: 'Пацієнт незадоволений 😳' },
+];
+const TIKTOK_HANDLE = '@mad__dentist';
+const TIKTOK_URL = 'https://www.tiktok.com/@mad__dentist';
 
 // ── Helpers ───────────────────────────────────────────────────────
 function sceneStyle(i: number, scrollY: number): React.CSSProperties {
@@ -267,6 +280,91 @@ function SceneReviews({ scrollY }: { scrollY: number }) {
   );
 }
 
+function SceneTikTok({ scrollY }: { scrollY: number }) {
+  const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
+  const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
+  return (
+    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: '280px 1fr', gap: 64, alignItems: 'center' }}>
+
+      {/* Left: headline + handle + stats */}
+      <div>
+        <div style={ringStyle(scrollY, 5, -0.05, '-8%', '20%', 160, '#ff3d8b')} />
+        <div style={ringStyle(scrollY, 5, 0.07, '95%', '70%', 100, '#00e5ff')} />
+
+        {/* TikTok logo */}
+        <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#ff3d8b">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.8a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/>
+          </svg>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.2em', textTransform: 'uppercase', ...grotesk }}>TikTok</span>
+        </div>
+
+        <div style={{ fontSize: 'clamp(38px,5.5vw,62px)', fontWeight: 800, lineHeight: 0.9, color: '#f0f0f0', letterSpacing: '-0.03em', textTransform: 'uppercase', ...syne }}>
+          <span style={{ color: '#ff3d8b' }}>ДИВИСЬ.</span><br />
+          ЯК МИ<br />
+          ЖИВЕМО.
+        </div>
+
+        <p style={{ marginTop: 20, fontSize: 14, color: 'rgba(240,240,240,0.45)', lineHeight: 1.7, ...grotesk }}>
+          Реальне життя клініки без постановок і фільтрів — підписуйся.
+        </p>
+
+        {/* Stats row */}
+        <div style={{ marginTop: 28, display: 'flex', gap: 28, paddingTop: 20, borderTop: '1px solid rgba(255,61,139,0.2)' }}>
+          {[['6 800+', 'Підписників'], ['249', 'Відео']].map(([v, l]) => (
+            <div key={l}>
+              <div style={{ fontSize: 24, fontWeight: 800, color: '#ff3d8b', letterSpacing: '-0.02em', ...syne }}>{v}</div>
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 3, ...grotesk }}>{l}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <a
+          href={TIKTOK_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            marginTop: 28, display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: '#ff3d8b', color: '#0a0a0a',
+            fontWeight: 700, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase',
+            padding: '12px 24px', borderRadius: 2, textDecoration: 'none',
+            ...syne,
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.8a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/>
+          </svg>
+          {TIKTOK_HANDLE} →
+        </a>
+      </div>
+
+      {/* Right: two TikTok iframes */}
+      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', alignItems: 'flex-start' }}>
+        {TIKTOK_VIDEOS.map((v, i) => (
+          <div key={v.id} style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: '1 1 0', maxWidth: 220 }}>
+            <div style={{
+              position: 'relative', width: '100%', aspectRatio: '9/16',
+              border: '1px solid rgba(255,61,139,0.25)', borderRadius: 6, overflow: 'hidden',
+              background: '#111',
+              boxShadow: i === 0 ? '0 0 40px rgba(255,61,139,0.15)' : '0 0 40px rgba(0,229,255,0.1)',
+            }}>
+              <iframe
+                src={`https://www.tiktok.com/embed/v2/${v.id}`}
+                title={v.caption}
+                allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
+              />
+            </div>
+            <div style={{ fontSize: 11, color: 'rgba(240,240,240,0.5)', textAlign: 'center', ...grotesk }}>{v.caption}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SceneContact({ scrollY }: { scrollY: number }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
@@ -291,7 +389,7 @@ function SceneContact({ scrollY }: { scrollY: number }) {
   return (
     <div style={{ width: '100%', maxWidth: 900, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
       <div>
-        <div style={ringStyle(scrollY, 5, -0.06, '-8%', '30%', 220, '#00e5ff')} />
+        <div style={ringStyle(scrollY, 6, -0.06, '-8%', '30%', 220, '#00e5ff')} />
         <div style={{ fontSize: 'clamp(42px,5.5vw,68px)', fontWeight: 800, lineHeight: 0.9, color: '#f0f0f0', letterSpacing: '-0.03em', textTransform: 'uppercase', ...syne }}>
           ХВАТИТЬ<br />
           ДУМАТИ.<br />
@@ -448,12 +546,24 @@ export default function ZoomerMode() {
 
   const totalProgress = Math.min(scrollY / (SPR * SCENES.length), 1);
 
+  const AURORA_PALETTES: string[][] = [
+    ['#c8ff00', '#00e5ff', '#0a1a0a'], // hero: lime → cyan
+    ['#00e5ff', '#0066ff', '#001a1a'], // services: cyan → blue
+    ['#ff3d8b', '#ff8c00', '#1a000a'], // results: pink → orange
+    ['#a855f7', '#ff3d8b', '#0d000d'], // about: purple → pink
+    ['#c8ff00', '#a855f7', '#0a0a00'], // reviews: lime → purple
+    ['#ff3d8b', '#00e5ff', '#1a0010'], // tiktok: pink → cyan
+    ['#00e5ff', '#c8ff00', '#000d0d'], // contact: cyan → lime
+  ];
+  const auroraColors = AURORA_PALETTES[sceneIdx] ?? AURORA_PALETTES[0];
+
   const sceneComponents = [
     <SceneHero scrollY={scrollY} />,
     <SceneServices scrollY={scrollY} />,
     <SceneResults scrollY={scrollY} />,
     <SceneAbout scrollY={scrollY} />,
     <SceneReviews scrollY={scrollY} />,
+    <SceneTikTok scrollY={scrollY} />,
     <SceneContact scrollY={scrollY} />,
   ];
 
@@ -474,10 +584,19 @@ export default function ZoomerMode() {
           {/* Sticky viewport */}
           <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: '#0a0a0a' }}>
 
+            {/* Aurora background */}
+            <Aurora
+              colorStops={auroraColors}
+              amplitude={0.9}
+              blend={0.5}
+              speed={0.6}
+              style={{ zIndex: 0 }}
+            />
+
             {/* Grid bg */}
             <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none',
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)',
+              position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
               backgroundSize: '60px 60px',
               transform: `translateY(${scrollY * 0.04}px)`,
             }} />

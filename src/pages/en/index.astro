@@ -11,6 +11,7 @@ import About           from '../../components/About.astro';
 import Process         from '../../components/Process.astro';
 import Reviews         from '../../components/Reviews.astro';
 import Gallery         from '../../components/Gallery.astro';
+import SocialFeed      from '../../components/SocialFeed.astro';
 import Prices          from '../../components/Prices.astro';
 import Contact         from '../../components/Contact.astro';
 import Footer          from '../../components/Footer.astro';
@@ -31,6 +32,7 @@ const t = translations.en;
     <Process t={t.process} />
     <Reviews t={t.reviews} locale={t.locale} />
     <Gallery t={t.gallery} />
+    <SocialFeed t={t.social} />
     <Prices t={t.prices} locale={t.locale} />
     <Contact t={t.contact} ft={t.form} />
   </main>
