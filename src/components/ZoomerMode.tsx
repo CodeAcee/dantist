@@ -168,12 +168,24 @@ function ringStyle(scrollY: number, sceneIndex: number, speed: number, x: string
   };
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+  useEffect(() => {
+    const fn = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', fn);
+    return () => window.removeEventListener('resize', fn);
+  }, []);
+  return isMobile;
+}
+
 // ── Scene components ──────────────────────────────────────────────
-function SceneHero({ scrollY }: { scrollY: number }) {
+function SceneHero({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   return (
-    <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 32 }}>
+    <div style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: isMobile ? 18 : 32 }}>
       {/* Decorative rings */}
       <div style={ringStyle(scrollY, 0, -0.06, '8%', '15%', 180, '#c8ff00')} />
       <div style={ringStyle(scrollY, 0, 0.08, '78%', '10%', 120, '#00e5ff')} />
@@ -192,11 +204,11 @@ function SceneHero({ scrollY }: { scrollY: number }) {
         Без нотацій. Без осуду. Просто якісна допомога — і справді хороша кава.
       </p>
 
-      <a href="#contact" style={{ display: 'inline-block', background: '#c8ff00', color: '#0a0a0a', fontWeight: 700, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 36px', borderRadius: 2, textDecoration: 'none', ...syne }}>
+      <a href="#contact" style={{ display: isMobile ? 'block' : 'inline-block', background: '#c8ff00', color: '#0a0a0a', fontWeight: 700, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '14px 36px', borderRadius: 2, textDecoration: 'none', textAlign: 'center', ...syne }}>
         Записатись безкоштовно →
       </a>
 
-      <div style={{ display: 'flex', gap: 48, marginTop: 8 }}>
+      <div style={{ display: 'flex', gap: isMobile ? 24 : 48, marginTop: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
         {[['2400+', 'Щасливих посмішок'], ['98%', 'Повертаються знову'], ['4.9', 'Google рейтинг']].map(([v, l]) => (
           <div key={l} style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 'clamp(28px,4vw,42px)', fontWeight: 700, color: '#c8ff00', letterSpacing: '-0.02em', ...syne }}>{v}</div>
@@ -208,7 +220,7 @@ function SceneHero({ scrollY }: { scrollY: number }) {
   );
 }
 
-function SceneServices({ scrollY }: { scrollY: number }) {
+function SceneServices({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -217,7 +229,7 @@ function SceneServices({ scrollY }: { scrollY: number }) {
   const detail = selectedIdx !== null ? PRICE_DETAILS[selectedIdx] : null;
 
   return (
-    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: '320px 1fr', gap: 64, alignItems: 'center', position: 'relative' }}>
+    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '320px 1fr', gap: isMobile ? 20 : 64, alignItems: 'center', position: 'relative' }}>
       <div>
         <div style={ringStyle(scrollY, 1, -0.05, '-10%', '20%', 160, '#00e5ff')} />
         <div style={{ fontSize: 'clamp(42px,5.5vw,68px)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em', textTransform: 'uppercase', ...syne }}>
@@ -283,7 +295,8 @@ function SceneServices({ scrollY }: { scrollY: number }) {
             border: `1px solid ${selected.color}40`,
             borderRadius: 8,
             padding: '28px 32px',
-            minWidth: 340,
+            minWidth: isMobile ? 'unset' : 340,
+            width: isMobile ? 'calc(100% - 32px)' : undefined,
             boxShadow: `0 0 40px ${selected.color}25`,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -384,11 +397,11 @@ function ZSlider({ c }: { c: typeof CASES_LIST[0] }) {
   );
 }
 
-function SceneBeforeAfter({ scrollY }: { scrollY: number }) {
+function SceneBeforeAfter({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   return (
-    <div style={{ width: '100%', maxWidth: 1020, display: 'grid', gridTemplateColumns: '230px 1fr', gap: 56, alignItems: 'center' }}>
+    <div style={{ width: '100%', maxWidth: 1020, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '230px 1fr', gap: isMobile ? 16 : 56, alignItems: 'center' }}>
       <div>
         <div style={ringStyle(scrollY, 2, 0.06, '-5%', '60%', 200, '#ff3d8b')} />
         <div style={{ fontSize: 'clamp(36px,5vw,56px)', fontWeight: 800, lineHeight: 0.9, letterSpacing: '-0.03em', textTransform: 'uppercase', ...syne }}>
@@ -404,13 +417,13 @@ function SceneBeforeAfter({ scrollY }: { scrollY: number }) {
         </div>
       </div>
       <div style={{ display: 'flex', gap: 14, alignItems: 'stretch' }}>
-        {CASES_LIST.map((c, i) => <ZSlider key={i} c={c} />)}
+        {CASES_LIST.filter((_, i) => !isMobile || i < 2).map((c, i) => <ZSlider key={i} c={c} />)}
       </div>
     </div>
   );
 }
 
-function SceneTeam({ scrollY }: { scrollY: number }) {
+function SceneTeam({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   return (
@@ -424,11 +437,11 @@ function SceneTeam({ scrollY }: { scrollY: number }) {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, width: '100%' }}>
-        {TEAM_LIST.map((m, i) => (
-          <div key={i} style={{ padding: '24px 22px', border: `1px solid ${m.accent}28`, borderRadius: 4, background: `${m.accent}08`, display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 18, width: '100%' }}>
+        {TEAM_LIST.filter((_, i) => !isMobile || i === 0).map((m, i) => (
+          <div key={i} style={{ padding: isMobile ? '16px 16px' : '24px 22px', border: `1px solid ${m.accent}28`, borderRadius: 4, background: `${m.accent}08`, display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 14 }}>
             {/* Photo placeholder + years badge */}
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: `linear-gradient(135deg,${m.accent}18,#100c18)`, borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%', aspectRatio: isMobile ? '16/7' : '16/9', background: `linear-gradient(135deg,${m.accent}18,#100c18)`, borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: `${m.accent}20`, textTransform: 'uppercase', letterSpacing: '-0.02em', textAlign: 'center', userSelect: 'none' }}>{m.name}</div>
               <div style={{ position: 'absolute', bottom: 8, right: 8, background: m.accent, color: '#0a0a0a', padding: '7px 11px', borderRadius: 2, textAlign: 'center' }}>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, lineHeight: 1 }}>{m.years}</div>
@@ -463,7 +476,7 @@ function SceneTeam({ scrollY }: { scrollY: number }) {
   );
 }
 
-function SceneReviews({ scrollY }: { scrollY: number }) {
+function SceneReviews({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   return (
@@ -476,9 +489,9 @@ function SceneReviews({ scrollY }: { scrollY: number }) {
         </div>
         <p style={{ marginTop: 12, fontSize: 13, color: 'rgba(240,240,240,0.4)', ...grotesk }}>Реальні слова. Без фільтрів.</p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-        {REVIEWS_LIST.map(r => (
-          <div key={r.initials} style={{ padding: '28px 24px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 4, display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 8 : 16 }}>
+        {REVIEWS_LIST.filter((_, i) => !isMobile || i < 2).map(r => (
+          <div key={r.initials} style={{ padding: isMobile ? '16px 16px' : '28px 24px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 4, display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 20 }}>
             <div style={{ fontSize: 13, color: 'rgba(240,240,240,0.7)', lineHeight: 1.7, fontStyle: 'italic', ...grotesk }}>
               "{r.text}"
             </div>
@@ -509,7 +522,7 @@ const IG_POSTS = [
   },
 ];
 
-function SceneTikTok({ scrollY }: { scrollY: number }) {
+function SceneTikTok({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const [slide, setSlide] = useState(0);
   const syne: React.CSSProperties    = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
@@ -544,7 +557,7 @@ function SceneTikTok({ scrollY }: { scrollY: number }) {
         <div style={{ display: 'flex', transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)', transform: `translateX(${-slide * 100}%)` }}>
 
           {/* ── SLIDE 0: TikTok ── */}
-          <div style={{ minWidth: '100%', display: 'grid', gridTemplateColumns: '260px 1fr', gap: 56, alignItems: 'center' }}>
+          <div style={{ minWidth: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '260px 1fr', gap: isMobile ? 18 : 56, alignItems: 'center' }}>
             <div>
               <div style={ringStyle(scrollY, 5, -0.05, '-8%', '20%', 160, '#ff3d8b')} />
               <div style={ringStyle(scrollY, 5, 0.07, '95%', '70%', 100, '#00e5ff')} />
@@ -575,9 +588,9 @@ function SceneTikTok({ scrollY }: { scrollY: number }) {
             </div>
             {/* TikTok iframes — staggered */}
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', alignItems: 'flex-start' }}>
-              {TIKTOK_VIDEOS.map((v, i) => (
-                <div key={v.id} style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: '1 1 0', maxWidth: 210, marginTop: i === 1 ? 28 : 0 }}>
-                  <div style={{ position: 'relative', width: '100%', aspectRatio: '9/16', borderRadius: 8, overflow: 'hidden', background: '#111', border: `1px solid ${i === 0 ? 'rgba(255,61,139,0.3)' : 'rgba(0,229,255,0.2)'}`, boxShadow: i === 0 ? '0 8px 40px rgba(255,61,139,0.2)' : '0 8px 40px rgba(0,229,255,0.12)' }}>
+              {TIKTOK_VIDEOS.filter((_, i) => !isMobile || i === 0).map((v, i) => (
+                <div key={v.id} style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: '1 1 0', maxWidth: isMobile ? 240 : 210, marginTop: !isMobile && i === 1 ? 28 : 0 }}>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '9/16', maxHeight: isMobile ? 220 : 'unset', borderRadius: 8, overflow: 'hidden', background: '#111', border: `1px solid ${i === 0 ? 'rgba(255,61,139,0.3)' : 'rgba(0,229,255,0.2)'}`, boxShadow: i === 0 ? '0 8px 40px rgba(255,61,139,0.2)' : '0 8px 40px rgba(0,229,255,0.12)' }}>
                     <iframe src={`https://www.tiktok.com/embed/v2/${v.id}`} title={v.caption} allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }} />
                   </div>
                   <div style={{ fontSize: 10, color: 'rgba(240,240,240,0.4)', textAlign: 'center', ...grotesk }}>{v.caption}</div>
@@ -587,7 +600,7 @@ function SceneTikTok({ scrollY }: { scrollY: number }) {
           </div>
 
           {/* ── SLIDE 1: Instagram ── */}
-          <div style={{ minWidth: '100%', display: 'grid', gridTemplateColumns: '260px 1fr', gap: 56, alignItems: 'center' }}>
+          <div style={{ minWidth: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '260px 1fr', gap: isMobile ? 18 : 56, alignItems: 'center' }}>
             <div>
               <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 22, height: 22, borderRadius: 6, background: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -618,9 +631,9 @@ function SceneTikTok({ scrollY }: { scrollY: number }) {
             </div>
             {/* Instagram post embeds */}
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', alignItems: 'flex-start' }}>
-              {IG_POSTS.map((p, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: '1 1 0', maxWidth: 210, marginTop: i === 1 ? 28 : 0 }}>
-                  <div style={{ width: '100%', aspectRatio: '9/16', borderRadius: 8, overflow: 'hidden', border: `1px solid rgba(225,48,108,${i === 0 ? '0.3' : '0.2'})`, boxShadow: i === 0 ? '0 8px 40px rgba(225,48,108,0.2)' : '0 8px 40px rgba(188,24,136,0.12)' }}>
+              {IG_POSTS.filter((_, i) => !isMobile || i === 0).map((p, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: '1 1 0', maxWidth: isMobile ? 240 : 210, marginTop: !isMobile && i === 1 ? 28 : 0 }}>
+                  <div style={{ width: '100%', aspectRatio: '9/16', maxHeight: isMobile ? 220 : 'unset', borderRadius: 8, overflow: 'hidden', border: `1px solid rgba(225,48,108,${i === 0 ? '0.3' : '0.2'})`, boxShadow: i === 0 ? '0 8px 40px rgba(225,48,108,0.2)' : '0 8px 40px rgba(188,24,136,0.12)' }}>
                     <iframe
                       src={`https://www.instagram.com/reel/${p.id}/embed/`}
                       style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
@@ -647,11 +660,11 @@ const GOOGLE_REVIEWS = [
   { name: 'Ірина С.',   stars: 5, text: 'Зробили імплант — навіть забула де він. Дякую всій команді за увагу та підтримку!',          ago: '2 місяці тому' },
 ];
 
-function SceneLocation({ scrollY }: { scrollY: number }) {
+function SceneLocation({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties    = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   return (
-    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: '280px 1fr', gap: 52, alignItems: 'start' }}>
+    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '280px 1fr', gap: isMobile ? 18 : 52, alignItems: 'start' }}>
 
       {/* Left: headline */}
       <div>
@@ -685,7 +698,7 @@ function SceneLocation({ scrollY }: { scrollY: number }) {
       {/* Right: map + reviews */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
         {/* Map */}
-        <div style={{ width: '100%', aspectRatio: '16/7', borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(0,229,255,0.14)' }}>
+        <div style={{ width: '100%', aspectRatio: isMobile ? '16/9' : '16/7', borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(0,229,255,0.14)' }}>
           <iframe
             src="https://maps.google.com/maps?q=просп.+Яворницького+22,+Дніпро,+Україна&output=embed&hl=uk&z=15"
             style={{ width: '100%', height: '100%', border: 'none', filter: 'invert(90%) hue-rotate(180deg) saturate(0.8)', display: 'block' }}
@@ -694,8 +707,8 @@ function SceneLocation({ scrollY }: { scrollY: number }) {
           />
         </div>
 
-        {/* Google Reviews */}
-        <div>
+        {/* Google Reviews — hidden on mobile to avoid overflow */}
+        {!isMobile && <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.28)', letterSpacing: '0.22em', textTransform: 'uppercase', ...grotesk }}>GOOGLE ВІДГУКИ</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
@@ -703,7 +716,7 @@ function SceneLocation({ scrollY }: { scrollY: number }) {
               <span style={{ color: '#c8ff00', fontSize: 10, letterSpacing: 1 }}>★★★★★</span>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: 8 }}>
             {GOOGLE_REVIEWS.map(r => (
               <div key={r.name} style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 4 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
@@ -716,13 +729,13 @@ function SceneLocation({ scrollY }: { scrollY: number }) {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
 }
 
-function SceneContact({ scrollY }: { scrollY: number }) {
+function SceneContact({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) {
   const syne: React.CSSProperties  = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
   const [form, setForm] = useState({ name: '', phone: '', service: '', contact_via: '', note: '' });
@@ -761,7 +774,7 @@ function SceneContact({ scrollY }: { scrollY: number }) {
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: '300px 1fr', gap: 52, alignItems: 'start' }}>
+    <div style={{ width: '100%', maxWidth: 1000, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '300px 1fr', gap: isMobile ? 16 : 52, alignItems: 'start' }}>
 
       {/* ── LEFT: Headline ── */}
       <div>
@@ -807,7 +820,7 @@ function SceneContact({ scrollY }: { scrollY: number }) {
             </div>
 
             {/* Service + Via */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 10 }}>
               <div>
                 <label style={lblStyle}>Послуга</label>
                 <select value={form.service} onChange={set('service')}
@@ -896,6 +909,7 @@ export default function ZoomerMode() {
   const [sceneIdx, setSceneIdx] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const worldRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   // ── Classic-mode toggle removed — modern only ──────────────────
   /* const openZoomer = useCallback(() => {
@@ -983,14 +997,14 @@ export default function ZoomerMode() {
   const auroraColors = AURORA_PALETTES[sceneIdx] ?? AURORA_PALETTES[0];
 
   const sceneComponents = [
-    <SceneHero scrollY={scrollY} />,
-    <SceneServices scrollY={scrollY} />,
-    <SceneBeforeAfter scrollY={scrollY} />,
-    <SceneTeam scrollY={scrollY} />,
-    <SceneReviews scrollY={scrollY} />,
-    <SceneTikTok scrollY={scrollY} />,
-    <SceneLocation scrollY={scrollY} />,
-    <SceneContact scrollY={scrollY} />,
+    <SceneHero scrollY={scrollY} isMobile={isMobile} />,
+    <SceneServices scrollY={scrollY} isMobile={isMobile} />,
+    <SceneBeforeAfter scrollY={scrollY} isMobile={isMobile} />,
+    <SceneTeam scrollY={scrollY} isMobile={isMobile} />,
+    <SceneReviews scrollY={scrollY} isMobile={isMobile} />,
+    <SceneTikTok scrollY={scrollY} isMobile={isMobile} />,
+    <SceneLocation scrollY={scrollY} isMobile={isMobile} />,
+    <SceneContact scrollY={scrollY} isMobile={isMobile} />,
   ];
 
   return (
@@ -1035,19 +1049,19 @@ export default function ZoomerMode() {
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, zIndex: 15,
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '20px 32px',
+              padding: isMobile ? '14px 16px' : '20px 32px',
             }}>
-              <div style={{ fontWeight: 800, fontSize: 15, letterSpacing: '-0.02em', color: '#f0f0f0', ...syne }}>
+              <div style={{ fontWeight: 800, fontSize: isMobile ? 13 : 15, letterSpacing: '-0.02em', color: '#f0f0f0', ...syne }}>
                 CHIRKOVA<span style={{ color: '#c8ff00' }}>.DENTIST</span>
               </div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.2em', textTransform: 'uppercase', ...grotesk }}>
+              {!isMobile && <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.2em', textTransform: 'uppercase', ...grotesk }}>
                 {SCENES[sceneIdx]?.label}
-              </div>
+              </div>}
               {/* ← Classic button removed — modern only */}
             </div>
 
             {/* Scene indicator */}
-            <div style={{ position: 'absolute', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 15, display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+            <div style={{ position: 'absolute', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 15, display: isMobile ? 'none' : 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
               {SCENES.map((s, i) => (
                 <button key={s.id} onClick={() => goToScene(i)}
                   style={{
@@ -1070,13 +1084,30 @@ export default function ZoomerMode() {
                 style={{
                   position: 'absolute', inset: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '80px 64px 60px',
+                  padding: isMobile ? '64px 16px 56px' : '80px 64px 60px',
                   ...sceneStyle(i, scrollY),
                 }}
               >
                 {sceneComponents[i]}
               </div>
             ))}
+
+            {/* Mobile bottom dots */}
+            {isMobile && (
+              <div style={{ position: 'absolute', bottom: 38, left: '50%', transform: 'translateX(-50%)', zIndex: 15, display: 'flex', flexDirection: 'row', gap: 6, alignItems: 'center' }}>
+                {SCENES.map((s, i) => (
+                  <button key={s.id} onClick={() => goToScene(i)}
+                    style={{
+                      width: i === sceneIdx ? 18 : 6, height: 6, borderRadius: 3,
+                      background: i === sceneIdx ? s.accent : 'rgba(255,255,255,0.2)',
+                      border: 'none', cursor: 'pointer', padding: 0,
+                      transition: 'all 0.3s',
+                    }}
+                    aria-label={s.label}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Running line */}
             <RunningLine />
