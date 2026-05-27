@@ -5,7 +5,7 @@ import SpotlightCard from './SpotlightCard';
 import GradientText from './GradientText';
 
 // ── Constants ──────────────────────────────────────────────────────
-const SPR = 900; // scroll pixels per scene
+const SPR = 1000; // scroll pixels per scene
 const SCENES = [
   {
     id: 'hero', label: '01 / INTRO', accent: '#c8ff00',
@@ -891,23 +891,24 @@ function RunningLine() {
 }
 
 export default function ZoomerMode() {
-  const [active, setActive]   = useState(true);
+  const [active] = useState(true);             // always active — modern only
   const [visible, setVisible] = useState(false);
   const [sceneIdx, setSceneIdx] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const worldRef = useRef<HTMLDivElement>(null);
 
-  const openZoomer = useCallback(() => {
+  // ── Classic-mode toggle removed — modern only ──────────────────
+  /* const openZoomer = useCallback(() => {
     localStorage.setItem('designMode', 'zoomer');
     setActive(true);
     requestAnimationFrame(() => setVisible(true));
-  }, []);
+  }, []); */
 
-  const closeZoomer = useCallback(() => {
+  /* const closeZoomer = useCallback(() => {
     setVisible(false);
     setTimeout(() => { setActive(false); setScrollY(0); setSceneIdx(0); }, 300);
     localStorage.setItem('designMode', 'classic');
-  }, []);
+  }, []); */
 
   // Load fonts once
   useEffect(() => {
@@ -919,19 +920,22 @@ export default function ZoomerMode() {
     document.head.appendChild(link);
   }, []);
 
-  // Restore mode from localStorage + listen for nav button
-  useEffect(() => {
+  // Fade in on mount (no classic toggle, always active)
+  useEffect(() => { requestAnimationFrame(() => setVisible(true)); }, []);
+
+  // Restore mode from localStorage + listen for nav button — classic only
+  /* useEffect(() => {
     if (localStorage.getItem('designMode') === 'zoomer') openZoomer();
     const handler = () => openZoomer();
     window.addEventListener('zoomer:open', handler);
     return () => window.removeEventListener('zoomer:open', handler);
-  }, [openZoomer]);
+  }, [openZoomer]); */
 
-  // Lock body scroll while zoomer is active
+  // Lock body scroll (always active in modern-only mode)
   useEffect(() => {
-    document.body.style.overflow = active ? 'hidden' : '';
+    document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
-  }, [active]);
+  }, []);
 
   // Wire up scroll listener after world mounts
   const handleScroll = useCallback(() => {
@@ -943,12 +947,11 @@ export default function ZoomerMode() {
   }, []);
 
   useEffect(() => {
-    if (!active) return;
     const el = worldRef.current;
     if (!el) return;
     el.addEventListener('scroll', handleScroll, { passive: true });
     return () => el.removeEventListener('scroll', handleScroll);
-  }, [active, handleScroll]);
+  }, [handleScroll]);
 
   const goToScene = (i: number) => {
     worldRef.current?.scrollTo({ top: i * SPR + 20, behavior: 'smooth' });
@@ -957,26 +960,13 @@ export default function ZoomerMode() {
   const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
   const grotesk: React.CSSProperties = { fontFamily: "'Space Grotesk', sans-serif" };
 
-  // Floating toggle button (classic mode)
-  const toggleBtn = (
-    <button
-      onClick={openZoomer}
-      style={{
-        position: 'fixed', bottom: 24, left: 24, zIndex: 999,
-        background: '#0a0a0a', color: '#c8ff00',
-        border: '1px solid #c8ff00', borderRadius: 2,
-        padding: '9px 18px', fontSize: 10, fontWeight: 700,
-        letterSpacing: '0.16em', textTransform: 'uppercase',
-        cursor: 'pointer', ...syne, transition: 'all 0.2s',
-      }}
-      onMouseEnter={e => { const t = e.currentTarget; t.style.background = '#c8ff00'; t.style.color = '#0a0a0a'; }}
-      onMouseLeave={e => { const t = e.currentTarget; t.style.background = '#0a0a0a'; t.style.color = '#c8ff00'; }}
-    >
+  // Floating toggle button (classic mode) — removed, modern only
+  /* const toggleBtn = (
+    <button onClick={openZoomer} style={{ position:'fixed', bottom:24, left:24, zIndex:999, ... }}>
       ◆ Modern Mode
     </button>
   );
-
-  if (!active) return toggleBtn;
+  if (!active) return toggleBtn; */
 
   const totalProgress = Math.min(scrollY / (SPR * SCENES.length), 1);
 
@@ -1053,14 +1043,7 @@ export default function ZoomerMode() {
               <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.2em', textTransform: 'uppercase', ...grotesk }}>
                 {SCENES[sceneIdx]?.label}
               </div>
-              <button
-                onClick={closeZoomer}
-                style={{ background: 'none', border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.5)', padding: '7px 16px', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', cursor: 'pointer', borderRadius: 2, ...grotesk, transition: 'all 0.2s' }}
-                onMouseEnter={e => { const t = e.currentTarget; t.style.borderColor = '#c8ff00'; t.style.color = '#c8ff00'; }}
-                onMouseLeave={e => { const t = e.currentTarget; t.style.borderColor = 'rgba(255,255,255,0.18)'; t.style.color = 'rgba(255,255,255,0.5)'; }}
-              >
-                ← Classic
-              </button>
+              {/* ← Classic button removed — modern only */}
             </div>
 
             {/* Scene indicator */}

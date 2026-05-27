@@ -1,139 +1,34 @@
 ---
 import { translations } from '../i18n/translations';
 import Layout        from '../layouts/Layout.astro';
-import Nav           from '../components/Nav.astro';
-import Footer        from '../components/Footer.astro';
-import ReviewsList   from '../components/ReviewsList';
+// ── Classic reviews page — commented out, modern mode only ────────
+// import Nav           from '../components/Nav.astro';
+// import Footer        from '../components/Footer.astro';
+// import ReviewsList   from '../components/ReviewsList';
 
 const t = translations.uk;
-const fallback = t.reviews.list.map(r => ({
-  quote: r.q, name: r.n, since: r.s, bg: r.bg, color: r.c, initials: r.ini,
-}));
+// const fallback = t.reviews.list.map(r => ({
+//   quote: r.q, name: r.n, since: r.s, bg: r.bg, color: r.c, initials: r.ini,
+// }));
 
-const GOOGLE_REVIEWS = [
-  { name: 'Марія В.',    stars: 5, text: 'Найкраща клініка у Дніпрі! Вініри зробили за 2 тижні — результат вище очікувань. Д-р Чиркова — справжній майстер.', ago: '2 тижні тому' },
-  { name: 'Дмитро К.',   stars: 5, text: 'Лікар дуже уважний і ніколи не поспішає. Вперше за своє життя не боявся йти до стоматолога! Рекомендую всім.', ago: '1 місяць тому' },
-  { name: 'Ірина С.',    stars: 5, text: 'Зробили імплант — навіть забула, де він знаходиться. Дякую всій команді за увагу та підтримку на кожному кроці.', ago: '2 місяці тому' },
-  { name: 'Олег Н.',     stars: 5, text: 'Відбілювання Zoom — 8 тонів за один сеанс. Ніяких болів, дуже комфортно. Результат тримається вже 4 місяці.', ago: '3 місяці тому' },
-  { name: 'Тетяна Р.',   stars: 5, text: 'Прийшла на консультацію — безкоштовно та дуже детально. Зробила елайнери. Зуби рівні, посмішка — мрія!', ago: '4 місяці тому' },
-  { name: 'Василь М.',   stars: 5, text: 'Швидко, якісно та без зайвих нерв. Лікар пояснює кожен крок. Кава теж смачна!', ago: '5 місяців тому' },
-];
+// const GOOGLE_REVIEWS = [
+//   { name: 'Марія В.',    stars: 5, text: '...', ago: '2 тижні тому' },
+//   { name: 'Дмитро К.',   stars: 5, text: '...', ago: '1 місяць тому' },
+//   { name: 'Ірина С.',    stars: 5, text: '...', ago: '2 місяці тому' },
+//   { name: 'Олег Н.',     stars: 5, text: '...', ago: '3 місяці тому' },
+//   { name: 'Тетяна Р.',   stars: 5, text: '...', ago: '4 місяці тому' },
+//   { name: 'Василь М.',   stars: 5, text: '...', ago: '5 місяців тому' },
+// ];
 ---
-<Layout title="Відгуки — Chirkova Dentist" description="Відгуки пацієнтів Chirkova Dentist Studio. Реальні думки про вініри, імпланти, елайнери та лікування у Дніпрі." lang="uk">
+<Layout title="Відгуки — Chirkova Dentist" description="Відгуки пацієнтів Chirkova Dentist Studio." lang="uk">
+  <!-- Classic reviews layout — commented out, modern mode only
   <Nav t={t} />
-
   <main>
-    <!-- Hero -->
-    <section class="reviews-hero">
-      <div class="section-inner">
-        <div class="rh-eyebrow">Голоси пацієнтів</div>
-        <h1 class="rh-h1">Що вони <em>кажуть</em></h1>
-        <p class="rh-sub">Реальні відгуки реальних людей. Ніяких фільтрів — ніяких постановок.</p>
-        <div class="rh-rating">
-          <span class="rh-score">4.9</span>
-          <div>
-            <div class="rh-stars">★★★★★</div>
-            <div class="rh-count">127+ відгуків · Google Maps</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Clinic reviews -->
-    <section class="reviews-section" style="padding-top: 0">
-      <div class="section-inner">
-        <div class="block-label">Відгуки на сайті</div>
-        <ReviewsList client:visible locale="uk" sinceLabel="Пацієнт з" fallback={fallback} />
-      </div>
-    </section>
-
-    <!-- Google Reviews -->
-    <section class="google-section">
-      <div class="section-inner">
-        <div class="g-header">
-          <div>
-            <div class="block-label">Google Maps</div>
-            <h2 class="g-h2">Відгуки на <em>Google</em></h2>
-          </div>
-          <a href="https://maps.google.com/?q=просп.+Яворницького+22,+Дніпро" target="_blank" rel="noopener noreferrer" class="g-link">Переглянути на Google →</a>
-        </div>
-
-        <div class="g-grid">
-          {GOOGLE_REVIEWS.map(r => (
-            <article class="g-card">
-              <div class="g-card-top">
-                <div class="g-avatar">G</div>
-                <div>
-                  <div class="g-name">{r.name}</div>
-                  <div class="g-ago">{r.ago}</div>
-                </div>
-                <div class="g-stars">{'★'.repeat(r.stars)}</div>
-              </div>
-              <p class="g-text">"{r.text}"</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="reviews-cta">
-      <div class="section-inner">
-        <h2 class="cta-h2">Станьте <em>наступним</em></h2>
-        <p class="cta-sub">Перша консультація — безкоштовно. Без зобов'язань.</p>
-        <a href="/#contact" class="btn-primary">Записатись →</a>
-      </div>
-    </section>
+    <section class="reviews-hero"> ... </section>
+    <section class="reviews-section"> ... </section>
+    <section class="google-section"> ... </section>
+    <section class="reviews-cta"> ... </section>
   </main>
-
   <Footer t={t.footer} brand={t.brand} />
+  -->
 </Layout>
-
-<style>
-/* Hero */
-.reviews-hero { background: var(--cream); padding: 6rem 0 4rem; border-bottom: 1px solid rgba(200,169,110,.15); }
-.rh-eyebrow  { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-.rh-h1       { font-family: var(--serif); font-size: clamp(36px,5vw,64px); font-weight: 300; color: var(--forest); line-height: 1.05; margin-bottom: 16px; }
-.rh-h1 em    { font-style: italic; color: var(--rose); }
-.rh-sub      { font-size: 15px; color: var(--text-mid); max-width: 480px; line-height: 1.7; margin-bottom: 32px; }
-.rh-rating   { display: flex; align-items: center; gap: 16px; }
-.rh-score    { font-family: var(--serif); font-size: 56px; font-weight: 300; color: var(--forest); line-height: 1; }
-.rh-stars    { color: var(--gold); font-size: 18px; letter-spacing: 3px; margin-bottom: 3px; }
-.rh-count    { font-size: 11px; color: var(--text-light); letter-spacing: .05em; }
-
-/* Shared */
-.block-label { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-light); margin-bottom: 32px; padding-top: 5rem; }
-
-/* Clinic reviews */
-.reviews-section { background: var(--cream); padding-bottom: 5rem; }
-
-/* Google reviews */
-.google-section { background: #fff; padding: 5rem 0 6rem; }
-.g-header  { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
-.g-h2      { font-family: var(--serif); font-size: clamp(24px,3vw,38px); font-weight: 300; color: var(--forest); }
-.g-h2 em   { font-style: italic; color: var(--rose); }
-.g-link    { font-size: 12px; color: var(--forest); text-decoration: none; border-bottom: 1px solid rgba(42,61,46,.2); padding-bottom: 1px; transition: border-color .2s; white-space: nowrap; }
-.g-link:hover { border-color: var(--forest); }
-
-.g-grid    { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
-.g-card    { background: var(--cream); border-radius: 4px; padding: 24px; border: 1px solid rgba(201,168,124,.12); }
-.g-card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
-.g-avatar  {
-  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-  background: conic-gradient(#4285f4 0 25%, #ea4335 25% 50%, #fbbc05 50% 75%, #34a853 75%);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #fff;
-}
-.g-name  { font-size: 13px; font-weight: 500; color: var(--text-dark); }
-.g-ago   { font-size: 10px; color: var(--text-light); margin-top: 2px; }
-.g-stars { margin-left: auto; color: var(--gold); font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
-.g-text  { font-family: var(--serif); font-size: 15px; font-style: italic; color: var(--text-mid); line-height: 1.65; }
-
-/* CTA */
-.reviews-cta { background: var(--forest); padding: 6rem 0; text-align: center; }
-.cta-h2      { font-family: var(--serif); font-size: clamp(28px,4vw,48px); font-weight: 300; color: var(--cream); margin-bottom: 12px; }
-.cta-h2 em   { font-style: italic; color: var(--gold-light); }
-.cta-sub     { font-size: 14px; color: rgba(245,240,232,.55); margin-bottom: 32px; line-height: 1.6; }
-.btn-primary { background: var(--gold); color: var(--forest); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 14px 32px; border-radius: 2px; text-decoration: none; display: inline-block; transition: background .2s; }
-.btn-primary:hover { background: var(--gold-light); }
-</style>
