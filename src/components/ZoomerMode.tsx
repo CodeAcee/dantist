@@ -49,15 +49,22 @@ const SCENES = [
     sub: "Реальне життя клініки — без постановок.",
   },
   {
+    id: "clinic",
+    label: "07 / КЛІНІКА",
+    accent: "#a855f7",
+    headline: ["ПРОСТІР.", "В ЯКОМУ", "НЕ СТРАШНО."],
+    sub: "Сучасне обладнання. Затишна атмосфера. Без стресу.",
+  },
+  {
     id: "location",
-    label: "07 / АДРЕСА",
+    label: "08 / АДРЕСА",
     accent: "#00e5ff",
     headline: ["ЗНАЙДИ.", "ПРИХОДЬ.", "ВІДЧУЙ."],
     sub: "Дніпро, просп. Яворницького 22.",
   },
   {
     id: "contact",
-    label: "08 / КОНТАКТ",
+    label: "09 / КОНТАКТ",
     accent: "#c8ff00",
     headline: ["ДОСИТЬ", "ДУМАТИ.", "ПОЧИНАЙ."],
     sub: "Перша консультація — безкоштовно.",
@@ -2065,6 +2072,233 @@ const GOOGLE_REVIEWS = [
   },
 ];
 
+function SceneClinic({
+  scrollY: _scrollY,
+  isMobile,
+}: {
+  scrollY: number;
+  isMobile: boolean;
+}) {
+  // Replace VIDEO_SRC with your hosted mp4 URL (Supabase Storage, Cloudflare, etc.)
+  const VIDEO_SRC = "";
+  const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
+  const grotesk: React.CSSProperties = {
+    fontFamily: "'Space Grotesk', sans-serif",
+  };
+  const PHOTOS = [
+    "Зал очікування",
+    "Кабінет 1",
+    "Кабінет 2",
+    "Стерилізація",
+  ];
+  return (
+    <div
+      style={{
+        width: "100%",
+        maxWidth: 1000,
+        display: "grid",
+        gridTemplateColumns: isMobile ? "1fr" : "280px 1fr",
+        gap: isMobile ? 20 : 52,
+        alignItems: "start",
+      }}
+    >
+      {/* Left: headline + stats */}
+      <div>
+        <div
+          style={{
+            fontSize: "clamp(40px,5vw,62px)",
+            fontWeight: 800,
+            lineHeight: 0.88,
+            letterSpacing: "-0.03em",
+            textTransform: "uppercase",
+            ...syne,
+          }}
+        >
+          <GradientText
+            colors={["#a855f7", "#c084fc", "#a855f7"]}
+            animationSpeed={4}
+            className="scene-hl"
+          >
+            ПРОСТІР.
+          </GradientText>
+          <GradientText
+            colors={["#f0f0f0", "#a855f7", "#f0f0f0"]}
+            animationSpeed={6}
+            className="scene-hl"
+          >
+            В ЯКОМУ
+          </GradientText>
+          <GradientText
+            colors={["#c084fc", "#c8ff00", "#c084fc"]}
+            animationSpeed={5}
+            className="scene-hl"
+          >
+            НЕ СТРАШНО.
+          </GradientText>
+        </div>
+        <p
+          style={{
+            marginTop: 18,
+            fontSize: 13,
+            lineHeight: 1.55,
+            color: "rgba(255,255,255,0.55)",
+            ...grotesk,
+          }}
+        >
+          Сучасне обладнання. Затишна атмосфера. Без стресу.
+        </p>
+        {!isMobile && (
+          <div
+            style={{
+              marginTop: 28,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+            }}
+          >
+            {[
+              { num: "200м²", label: "сучасного простору" },
+              { num: "5", label: "обладнаних кабінетів" },
+              { num: "2021", label: "рік відкриття" },
+            ].map((s) => (
+              <div
+                key={s.num}
+                style={{ display: "flex", alignItems: "baseline", gap: 10 }}
+              >
+                <span
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 800,
+                    color: "#a855f7",
+                    ...syne,
+                  }}
+                >
+                  {s.num}
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.4)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    ...grotesk,
+                  }}
+                >
+                  {s.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Right: video + photo strip */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {/* Video block */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16/9",
+            borderRadius: 4,
+            overflow: "hidden",
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(168,85,247,0.2)",
+          }}
+        >
+          {VIDEO_SRC ? (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              src={VIDEO_SRC}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: "50%",
+                  border: "1.5px solid rgba(168,85,247,0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 5l11 7-11 7V5z" fill="rgba(168,85,247,0.6)" />
+                </svg>
+              </div>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.25)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  ...grotesk,
+                }}
+              >
+                Відео клініки
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Photo grid — replace dashed slots with real <img> tags */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+            gap: 6,
+          }}
+        >
+          {PHOTOS.map((label) => (
+            <div
+              key={label}
+              style={{
+                aspectRatio: "1/1",
+                borderRadius: 3,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px dashed rgba(168,85,247,0.2)",
+                display: "flex",
+                alignItems: "flex-end",
+                padding: "6px 7px",
+                overflow: "hidden",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 9,
+                  color: "rgba(255,255,255,0.2)",
+                  letterSpacing: "0.07em",
+                  textTransform: "uppercase",
+                  lineHeight: 1.2,
+                  ...grotesk,
+                }}
+              >
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SceneLocation({
   scrollY,
   isMobile,
@@ -3018,6 +3252,7 @@ export default function ZoomerMode() {
     <SceneTeam scrollY={scrollY} isMobile={isMobile} />,
     <SceneReviews scrollY={scrollY} isMobile={isMobile} />,
     <SceneTikTok scrollY={scrollY} isMobile={isMobile} />,
+    <SceneClinic scrollY={scrollY} isMobile={isMobile} />,
     <SceneLocation scrollY={scrollY} isMobile={isMobile} />,
     <SceneContact scrollY={scrollY} isMobile={isMobile} />,
   ];
