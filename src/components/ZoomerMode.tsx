@@ -891,7 +891,7 @@ function RunningLine() {
 }
 
 export default function ZoomerMode() {
-  const [active, setActive]   = useState(false);
+  const [active, setActive]   = useState(true);
   const [visible, setVisible] = useState(false);
   const [sceneIdx, setSceneIdx] = useState(0);
   const [scrollY, setScrollY] = useState(0);
