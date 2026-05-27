@@ -43,7 +43,8 @@ export default function TeamSlider({ locale, fallback, prevLabel = '←', nextLa
       .eq('locale', locale)
       .eq('active', true)
       .order('sort_order')
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) { console.error('[TeamSlider] Supabase error:', error); return; }
         if (data && data.length > 0) setMembers(data.map(fromRow));
       });
   }, [locale]);

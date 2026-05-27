@@ -19,7 +19,8 @@ export default function ReviewsList({ locale, sinceLabel, fallback }: Props) {
       .eq('locale', locale)
       .eq('active', true)
       .order('sort_order')
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) { console.error('[ReviewsList] Supabase error:', error); return; }
         if (data && data.length > 0) setReviews(data.map(fromRow));
       });
   }, [locale]);

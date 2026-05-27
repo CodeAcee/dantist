@@ -16,7 +16,8 @@ export default function PriceList({ locale, fallback }: Props) {
       .eq('locale', locale)
       .eq('active', true)
       .order('sort_order')
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) { console.error('[PriceList] Supabase error:', error); return; }
         if (!data || data.length === 0) return;
         const mapped: Cat[] = data.map((cat: any) => ({
           cat: cat.name,

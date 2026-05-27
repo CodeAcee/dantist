@@ -99,7 +99,8 @@ export default function BeforeAfter({ locale, fallback }: Props) {
       .eq('locale', locale)
       .eq('active', true)
       .order('sort_order')
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) { console.error('[BeforeAfter] Supabase error:', error); return; }
         if (data && data.length > 0) setCases(data.map(fromRow));
       });
   }, [locale]);
