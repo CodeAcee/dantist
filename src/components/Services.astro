@@ -1,7 +1,11 @@
 ---
+import ServicesList from './ServicesList';
 interface Service { name: string; desc: string; img: string }
-interface Props { t: { eyebrow: string; h2a: string; h2em: string; h2b: string; list: Service[] } }
-const { t } = Astro.props;
+interface Props {
+  t: { eyebrow: string; h2a: string; h2em: string; h2b: string; list: Service[] };
+  locale: string;
+}
+const { t, locale } = Astro.props;
 ---
 <section class="services-section" id="services" aria-label="Services">
   <div class="section-inner">
@@ -11,19 +15,7 @@ const { t } = Astro.props;
         <h2 class="services-h2">{t.h2a}<em>{t.h2em}</em>{t.h2b}</h2>
       </div>
     </div>
-    <div class="services-grid">
-      {t.list.map((svc, i) => (
-        <article class="service-card" style={`animation-delay:${0.1+i*0.08}s`}>
-          <div class="img-slot svc-img">{svc.img}</div>
-          <div class="svc-body">
-            <div class="svc-num">0{i+1}</div>
-            <h3 class="svc-name">{svc.name}</h3>
-            <p class="svc-desc">{svc.desc}</p>
-            <div class="svc-arrow">→</div>
-          </div>
-        </article>
-      ))}
-    </div>
+    <ServicesList client:visible locale={locale} fallback={t.list} />
   </div>
 </section>
 <style>

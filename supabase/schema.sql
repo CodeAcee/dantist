@@ -67,24 +67,40 @@ create table if not exists price_items (
   created_at  timestamptz default now()
 );
 
+-- ── services ─────────────────────────────────────────────────────────────────
+create table if not exists services (
+  id            bigint generated always as identity primary key,
+  locale        text    not null default 'uk',
+  name          text    not null,
+  description   text    not null,
+  starting_price text   not null default '',
+  img           text    not null default '',
+  sort_order    int     not null default 0,
+  active        boolean not null default true,
+  created_at    timestamptz default now()
+);
+
 -- ── Row Level Security ───────────────────────────────────────────────────────
 alter table team             enable row level security;
 alter table cases            enable row level security;
 alter table reviews          enable row level security;
 alter table price_categories enable row level security;
 alter table price_items      enable row level security;
+alter table services         enable row level security;
 
 drop policy if exists "public_read_team"             on team;
 drop policy if exists "public_read_cases"            on cases;
 drop policy if exists "public_read_reviews"          on reviews;
 drop policy if exists "public_read_price_categories" on price_categories;
 drop policy if exists "public_read_price_items"      on price_items;
+drop policy if exists "public_read_services"         on services;
 
 create policy "public_read_team"             on team             for select using (true);
 create policy "public_read_cases"            on cases            for select using (true);
 create policy "public_read_reviews"          on reviews          for select using (true);
 create policy "public_read_price_categories" on price_categories for select using (true);
 create policy "public_read_price_items"      on price_items      for select using (true);
+create policy "public_read_services"         on services         for select using (true);
 
 -- ── Seed — skip if data already exists ───────────────────────────────────────
 do $$ begin
@@ -137,3 +153,6 @@ end $$;
 
 -- ── Prices seed — handled separately in prices.sql ───────────────────────────
 -- Run supabase/prices.sql to insert price_categories + price_items seed data.
+
+-- ── Services seed — handled separately in services.sql ───────────────────────
+-- Run supabase/services.sql to insert services seed data.

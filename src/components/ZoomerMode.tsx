@@ -152,7 +152,7 @@ const PRICE_DETAILS = [
   {
     cat: "КОНСУЛЬТАЦІЯ",
     items: [
-      { name: "Первинна консультація", price: "Безкоштовно" },
+      { name: "Первинна консультація обсос", price: "Безкоштовно" },
       { name: "Повторна консультація", price: "200 грн" },
       { name: "Цифровий рентген (повний)", price: "800 грн" },
     ],
@@ -436,9 +436,52 @@ function SceneServices({
     fontFamily: "'Space Grotesk', sans-serif",
   };
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [services, setServices] = useState(SERVICES_LIST);
+  const [priceCategories, setPriceCategories] = useState<typeof PRICE_DETAILS>(PRICE_DETAILS);
 
-  const selected = selectedIdx !== null ? SERVICES_LIST[selectedIdx] : null;
-  const detail = selectedIdx !== null ? PRICE_DETAILS[selectedIdx] : null;
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('services')
+      .select('name, description, starting_price, sort_order')
+      .eq('locale', 'uk')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (error) { console.error('[ZoomerMode] services fetch error:', error); return; }
+        if (!data || data.length === 0) return;
+        setServices(data.map((s: any, i: number) => ({
+          num: String(i + 1).padStart(2, '0'),
+          name: s.name,
+          desc: s.description,
+          price: s.starting_price,
+          color: SERVICES_LIST[i]?.color ?? '#c8ff00',
+        })));
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('price_categories')
+      .select('id, name, price_items(name, price, sort_order)')
+      .eq('locale', 'uk')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (error) { console.error('[ZoomerMode] price_categories fetch error:', error); return; }
+        if (!data || data.length === 0) return;
+        setPriceCategories(data.map((c: any) => ({
+          cat: c.name.toUpperCase(),
+          items: (c.price_items ?? [])
+            .sort((a: any, b: any) => a.sort_order - b.sort_order)
+            .map((item: any) => ({ name: item.name, price: item.price })),
+        })));
+      });
+  }, []);
+
+  const selected = selectedIdx !== null ? services[selectedIdx] : null;
+  const detail = selectedIdx !== null ? priceCategories[selectedIdx] ?? null : null;
 
   return (
     <div
@@ -514,7 +557,7 @@ function SceneServices({
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        {SERVICES_LIST.map((s, i) => (
+        {services.map((s, i) => (
           <SpotlightCard
             key={s.num}
             spotlightColor={`${s.color}28`}
@@ -1012,6 +1055,30 @@ function SceneBeforeAfter({
   const grotesk: React.CSSProperties = {
     fontFamily: "'Space Grotesk', sans-serif",
   };
+  const CASE_ACCENTS = ["#c8ff00", "#00e5ff", "#ff3d8b", "#a855f7"];
+  const [cases, setCases] = useState(CASES_LIST);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('cases')
+      .select('before_label, after_label, treatment, duration, sort_order')
+      .eq('locale', 'uk')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (error) { console.error('[ZoomerMode] cases fetch error:', error); return; }
+        if (!data || data.length === 0) return;
+        setCases(data.map((c: any, i: number) => ({
+          treatment: c.treatment,
+          duration: c.duration,
+          before: c.before_label,
+          after: c.after_label,
+          accent: CASE_ACCENTS[i % CASE_ACCENTS.length],
+        })));
+      });
+  }, []);
+
   return (
     <div
       style={{
@@ -1080,11 +1147,11 @@ function SceneBeforeAfter({
             ...grotesk,
           }}
         >
-          {CASES_LIST.length} кейси · перетягни повзунок
+          {cases.length} кейси · перетягни повзунок
         </div>
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "stretch" }}>
-        {CASES_LIST.filter((_, i) => !isMobile || i < 2).map((c, i) => (
+        {cases.filter((_, i) => !isMobile || i < 2).map((c, i) => (
           <ZSlider key={i} c={c} />
         ))}
       </div>
@@ -1103,6 +1170,32 @@ function SceneTeam({
   const grotesk: React.CSSProperties = {
     fontFamily: "'Space Grotesk', sans-serif",
   };
+  const [team, setTeam] = useState(TEAM_LIST);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('team')
+      .select('name, title, bio, years, years_label, sort_order')
+      .eq('locale', 'uk')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (error) { console.error('[ZoomerMode] team fetch error:', error); return; }
+        if (!data || data.length === 0) return;
+        setTeam(data.map((m: any, i: number) => ({
+          name: m.name,
+          title: m.title,
+          years: m.years,
+          yearsLabel: m.years_label,
+          bio: m.bio,
+          accent: TEAM_LIST[i]?.accent ?? '#ff3d8b',
+          ig: TEAM_LIST[i]?.ig ?? 'https://www.instagram.com/mad__dentist/',
+          tiktok: TEAM_LIST[i]?.tiktok ?? 'https://www.tiktok.com/@mad__dentist',
+        })));
+      });
+  }, []);
+
   return (
     <div
       style={{
@@ -1165,7 +1258,7 @@ function SceneTeam({
           width: "100%",
         }}
       >
-        {TEAM_LIST.filter((_, i) => !isMobile || i === 0).map((m, i) => (
+        {team.filter((_, i) => !isMobile || i === 0).map((m, i) => (
           <div
             key={i}
             style={{
@@ -1367,6 +1460,29 @@ function SceneReviews({
   const grotesk: React.CSSProperties = {
     fontFamily: "'Space Grotesk', sans-serif",
   };
+  const [reviews, setReviews] = useState(REVIEWS_LIST);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase
+      .from('reviews')
+      .select('quote, name, since, initials, color, sort_order')
+      .eq('locale', 'uk')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (error) { console.error('[ZoomerMode] reviews fetch error:', error); return; }
+        if (!data || data.length === 0) return;
+        setReviews(data.map((r: any) => ({
+          initials: r.initials,
+          name: r.name,
+          age: `з ${r.since}` as any,
+          color: r.color,
+          text: r.quote,
+        })));
+      });
+  }, []);
+
   return (
     <div style={{ width: "100%", maxWidth: 1000 }}>
       <div style={ringStyle(scrollY, 4, 0.05, "90%", "15%", 140, "#c8ff00")} />
@@ -1414,7 +1530,7 @@ function SceneReviews({
           gap: isMobile ? 8 : 16,
         }}
       >
-        {REVIEWS_LIST.filter((_, i) => !isMobile || i < 2).map((r) => (
+        {reviews.filter((_, i) => !isMobile || i < 2).map((r) => (
           <div
             key={r.initials}
             style={{
@@ -1482,7 +1598,7 @@ function SceneReviews({
                     ...grotesk,
                   }}
                 >
-                  {r.age} років
+                  {typeof r.age === 'number' ? `${r.age} років` : r.age}
                 </div>
               </div>
             </div>
