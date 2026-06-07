@@ -1,0 +1,353 @@
+export type Lang = "uk" | "en";
+
+export const STRINGS = {
+  uk: {
+    navLabels: [
+      "01 / INTRO",
+      "02 / ПОСЛУГИ",
+      "03 / ДО / ПІСЛЯ",
+      "04 / КОМАНДА",
+      "05 / ВІДГУКИ",
+      "06 / ТІКТОК",
+      "07 / КЛІНІКА",
+      "08 / АДРЕСА",
+      "09 / КОНТАКТ",
+    ],
+    marquee: [
+      "НЕВІДКЛАДНА ДОПОМОГА",
+      "КОСМЕТИЧНА СТОМАТОЛОГІЯ",
+      "ВІДБІЛЮВАННЯ",
+      "ІМПЛАНТИ",
+      "ЕЛАЙНЕРИ",
+      "ВІНІРИ",
+      "КОРЕНЕВІ КАНАЛИ",
+      "ОРТОДОНТІЯ",
+      "ІМПЛАНТАЦІЯ",
+    ],
+    hero: {
+      lines: ["ТВОЯ", "ПОСМІШКА.", "ТВОЇ ПРАВИЛА."],
+      sub: "Без нотацій. Без осуду. Просто якісна допомога — і справді хороша кава.",
+      cta: "Записатись безкоштовно →",
+      stats: [
+        ["2400+", "Щасливих посмішок"],
+        ["98%", "Повертаються знову"],
+        ["4.9", "Google рейтинг"],
+      ] as [string, string][],
+    },
+    services: {
+      lines: ["ВИПРАВ.", "ВИРІВНЯЙ.", "ЗАБЛИЩИ."],
+      sub: "Все що потрібно твоїй посмішці — в одному місці.",
+      hint: "Натисни на картку — дивись ціни",
+      toggleOpen: "▲ згорнути",
+      toggleClosed: "▼ ціни",
+      panelFoot:
+        "Точну вартість уточнює лікар на консультації — вона безкоштовна",
+      list: [
+        { num: "01", name: "Вініри", desc: "Кастомний фарфор. 2 тижні.", price: "від 8 000 грн" },
+        { num: "02", name: "Імпланти", desc: "Титанові корені. Назавжди.", price: "від 18 000 грн" },
+        { num: "03", name: "Елайнери", desc: "Ніхто не помітить. Ти — відчуєш.", price: "від 25 000 грн" },
+        { num: "04", name: "Відбілювання", desc: "1 сеанс. 8 тонів яскравіше.", price: "від 3 500 грн" },
+        { num: "05", name: "Огляд", desc: "30 хв. Повний скан. Кава включена.", price: "БЕЗКОШТОВНО" },
+        { num: "06", name: "Терміново", desc: "Зламаний зуб? Того ж дня.", price: "Телефонуй" },
+      ],
+      priceDetails: [
+        { cat: "КОСМЕТИКА", items: [
+          { name: "Порцеляновий вінір (1)", price: "від 8 000 грн" },
+          { name: "Нарощення (1)", price: "від 2 500 грн" },
+          { name: "Zoom-відбілювання", price: "4 500 грн" },
+        ] },
+        { cat: "ІМПЛАНТИ", items: [
+          { name: "Імплант (під ключ)", price: "від 25 000 грн" },
+          { name: "Коронка (кераміка)", price: "від 5 500 грн" },
+          { name: "Синус-ліфтинг", price: "від 12 000 грн" },
+        ] },
+        { cat: "ОРТОДОНТІЯ", items: [
+          { name: "Елайнери (повний курс)", price: "від 45 000 грн" },
+          { name: "Металева брекет-система", price: "від 18 000 грн" },
+          { name: "Ретейнери", price: "від 2 400 грн" },
+        ] },
+        { cat: "ВІДБІЛЮВАННЯ", items: [
+          { name: "Zoom-відбілювання", price: "4 500 грн" },
+          { name: "Домашнє відбілювання (каппи)", price: "від 2 800 грн" },
+          { name: "Air Flow (профілактика)", price: "1 500 грн" },
+        ] },
+        { cat: "КОНСУЛЬТАЦІЯ", items: [
+          { name: "Первинна консультація", price: "Безкоштовно" },
+          { name: "Повторна консультація", price: "200 грн" },
+          { name: "Цифровий рентген (повний)", price: "800 грн" },
+        ] },
+        { cat: "НЕВІДКЛАДНА ДОПОМОГА", items: [
+          { name: "Огляд + план лікування", price: "Безкоштовно" },
+          { name: "Видалення зуба", price: "від 1 200 грн" },
+          { name: "Тимчасова пломба", price: "від 600 грн" },
+        ] },
+      ],
+    },
+    beforeAfter: {
+      lines: ["ПЕРЕТЯГНИ.", "ПОБАЧ.", "ПОВІР."],
+      sub: "Реальні до/після. Реальні пацієнти. Кожен випадок — правда.",
+      casesHint: "кейси · перетягни повзунок",
+      cases: [
+        { treatment: "8 вінірів", duration: "2 тижні", before: "Криві, потемнілі зуби", after: "Порцелянові вініри — природна білість" },
+        { treatment: "Один імплант", duration: "3 місяці", before: "Відсутній передній зуб", after: "Імплант із керамічною коронкою" },
+        { treatment: "Zoom-відбіл", duration: "1 сеанс", before: "Жовте забарвлення", after: "Яскравий рівномірний відтінок" },
+      ],
+    },
+    team: {
+      eyebrow: "НАША КОМАНДА",
+      lines: ["НЕ СТОМАТОЛОГ", "ТВОЇХ БАТЬКІВ."],
+      members: [
+        { name: "Д-р Чиркова", title: "Лікар-стоматолог · Косметична та реставраційна стоматологія", years: 14, yearsLabel: "РОКІВ ПРАКТИКИ", bio: "Я відкрила клініку з однією метою: щоб пацієнти почувались дійсно почутими — а не просто зубом у конвеєрі. Кожна усмішка — це унікальна історія." },
+        { name: "Д-р Мельник", title: "Ортодонт · Елайнери та брекет-системи", years: 9, yearsLabel: "РОКІВ ПРАКТИКИ", bio: "Спеціалізується на ортодонтичному лікуванні з використанням сучасних елайнерів та цифрового планування. Понад 800 завершених ортодонтичних випадків." },
+      ],
+    },
+    reviews: {
+      lines: ["ВОНИ СКАЗАЛИ.", "НЕ МИ."],
+      sub: "Реальні слова. Без фільтрів.",
+      yearsSuffix: "років",
+      list: [
+        { initials: "АК", name: "Аліна К.", age: "24", text: "Чудовий сервіс — все швидко, без болю і нотацій. Тепер не переживаю за посмішку." },
+        { initials: "МД", name: "Максим Д.", age: "27", text: "Зламав зуб — все зробили швидко, акуратно і без зайвих слів. Рекомендую." },
+        { initials: "ОС", name: "Олена С.", age: "22", text: "Тріщину на зубі прибрали за один візит. Тепер можу їсти навіть горішки." },
+      ],
+    },
+    tiktok: {
+      tt: {
+        brand: "TikTok",
+        lines: ["ДИВИСЬ.", "ЯК МИ", "ЖИВЕМО."],
+        sub: "Реальне життя клініки без постановок і фільтрів — підписуйся.",
+        stats: [["6 800+", "Підписників"], ["249", "Відео"]] as [string, string][],
+        videos: [
+          { id: "7643038472294386965", caption: "Half Price у Дніпрі" },
+          { id: "7584496719946173708", caption: "Пацієнт незадоволений 😳" },
+        ],
+      },
+      ig: {
+        brand: "Instagram",
+        lines: ["ПІДПИШИСЬ.", "СЛІДКУЙ.", "ВІДЧУЙ."],
+        sub: "Щоденне життя клініки, результати, команда — все тут.",
+        stats: [["6 800+", "Підписників"], ["249", "Публікацій"]] as [string, string][],
+        posts: [
+          { id: "DWeVhTFDYC3", caption: "Zoom відбілювання — 8 тонів за 1 сеанс ✨" },
+          { id: "DYFoSO5tuGD", caption: "Вініри за 2 тижні — кастомний фарфор 🦷" },
+        ],
+      },
+    },
+    clinic: {
+      lines: ["ПРОСТІР.", "В ЯКОМУ", "НЕ СТРАШНО."],
+      sub: "Сучасне обладнання. Затишна атмосфера. Без стресу.",
+      videoLabel: "Відео клініки",
+      stats: [
+        { num: "200м²", label: "сучасного простору" },
+        { num: "5", label: "обладнаних кабінетів" },
+        { num: "2021", label: "рік відкриття" },
+      ],
+      photos: ["Зал очікування", "Кабінет 1", "Кабінет 2", "Стерилізація"],
+    },
+    location: {
+      lines: ["ЗНАЙДИ.", "ПРИХОДЬ.", "ВІДЧУЙ."],
+      sub: "Ми в центрі Дніпра. Поруч — метро, паркінг, кава після прийому.",
+      contacts: [
+        { label: "Телефон", val: "+38 (056) 123-45-67" },
+        { label: "Адреса", val: "просп. Яворницького 22, Дніпро" },
+        { label: "Графік", val: "Пн–Пт 9:00–20:00 · Сб 10:00–18:00" },
+      ],
+      reviewsTitle: "GOOGLE ВІДГУКИ",
+      googleReviews: [
+        { name: "Марія В.", text: "Найкраща клініка у Дніпрі! Вініри зробили за 2 тижні — результат вище очікувань.", ago: "2 тижні тому" },
+        { name: "Дмитро К.", text: "Лікар уважний і не поспішає. Вперше не боявся йти до стоматолога!", ago: "1 місяць тому" },
+        { name: "Ірина С.", text: "Зробили імплант — навіть забула де він. Дякую всій команді за увагу та підтримку!", ago: "2 місяці тому" },
+      ],
+    },
+    contact: {
+      lines: ["ДОСИТЬ", "ДУМАТИ.", "ПОЧИНАЙ."],
+      sub: "Перша консультація — безкоштовно. Відповідь за 2 години.",
+      eyebrow: "ШВИДКИЙ ЗАПИТ",
+      labels: { name: "Ваше ім'я", phone: "Телефон *", service: "Послуга", via: "Зручний зв'язок", note: "Примітка (за бажанням)" },
+      placeholders: { name: "Катерина", phone: "+38 (0__) ___-__-__", note: "Напр. — зручніше вранці, трохи хвилююсь...", choose: "Оберіть..." },
+      services: ["Безкоштовна консультація", "Косметика / вініри", "Імпланти", "Відбілювання", "Елайнери", "Огляд", "Невідкладна"],
+      vias: ["Телефон", "Telegram", "Viber", "WhatsApp"],
+      submit: "Надіслати запит →",
+      submitting: "Надсилається...",
+      successTitle: "Готово!",
+      successText: "Зателефонуємо протягом 2 годин.",
+      error: "Щось пішло не так. Зателефонуйте напряму.",
+      trust: ["Відповідь за 2 години", "Без спаму", "Перший візит безкоштовно"],
+    },
+  },
+
+  en: {
+    navLabels: [
+      "01 / INTRO",
+      "02 / SERVICES",
+      "03 / BEFORE / AFTER",
+      "04 / TEAM",
+      "05 / REVIEWS",
+      "06 / TIKTOK",
+      "07 / CLINIC",
+      "08 / LOCATION",
+      "09 / CONTACT",
+    ],
+    marquee: [
+      "EMERGENCY CARE",
+      "COSMETIC DENTISTRY",
+      "WHITENING",
+      "IMPLANTS",
+      "ALIGNERS",
+      "VENEERS",
+      "ROOT CANALS",
+      "ORTHODONTICS",
+      "IMPLANTATION",
+    ],
+    hero: {
+      lines: ["YOUR", "SMILE.", "YOUR RULES."],
+      sub: "No lectures. No judgement. Just quality care — and genuinely good coffee.",
+      cta: "Book for free →",
+      stats: [
+        ["2400+", "Happy smiles"],
+        ["98%", "Come back again"],
+        ["4.9", "Google rating"],
+      ] as [string, string][],
+    },
+    services: {
+      lines: ["FIX IT.", "ALIGN IT.", "SHINE."],
+      sub: "Everything your smile needs — in one place.",
+      hint: "Tap a card — see prices",
+      toggleOpen: "▲ collapse",
+      toggleClosed: "▼ prices",
+      panelFoot:
+        "The exact cost is confirmed by the doctor at the consultation — it's free",
+      list: [
+        { num: "01", name: "Veneers", desc: "Custom porcelain. 2 weeks.", price: "from ₴8,000" },
+        { num: "02", name: "Implants", desc: "Titanium roots. Forever.", price: "from ₴18,000" },
+        { num: "03", name: "Aligners", desc: "No one will notice. You'll feel it.", price: "from ₴25,000" },
+        { num: "04", name: "Whitening", desc: "1 session. 8 shades brighter.", price: "from ₴3,500" },
+        { num: "05", name: "Check-up", desc: "30 min. Full scan. Coffee included.", price: "FREE" },
+        { num: "06", name: "Urgent", desc: "Broken tooth? Same day.", price: "Call us" },
+      ],
+      priceDetails: [
+        { cat: "COSMETIC", items: [
+          { name: "Porcelain veneer (1)", price: "from ₴8,000" },
+          { name: "Bonding (1)", price: "from ₴2,500" },
+          { name: "Zoom whitening", price: "₴4,500" },
+        ] },
+        { cat: "IMPLANTS", items: [
+          { name: "Implant (turnkey)", price: "from ₴25,000" },
+          { name: "Crown (ceramic)", price: "from ₴5,500" },
+          { name: "Sinus lift", price: "from ₴12,000" },
+        ] },
+        { cat: "ORTHODONTICS", items: [
+          { name: "Aligners (full course)", price: "from ₴45,000" },
+          { name: "Metal braces", price: "from ₴18,000" },
+          { name: "Retainers", price: "from ₴2,400" },
+        ] },
+        { cat: "WHITENING", items: [
+          { name: "Zoom whitening", price: "₴4,500" },
+          { name: "Home whitening (trays)", price: "from ₴2,800" },
+          { name: "Air Flow (prophylaxis)", price: "₴1,500" },
+        ] },
+        { cat: "CONSULTATION", items: [
+          { name: "Initial consultation", price: "Free" },
+          { name: "Follow-up consultation", price: "₴200" },
+          { name: "Digital X-ray (full)", price: "₴800" },
+        ] },
+        { cat: "EMERGENCY CARE", items: [
+          { name: "Exam + treatment plan", price: "Free" },
+          { name: "Tooth extraction", price: "from ₴1,200" },
+          { name: "Temporary filling", price: "from ₴600" },
+        ] },
+      ],
+    },
+    beforeAfter: {
+      lines: ["DRAG.", "SEE.", "BELIEVE."],
+      sub: "Real before/after. Real patients. Every case is true.",
+      casesHint: "cases · drag the slider",
+      cases: [
+        { treatment: "8 veneers", duration: "2 weeks", before: "Crooked, darkened teeth", after: "Porcelain veneers — natural white" },
+        { treatment: "One implant", duration: "3 months", before: "Missing front tooth", after: "Implant with ceramic crown" },
+        { treatment: "Zoom whitening", duration: "1 session", before: "Yellow shade", after: "Bright, even tone" },
+      ],
+    },
+    team: {
+      eyebrow: "OUR TEAM",
+      lines: ["NOT YOUR PARENTS'", "DENTIST."],
+      members: [
+        { name: "Dr. Chirkova", title: "Dentist · Cosmetic & restorative dentistry", years: 14, yearsLabel: "YEARS OF PRACTICE", bio: "I opened the clinic with one goal: for patients to feel truly heard — not just another tooth on the conveyor. Every smile is a unique story." },
+        { name: "Dr. Melnyk", title: "Orthodontist · Aligners & braces", years: 9, yearsLabel: "YEARS OF PRACTICE", bio: "Specializes in orthodontic treatment using modern aligners and digital planning. Over 800 completed orthodontic cases." },
+      ],
+    },
+    reviews: {
+      lines: ["THEY SAID IT.", "NOT US."],
+      sub: "Real words. No filters.",
+      yearsSuffix: "y.o.",
+      list: [
+        { initials: "AK", name: "Alina K.", age: "24", text: "Great service — everything fast, painless and no lectures. Now I don't worry about my smile." },
+        { initials: "MD", name: "Maksym D.", age: "27", text: "Broke a tooth — it was fixed quickly, neatly and without fuss. Highly recommend." },
+        { initials: "OS", name: "Olena S.", age: "22", text: "A crack in my tooth was fixed in a single visit. Now I can even eat nuts again." },
+      ],
+    },
+    tiktok: {
+      tt: {
+        brand: "TikTok",
+        lines: ["WATCH.", "HOW WE", "LIVE."],
+        sub: "Real clinic life — no staging, no filters. Follow us.",
+        stats: [["6,800+", "Followers"], ["249", "Videos"]] as [string, string][],
+        videos: [
+          { id: "7643038472294386965", caption: "Half price in Dnipro" },
+          { id: "7584496719946173708", caption: "Unhappy patient 😳" },
+        ],
+      },
+      ig: {
+        brand: "Instagram",
+        lines: ["SUBSCRIBE.", "FOLLOW.", "FEEL IT."],
+        sub: "Daily clinic life, results, the team — it's all here.",
+        stats: [["6,800+", "Followers"], ["249", "Posts"]] as [string, string][],
+        posts: [
+          { id: "DWeVhTFDYC3", caption: "Zoom whitening — 8 shades in 1 session ✨" },
+          { id: "DYFoSO5tuGD", caption: "Veneers in 2 weeks — custom porcelain 🦷" },
+        ],
+      },
+    },
+    clinic: {
+      lines: ["A SPACE.", "WHERE YOU'RE", "NOT AFRAID."],
+      sub: "Modern equipment. A cozy atmosphere. No stress.",
+      videoLabel: "Clinic video",
+      stats: [
+        { num: "200m²", label: "of modern space" },
+        { num: "5", label: "equipped rooms" },
+        { num: "2021", label: "year opened" },
+      ],
+      photos: ["Waiting area", "Room 1", "Room 2", "Sterilization"],
+    },
+    location: {
+      lines: ["FIND US.", "COME IN.", "FEEL IT."],
+      sub: "We're in central Dnipro. Metro, parking and coffee after your visit nearby.",
+      contacts: [
+        { label: "Phone", val: "+38 (056) 123-45-67" },
+        { label: "Address", val: "22 Yavornytskoho Ave, Dnipro" },
+        { label: "Hours", val: "Mon–Fri 9:00–20:00 · Sat 10:00–18:00" },
+      ],
+      reviewsTitle: "GOOGLE REVIEWS",
+      googleReviews: [
+        { name: "Maria V.", text: "Best clinic in Dnipro! Veneers done in 2 weeks — the result exceeded expectations.", ago: "2 weeks ago" },
+        { name: "Dmytro K.", text: "The doctor is attentive and never rushes. First time I wasn't afraid of the dentist!", ago: "1 month ago" },
+        { name: "Iryna S.", text: "Got an implant — I even forgot where it is. Thanks to the whole team for the care!", ago: "2 months ago" },
+      ],
+    },
+    contact: {
+      lines: ["STOP", "THINKING.", "START."],
+      sub: "First consultation is free. Reply within 2 hours.",
+      eyebrow: "QUICK REQUEST",
+      labels: { name: "Your name", phone: "Phone *", service: "Service", via: "Preferred contact", note: "Note (optional)" },
+      placeholders: { name: "Kateryna", phone: "+38 (0__) ___-__-__", note: "E.g. — mornings are better, a bit nervous...", choose: "Choose..." },
+      services: ["Free consultation", "Cosmetic / veneers", "Implants", "Whitening", "Aligners", "Check-up", "Emergency"],
+      vias: ["Phone", "Telegram", "Viber", "WhatsApp"],
+      submit: "Send request →",
+      submitting: "Sending...",
+      successTitle: "Done!",
+      successText: "We'll call you within 2 hours.",
+      error: "Something went wrong. Please call us directly.",
+      trust: ["Reply within 2 hours", "No spam", "First visit free"],
+    },
+  },
+} as const;
