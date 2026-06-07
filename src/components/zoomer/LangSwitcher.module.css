@@ -1,0 +1,33 @@
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.link {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(var(--white-rgb), 0.45);
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.active {
+  color: var(--c-lime);
+  font-weight: 600;
+}
+
+.sep {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(var(--white-rgb), 0.22);
+}
+
+.mobile .link,
+.mobile .sep {
+  font-size: 10px;
+}

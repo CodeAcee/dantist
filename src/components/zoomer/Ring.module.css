@@ -1,0 +1,11 @@
+.ring {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border: 1.5px solid var(--ring-color);
+  border-radius: 50%;
+  opacity: 0.18;
+  pointer-events: none;
+}

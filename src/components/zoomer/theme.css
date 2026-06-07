@@ -1,0 +1,23 @@
+:root {
+  --c-bg: #0a0a0a;
+  --c-ink: #f0f0f0;
+  --c-lime: #c8ff00;
+  --c-cyan: #00e5ff;
+  --c-pink: #ff3d8b;
+  --c-purple: #a855f7;
+  --c-green: #00ff88;
+  --c-orange: #ff8c00;
+  --c-blue: #0066ff;
+
+  --ink-rgb: 240, 240, 240;
+  --white-rgb: 255, 255, 255;
+
+  --lime-rgb: 200, 255, 0;
+  --cyan-rgb: 0, 229, 255;
+  --pink-rgb: 255, 61, 139;
+  --purple-rgb: 168, 85, 247;
+  --green-rgb: 0, 255, 136;
+
+  --font-display: "Syne", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
+}

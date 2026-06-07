@@ -1,63 +1,16 @@
 ---
 import { translations } from '../i18n/translations';
-import Layout          from '../layouts/Layout.astro';
-// ── Classic/luxury imports — commented out, modern mode only ──────
-// import AnnouncementBar from '../components/AnnouncementBar.astro';
-// import Nav             from '../components/Nav.astro';
-// import Hero            from '../components/Hero.astro';
-// import Marquee         from '../components/Marquee.astro';
-// import Services        from '../components/Services.astro';
-// import Results         from '../components/Results.astro';
-// import About           from '../components/About.astro';
-// import Process         from '../components/Process.astro';
-// import Reviews         from '../components/Reviews.astro';
-// import Gallery         from '../components/Gallery.astro';
-// import SocialFeed      from '../components/SocialFeed.astro';
-// import Prices          from '../components/Prices.astro';
-// import Contact         from '../components/Contact.astro';
-// import Footer          from '../components/Footer.astro';
-// import ScrollPopup     from '../components/ScrollPopup';
+import Layout from '../layouts/Layout.astro';
+import SeoContent from '../components/SeoContent.astro';
 
 const t = translations.uk;
 ---
-<Layout title={t.seo.title} description={t.seo.description} lang={t.htmlLang}>
-  <!-- Classic/luxury body — commented out, modern mode only
-  <ScrollPopup client:idle t={t.popup} ft={t.form} />
-  <AnnouncementBar t={t.announcement} />
-  <Nav t={t} />
-  <main>
-    <Hero t={t} />
-    <Marquee items={t.marquee} />
-    <Services t={t.services} locale={t.locale} />
-    <Results t={t.results} locale={t.locale} />
-    <About t={t.about} locale={t.locale} />
-    <Process t={t.process} />
-    <Reviews t={t.reviews} locale={t.locale} />
-    <Gallery t={t.gallery} />
-    <SocialFeed t={t.social} />
-    <Prices t={t.prices} locale={t.locale} />
-    <Contact t={t.contact} ft={t.form} />
-  </main>
-  <Footer t={t.footer} brand={t.brand} />
-  -->
+<Layout
+  title={t.seo.title}
+  description={t.seo.description}
+  keywords={t.seo.keywords}
+  ogLocale={t.ogLocale}
+  lang={t.htmlLang}
+>
+  <SeoContent t={t.content} />
 </Layout>
-
-<!-- Classic scroll-reveal script — commented out
-<script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('.js-reveal').forEach(el => {
-        el.classList.remove('sr-hidden');
-        el.classList.add('sr-visible');
-      });
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.js-reveal').forEach(el => {
-  el.classList.add('sr-hidden');
-  const parent = el.closest('section') ?? el.parentElement;
-  if (parent) observer.observe(parent);
-});
-</script>
--->

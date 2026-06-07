@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://naturasmile.ua/sitemap-index.xml
+Sitemap: https://chirkovadentist.com/sitemap.xml

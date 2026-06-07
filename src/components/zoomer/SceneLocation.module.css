@@ -1,0 +1,208 @@
+.root {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 62px);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.sub {
+  margin-top: 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(var(--ink-rgb), 0.4);
+  line-height: 1.7;
+}
+
+.contacts {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.contactRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  border: 1px solid color-mix(in srgb, var(--ic) 20%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--ic);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.contactLabel {
+  font-family: var(--font-body);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(var(--white-rgb), 0.22);
+  margin-bottom: 2px;
+}
+
+.contactLink {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(var(--ink-rgb), 0.7);
+  text-decoration: none;
+}
+
+.contactText {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(var(--ink-rgb), 0.65);
+}
+
+.media {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.map {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--cyan-rgb), 0.14);
+}
+
+.mapFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: invert(90%) hue-rotate(180deg) saturate(0.8);
+  display: block;
+}
+
+.reviewsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.reviewsTitle {
+  font-family: var(--font-body);
+  font-size: 8px;
+  color: rgba(var(--white-rgb), 0.28);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ratingNum {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--c-lime);
+  line-height: 1;
+}
+
+.ratingStars {
+  color: var(--c-lime);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.reviewsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.review {
+  padding: 10px 12px;
+  background: rgba(var(--white-rgb), 0.025);
+  border: 1px solid rgba(var(--white-rgb), 0.06);
+  border-radius: 4px;
+}
+
+.reviewHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.gLogo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #4285f4 0 90deg,
+    #ea4335 90deg 180deg,
+    #fbbc05 180deg 270deg,
+    #34a853 270deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.reviewName {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: rgba(var(--ink-rgb), 0.7);
+  font-weight: 500;
+}
+
+.reviewAgo {
+  font-family: var(--font-body);
+  font-size: 8px;
+  color: rgba(var(--white-rgb), 0.2);
+  margin-left: auto;
+}
+
+.reviewStars {
+  color: var(--c-lime);
+  font-size: 9px;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.reviewText {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: rgba(var(--ink-rgb), 0.4);
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .root {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .map {
+    aspect-ratio: 16 / 9;
+  }
+}

@@ -1,0 +1,225 @@
+.root {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5.5vw, 68px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.sub {
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(var(--ink-rgb), 0.45);
+  line-height: 1.7;
+}
+
+.hint {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: rgba(var(--white-rgb), 0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.card {
+  padding: 18px 20px;
+  cursor: pointer;
+  border-color: rgba(var(--white-rgb), 0.07);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.cardSelected {
+  border-color: var(--accent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 19%, transparent);
+}
+
+.cardNum {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin-bottom: 4px;
+}
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(var(--white-rgb), 0.4);
+  margin-bottom: 8px;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardPrice {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.toggle {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: rgba(var(--white-rgb), 0.2);
+  transition: color 0.2s;
+}
+
+.cardSelected .toggle {
+  color: var(--accent);
+}
+
+.panelOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scrim {
+  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.panel {
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  background: #0e0e12;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 8px;
+  padding: 28px 32px;
+  min-width: 340px;
+  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.panelEyebrow {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.panelCat {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(var(--white-rgb), 0.45);
+}
+
+.closeBtn {
+  background: none;
+  border: 1px solid rgba(var(--white-rgb), 0.12);
+  color: rgba(var(--white-rgb), 0.4);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panelItems {
+  border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.itemName {
+  font-family: var(--font-body);
+  color: rgba(var(--white-rgb), 0.75);
+}
+
+.itemDots {
+  flex: 1;
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 19%, transparent);
+  margin-bottom: 3px;
+}
+
+.itemPrice {
+  font-family: var(--font-body);
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.panelFoot {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(var(--white-rgb), 0.06);
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: rgba(var(--white-rgb), 0.2);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .root {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .panel {
+    min-width: unset;
+    width: calc(100% - 32px);
+  }
+}

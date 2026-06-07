@@ -1,0 +1,84 @@
+---
+interface Content {
+  h1: string;
+  intro: string;
+  servicesTitle: string;
+  services: string[];
+  aboutTitle: string;
+  about: string;
+  contactTitle: string;
+  address: string;
+  phone: string;
+  hours: string;
+}
+const { t } = Astro.props as { t: Content };
+const telHref = "tel:" + t.phone.replace(/[^+\d]/g, "");
+---
+<main class="seo-content">
+  <h1>{t.h1}</h1>
+  <p class="seo-intro">{t.intro}</p>
+
+  <section>
+    <h2>{t.servicesTitle}</h2>
+    <ul>
+      {t.services.map((s) => <li>{s}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <h2>{t.aboutTitle}</h2>
+    <p>{t.about}</p>
+  </section>
+
+  <section>
+    <h2>{t.contactTitle}</h2>
+    <address>
+      {t.address}<br />
+      <a href={telHref}>{t.phone}</a><br />
+      {t.hours}
+    </address>
+  </section>
+</main>
+
+<style>
+  .seo-content {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 64px 24px;
+    max-width: 760px;
+    margin: 0 auto;
+    background: #0a0a0a;
+    color: #f0f0f0;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .seo-content h1 {
+    font-family: "Syne", system-ui, sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  .seo-content h2 {
+    font-family: "Syne", system-ui, sans-serif;
+    font-size: 20px;
+    margin: 32px 0 10px;
+    color: #c8ff00;
+  }
+  .seo-intro {
+    color: rgba(240, 240, 240, 0.75);
+  }
+  .seo-content ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+  .seo-content li {
+    margin: 4px 0;
+  }
+  .seo-content address {
+    font-style: normal;
+    color: rgba(240, 240, 240, 0.75);
+  }
+  .seo-content a {
+    color: #c8ff00;
+  }
+</style>
