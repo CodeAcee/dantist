@@ -1,0 +1,321 @@
+---
+import { SERVICES, PAGE_UI, type Lang, type Service } from "../i18n/services";
+const { service, lang, base } = Astro.props as {
+  service: Service;
+  lang: Lang;
+  base: string;
+};
+const t = service[lang];
+const ui = PAGE_UI[lang];
+const localeBase = lang === "en" ? base + "en/" : base;
+const telHref = "tel:" + ui.phone.replace(/[^+\d]/g, "");
+const others = SERVICES.filter((s) => s.slug !== service.slug);
+---
+<article class="svc" style={`--accent:${service.accent}`}>
+  <nav class="crumbs" aria-label="breadcrumb">
+    <a href={localeBase}>{ui.home}</a>
+    <span>/</span>
+    <span aria-current="page">{t.name}</span>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">{t.eyebrow}</div>
+    <h1>{t.h1}</h1>
+    <p class="intro">{t.intro}</p>
+    <div class="actions">
+      <a class="cta" href={localeBase + "#contact"}>{ui.book}</a>
+      <a class="tel" href={telHref}>{ui.phone}</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>{t.benefitsTitle}</h2>
+    <div class="benefits">
+      {t.benefits.map((b) => (
+        <div class="benefit">
+          <h3>{b.title}</h3>
+          <p>{b.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>{t.processTitle}</h2>
+    <ol class="process">
+      {t.process.map((p, i) => (
+        <li>
+          <span class="num">{String(i + 1).padStart(2, "0")}</span>
+          <div>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section>
+    <h2>{t.priceTitle}</h2>
+    <div class="prices">
+      {t.prices.map((p) => (
+        <div class="price">
+          <span class="pname">{p.name}</span>
+          <span class="pdots"></span>
+          <span class="pval">{p.price}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>{t.faqTitle}</h2>
+    <div class="faqs">
+      {t.faq.map((f) => (
+        <details class="faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="ctaBand">
+    <h2>{t.ctaTitle}</h2>
+    <p>{t.ctaText}</p>
+    <a class="cta" href={localeBase + "#contact"}>{ui.book}</a>
+  </section>
+
+  <section class="other">
+    <div class="otitle">{ui.otherServices}</div>
+    <div class="olinks">
+      {others.map((s) => (
+        <a href={localeBase + s.slug}>{s[lang].name} →</a>
+      ))}
+    </div>
+  </section>
+</article>
+
+<style>
+  .svc {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 24px 64px;
+  }
+  .crumbs {
+    font-size: 12px;
+    color: rgba(var(--white-rgb), 0.4);
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .crumbs a {
+    color: rgba(var(--white-rgb), 0.5);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--accent);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 6px 0 16px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(var(--ink-rgb), 0.72);
+    max-width: 640px;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .cta {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--c-bg);
+    padding: 14px 28px;
+    border-radius: 2px;
+    text-decoration: none;
+  }
+  .tel {
+    font-size: 14px;
+    color: var(--c-ink);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(var(--white-rgb), 0.2);
+    padding-bottom: 2px;
+  }
+  section {
+    margin-top: 52px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  p {
+    margin: 0;
+    line-height: 1.65;
+  }
+  .benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .benefit {
+    padding: 18px 20px;
+    border: 1px solid rgba(var(--white-rgb), 0.08);
+    border-radius: 6px;
+    background: rgba(var(--white-rgb), 0.02);
+  }
+  .benefit p {
+    font-size: 13px;
+    color: rgba(var(--ink-rgb), 0.55);
+  }
+  .process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .process li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 28px;
+  }
+  .process p {
+    font-size: 13px;
+    color: rgba(var(--ink-rgb), 0.55);
+  }
+  .prices {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 15px;
+  }
+  .pname {
+    color: rgba(var(--ink-rgb), 0.85);
+  }
+  .pdots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(var(--white-rgb), 0.2);
+    transform: translateY(-3px);
+  }
+  .pval {
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .faqs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .faq {
+    border: 1px solid rgba(var(--white-rgb), 0.08);
+    border-radius: 6px;
+    padding: 14px 18px;
+    background: rgba(var(--white-rgb), 0.02);
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: "+";
+    float: right;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .faq[open] summary::after {
+    content: "–";
+  }
+  .faq p {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(var(--ink-rgb), 0.6);
+  }
+  .ctaBand {
+    text-align: center;
+    padding: 40px 24px;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+  .ctaBand p {
+    color: rgba(var(--ink-rgb), 0.7);
+    max-width: 460px;
+    margin: 8px auto 22px;
+  }
+  .other .otitle {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(var(--white-rgb), 0.35);
+    margin-bottom: 12px;
+  }
+  .olinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+  }
+  .olinks a {
+    font-size: 14px;
+    color: rgba(var(--ink-rgb), 0.7);
+    text-decoration: none;
+  }
+  .olinks a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    .benefits {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

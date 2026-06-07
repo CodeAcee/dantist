@@ -17,4 +17,74 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/implantaciya</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/implantaciya" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/implantaciya" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/en/implantaciya</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/implantaciya" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/implantaciya" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/viniry</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/viniry" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/viniry" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/en/viniry</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/viniry" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/viniry" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/vidbiliuvannia</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/vidbiliuvannia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/vidbiliuvannia" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/en/vidbiliuvannia</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/vidbiliuvannia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/vidbiliuvannia" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/elainery</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/elainery" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/elainery" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/en/elainery</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/elainery" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/elainery" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/chystka-zubiv</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/chystka-zubiv" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/chystka-zubiv" />
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://codeacee.github.io/dantist/en/chystka-zubiv</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://codeacee.github.io/dantist/chystka-zubiv" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeacee.github.io/dantist/en/chystka-zubiv" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

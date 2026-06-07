@@ -1,4 +1,6 @@
 ---
+import { SERVICES, type Lang } from "../i18n/services";
+
 interface Content {
   h1: string;
   intro: string;
@@ -11,8 +13,10 @@ interface Content {
   phone: string;
   hours: string;
 }
-const { t } = Astro.props as { t: Content };
+const { t, lang = "uk" } = Astro.props as { t: Content; lang?: Lang };
 const telHref = "tel:" + t.phone.replace(/[^+\d]/g, "");
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const localeBase = lang === "en" ? base + "en/" : base;
 ---
 <main class="seo-content">
   <h1>{t.h1}</h1>
@@ -21,7 +25,9 @@ const telHref = "tel:" + t.phone.replace(/[^+\d]/g, "");
   <section>
     <h2>{t.servicesTitle}</h2>
     <ul>
-      {t.services.map((s) => <li>{s}</li>)}
+      {SERVICES.map((s) => (
+        <li><a href={localeBase + s.slug}>{s[lang].name}</a></li>
+      ))}
     </ul>
   </section>
 

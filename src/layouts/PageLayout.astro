@@ -1,0 +1,209 @@
+---
+import "../components/zoomer/theme.css";
+import SeoHead from "../components/SeoHead.astro";
+import { SERVICES, PAGE_UI, type Lang } from "../i18n/services";
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  lang?: Lang;
+  ogLocale?: string;
+  extraSchema?: Record<string, unknown>[];
+}
+const {
+  title,
+  description,
+  keywords,
+  lang = "uk",
+  ogLocale = "uk_UA",
+  extraSchema = [],
+} = Astro.props;
+
+const ui = PAGE_UI[lang];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const path = Astro.url.pathname;
+const rel = path.startsWith(base) ? path.slice(base.length) : path.replace(/^\//, "");
+const stripped = rel.replace(/\/$/, "");
+const slugPart =
+  stripped === "en" ? "" : stripped.startsWith("en/") ? stripped.slice(3) : stripped;
+
+const ukHref = base + slugPart;
+const enHref = base + "en/" + slugPart;
+const localeBase = lang === "en" ? base + "en/" : base;
+const telHref = "tel:" + ui.phone.replace(/[^+\d]/g, "");
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <SeoHead
+    title={title}
+    description={description}
+    keywords={keywords}
+    lang={lang}
+    ogLocale={ogLocale}
+    extraSchema={extraSchema}
+  />
+</head>
+<body>
+  <header class="hdr">
+    <a class="brand" href={localeBase}>CHIRKOVA<span>.DENTIST</span></a>
+    <nav class="nav">
+      <span class="lang">
+        <a href={ukHref} class={lang !== "en" ? "on" : ""}>UA</a>
+        <span class="sep">/</span>
+        <a href={enHref} class={lang === "en" ? "on" : ""}>EN</a>
+      </span>
+      <a class="book" href={localeBase + "#contact"}>{ui.book}</a>
+    </nav>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="ftr">
+    <div class="fcol">
+      <a class="brand" href={localeBase}>CHIRKOVA<span>.DENTIST</span></a>
+      <div class="fsub">{ui.brandSub}</div>
+    </div>
+    <div class="fcol">
+      <div class="ftitle">{ui.contactsTitle}</div>
+      <a href={telHref}>{ui.phone}</a>
+      <div>{ui.address}</div>
+      <div>{ui.hours}</div>
+      <a href="https://maps.app.goo.gl/7qWRBubjgCrJuS2T9" target="_blank" rel="noopener noreferrer">Google Maps →</a>
+    </div>
+    <div class="fcol">
+      <div class="ftitle">{ui.services}</div>
+      {SERVICES.map((s) => (
+        <a href={localeBase + s.slug}>{s[lang].name}</a>
+      ))}
+    </div>
+  </footer>
+  <div class="copy">© {new Date().getFullYear()} Chirkova Dentist · {ui.rights}</div>
+
+  <style>
+    :global(html) {
+      scroll-behavior: smooth;
+    }
+    :global(body) {
+      margin: 0;
+      background: var(--c-bg);
+      color: var(--c-ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    .hdr {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(var(--white-rgb), 0.07);
+    }
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      color: var(--c-ink);
+      text-decoration: none;
+    }
+    .brand span {
+      color: var(--c-lime);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .lang {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+    }
+    .lang a {
+      color: rgba(var(--white-rgb), 0.45);
+      text-decoration: none;
+    }
+    .lang a.on {
+      color: var(--c-lime);
+      font-weight: 600;
+    }
+    .lang .sep {
+      color: rgba(var(--white-rgb), 0.22);
+    }
+    .book {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--c-lime);
+      color: var(--c-bg);
+      padding: 9px 18px;
+      border-radius: 2px;
+      text-decoration: none;
+    }
+    main {
+      min-height: 60vh;
+    }
+    .ftr {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 24px 24px;
+      border-top: 1px solid rgba(var(--white-rgb), 0.08);
+    }
+    .fcol {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(var(--ink-rgb), 0.6);
+    }
+    .fcol a {
+      color: rgba(var(--ink-rgb), 0.6);
+      text-decoration: none;
+    }
+    .fcol a:hover {
+      color: var(--c-lime);
+    }
+    .ftitle {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(var(--white-rgb), 0.35);
+      margin-bottom: 4px;
+    }
+    .fsub {
+      font-size: 12px;
+      color: rgba(var(--white-rgb), 0.35);
+    }
+    .copy {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(var(--white-rgb), 0.3);
+      padding: 16px 24px 40px;
+    }
+    @media (max-width: 720px) {
+      .ftr {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .book {
+        display: none;
+      }
+    }
+  </style>
+</body>
+</html>

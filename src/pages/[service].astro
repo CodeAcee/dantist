@@ -1,0 +1,24 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import ServiceArticle from "../components/ServiceArticle.astro";
+import { SERVICES, serviceSchema, type Service } from "../i18n/services";
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { service: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props as { service: Service };
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const t = service.uk;
+const extraSchema = serviceSchema(service, "uk", Astro.site!.href, base);
+---
+<PageLayout
+  title={t.metaTitle}
+  description={t.metaDescription}
+  keywords={t.keywords}
+  lang="uk"
+  ogLocale="uk_UA"
+  extraSchema={extraSchema}
+>
+  <ServiceArticle service={service} lang="uk" base={base} />
+</PageLayout>

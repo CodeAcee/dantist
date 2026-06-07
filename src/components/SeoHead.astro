@@ -1,0 +1,141 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  image?: string;
+  lang?: string;
+  ogLocale?: string;
+  extraSchema?: Record<string, unknown>[];
+}
+const {
+  title,
+  description,
+  keywords = "стоматолог Дніпро, дантист Дніпро, імплантація зубів Дніпро, Чиркова Валерія, вініри, відбілювання зубів, чистка зубів, лікування карієсу",
+  image = "/og-image.png",
+  lang = "uk",
+  ogLocale = "uk_UA",
+  extraSchema = [],
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const path = Astro.url.pathname;
+const rel = path.startsWith(base) ? path.slice(base.length) : path.replace(/^\//, "");
+const stripped = rel.replace(/\/$/, "");
+const slugPart =
+  stripped === "en" ? "" : stripped.startsWith("en/") ? stripped.slice(3) : stripped;
+
+const ukHref = new URL(base + slugPart, Astro.site);
+const enHref = new URL(base + "en/" + slugPart, Astro.site);
+const canonical = lang === "en" ? enHref : ukHref;
+const ogImage = new URL(base + image.replace(/^\//, ""), Astro.site);
+const faviconHref = base + "favicon.svg";
+const siteUrl = new URL(base, Astro.site).href.replace(/\/$/, "");
+
+const clinicSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "@id": siteUrl + "/#clinic",
+  name: "Chirkova Dentist Studio",
+  alternateName: "Стоматологія Чиркова Валерія",
+  description,
+  url: siteUrl,
+  telephone: "+380561234567",
+  email: "lerchiiik18@gmail.com",
+  image: ogImage.href,
+  logo: new URL(faviconHref, Astro.site).href,
+  founder: {
+    "@type": "Person",
+    name: "Чиркова Валерія",
+    alternateName: "Chirkova Valeria",
+    jobTitle: "Лікар-стоматолог",
+  },
+  medicalSpecialty: "Dentistry",
+  foundingDate: "2011",
+  priceRange: "$$",
+  currenciesAccepted: "UAH",
+  knowsLanguage: ["uk", "en"],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "вул. Михайла Грушевського, 29",
+    addressLocality: "Дніпро",
+    addressRegion: "Дніпропетровська область",
+    postalCode: "49000",
+    addressCountry: "UA",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 48.4571, longitude: 35.039851 },
+  hasMap: "https://maps.app.goo.gl/7qWRBubjgCrJuS2T9",
+  areaServed: { "@type": "City", name: "Дніпро" },
+  availableService: [
+    { "@type": "MedicalProcedure", name: "Імплантація зубів" },
+    { "@type": "MedicalProcedure", name: "Вініри та естетична реставрація" },
+    { "@type": "MedicalProcedure", name: "Відбілювання зубів" },
+    { "@type": "MedicalProcedure", name: "Елайнери та брекет-системи" },
+    { "@type": "MedicalProcedure", name: "Професійна чистка зубів" },
+    { "@type": "MedicalProcedure", name: "Лікування карієсу та терапія" },
+  ],
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "20:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday"], opens: "10:00", closes: "18:00" },
+  ],
+  sameAs: [
+    "https://www.instagram.com/mad__dentist/",
+    "https://www.tiktok.com/@mad__dentist",
+  ],
+};
+
+const schemas = [clinicSchema, ...extraSchema];
+---
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="canonical" href={canonical} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="Чиркова Валерія — Chirkova Dentist" />
+
+<!-- Local SEO -->
+<meta name="geo.region" content="UA-12" />
+<meta name="geo.placename" content="Дніпро" />
+<meta name="geo.position" content="48.457100;35.039851" />
+<meta name="ICBM" content="48.457100, 35.039851" />
+
+<!-- Alternate language links -->
+<link rel="alternate" hreflang="uk" href={ukHref} />
+<link rel="alternate" hreflang="en" href={enHref} />
+<link rel="alternate" hreflang="x-default" href={ukHref} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Chirkova Dentist" />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocale === "uk_UA" ? "en_US" : "uk_UA"} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+/>
+
+<link rel="icon" type="image/svg+xml" href={faviconHref} />
+
+{schemas.map((s) => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
