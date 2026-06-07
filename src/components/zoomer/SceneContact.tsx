@@ -152,7 +152,12 @@ export function SceneContact({ lang }: SceneProps) {
               />
             </div>
 
-            <button type="submit" disabled={status === "loading"} className={styles.submit}>
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="cd-btn cd-btn--block"
+              style={{ ["--accent"]: C.cyan } as React.CSSProperties}
+            >
               {status === "loading" ? t.submitting : t.submit}
             </button>
 

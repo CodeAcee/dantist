@@ -17,6 +17,7 @@ import { SceneLocation } from "./zoomer/SceneLocation";
 import { SceneContact } from "./zoomer/SceneContact";
 import { RunningLine } from "./zoomer/RunningLine";
 import "./zoomer/theme.css";
+import "./zoomer/buttons.css";
 import styles from "./ZoomerMode.module.css";
 
 const AURORA_PALETTES: string[][] = [

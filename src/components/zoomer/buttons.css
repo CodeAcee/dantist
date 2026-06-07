@@ -1,0 +1,103 @@
+/* Reusable button — radial gradient fill on hover. Accent via --accent (falls back to lime). */
+.cd-btn {
+  --c: var(--accent, var(--c-lime));
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px solid var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  color: var(--c);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--c) 16%, transparent);
+  transition:
+    color 0.4s ease,
+    box-shadow 0.35s ease,
+    transform 0.18s ease;
+}
+
+.cd-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    circle at center,
+    var(--c) 0%,
+    color-mix(in srgb, var(--c) 62%, #000) 100%
+  );
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cd-btn:hover,
+.cd-btn:focus-visible {
+  color: var(--c-bg);
+  outline: none;
+  box-shadow: 0 0 38px color-mix(in srgb, var(--c) 45%, transparent);
+}
+
+.cd-btn:hover::before,
+.cd-btn:focus-visible::before {
+  clip-path: circle(150% at 50% 50%);
+}
+
+.cd-btn:active {
+  transform: scale(0.97);
+}
+
+.cd-btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+  box-shadow: none;
+}
+
+.cd-btn:disabled::before {
+  clip-path: circle(0% at 50% 50%);
+}
+
+/* variants */
+.cd-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.cd-btn--sm {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 9px 20px;
+  border-radius: 6px;
+  border-width: 1px;
+  box-shadow: none;
+}
+
+.cd-btn--lg {
+  font-size: 13px;
+  padding: 17px 46px;
+}
+
+/* Instagram brand fill */
+.cd-btn--ig {
+  --c: #e1306c;
+}
+.cd-btn--ig::before {
+  background: radial-gradient(circle at center, #f09433 0%, #dc2743 45%, #bc1888 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-btn::before {
+    transition-duration: 0.01s;
+  }
+}

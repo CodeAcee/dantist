@@ -130,26 +130,7 @@
   line-height: 1.6;
 }
 
-.submit {
-  width: 100%;
-  background: var(--c-cyan);
-  color: var(--c-bg);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 14px;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.submit:disabled {
-  opacity: 0.7;
-  cursor: wait;
-}
+/* Submit uses the shared .cd-btn (buttons.css) */
 
 .error {
   font-family: var(--font-body);

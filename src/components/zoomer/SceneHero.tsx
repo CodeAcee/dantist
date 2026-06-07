@@ -28,7 +28,7 @@ export function SceneHero({ lang }: SceneProps) {
 
       <p className={styles.sub}>{t.sub}</p>
 
-      <a href="#contact" className={styles.cta}>
+      <a href="#contact" className="cd-btn cd-btn--lg">
         {t.cta}
       </a>
 

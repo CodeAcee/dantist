@@ -1,5 +1,6 @@
 ---
 import "../components/zoomer/theme.css";
+import "../components/zoomer/buttons.css";
 import SeoHead from "../components/SeoHead.astro";
 import { SERVICES, PAGE_UI, type Lang } from "../i18n/services";
 
@@ -54,7 +55,7 @@ const telHref = "tel:" + ui.phone.replace(/[^+\d]/g, "");
         <span class="sep">/</span>
         <a href={enHref} class={lang === "en" ? "on" : ""}>EN</a>
       </span>
-      <a class="book" href={localeBase + "#contact"}>{ui.book}</a>
+      <a class="cd-btn cd-btn--sm" href={localeBase + "#contact"}>{ui.book}</a>
     </nav>
   </header>
 
@@ -140,18 +141,6 @@ const telHref = "tel:" + ui.phone.replace(/[^+\d]/g, "");
     .lang .sep {
       color: rgba(var(--white-rgb), 0.22);
     }
-    .book {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: var(--c-lime);
-      color: var(--c-bg);
-      padding: 9px 18px;
-      border-radius: 2px;
-      text-decoration: none;
-    }
     main {
       min-height: 60vh;
     }
@@ -200,7 +189,7 @@ const telHref = "tel:" + ui.phone.replace(/[^+\d]/g, "");
         grid-template-columns: 1fr;
         gap: 24px;
       }
-      .book {
+      .hdr .cd-btn {
         display: none;
       }
     }

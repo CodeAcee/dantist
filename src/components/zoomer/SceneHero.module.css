@@ -26,20 +26,7 @@
   line-height: 1.65;
 }
 
-.cta {
-  display: inline-block;
-  background: var(--c-lime);
-  color: var(--c-bg);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 14px 36px;
-  border-radius: 2px;
-  text-decoration: none;
-  text-align: center;
-}
+/* CTA uses the shared .cd-btn (buttons.css) */
 
 .stats {
   display: flex;

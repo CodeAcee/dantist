@@ -77,7 +77,13 @@ export function SceneTikTok({ isMobile, lang }: SceneProps) {
                   </div>
                 ))}
               </div>
-              <a href={TIKTOK_URL} target="_blank" rel="noopener noreferrer" className={`${styles.cta} ${styles.ctaTt}`}>
+              <a
+                href={TIKTOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`cd-btn ${styles.cdBtnSpacer}`}
+                style={{ ["--accent"]: C.pink } as React.CSSProperties}
+              >
                 {icon(TT_PATH, 11)}
                 {TIKTOK_HANDLE} →
               </a>
@@ -131,7 +137,12 @@ export function SceneTikTok({ isMobile, lang }: SceneProps) {
                   </div>
                 ))}
               </div>
-              <a href={IG_URL} target="_blank" rel="noopener noreferrer" className={`${styles.cta} ${styles.ctaIg}`}>
+              <a
+                href={IG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`cd-btn cd-btn--ig ${styles.cdBtnSpacer}`}
+              >
                 {icon(IG_PATH, 11)}
                 {TIKTOK_HANDLE} →
               </a>

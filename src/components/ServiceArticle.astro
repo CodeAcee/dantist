@@ -23,7 +23,7 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
     <h1>{t.h1}</h1>
     <p class="intro">{t.intro}</p>
     <div class="actions">
-      <a class="cta" href={localeBase + "#contact"}>{ui.book}</a>
+      <a class="cd-btn" href={localeBase + "#contact"}>{ui.book}</a>
       <a class="tel" href={telHref}>{ui.phone}</a>
     </div>
   </header>
@@ -83,7 +83,7 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
   <section class="ctaBand">
     <h2>{t.ctaTitle}</h2>
     <p>{t.ctaText}</p>
-    <a class="cta" href={localeBase + "#contact"}>{ui.book}</a>
+    <a class="cd-btn" href={localeBase + "#contact"}>{ui.book}</a>
   </section>
 
   <section class="other">
@@ -142,18 +142,6 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
     gap: 18px;
     margin-top: 24px;
     flex-wrap: wrap;
-  }
-  .cta {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    background: var(--accent);
-    color: var(--c-bg);
-    padding: 14px 28px;
-    border-radius: 2px;
-    text-decoration: none;
   }
   .tel {
     font-size: 14px;
