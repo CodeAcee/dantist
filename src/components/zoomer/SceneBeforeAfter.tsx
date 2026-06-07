@@ -4,36 +4,22 @@ import { supabase } from "../../lib/supabase";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
+import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
 import styles from "./SceneBeforeAfter.module.css";
 
-const CASES_LIST = [
-  {
-    treatment: "8 вінірів",
-    duration: "2 тижні",
-    before: "Криві, потемнілі зуби",
-    after: "Порцелянові вініри — природна білість",
-    accent: C.lime as string,
-  },
-  {
-    treatment: "Один імплант",
-    duration: "3 місяці",
-    before: "Відсутній передній зуб",
-    after: "Імплант із керамічною коронкою",
-    accent: C.cyan as string,
-  },
-  {
-    treatment: "Zoom-відбіл",
-    duration: "1 сеанс",
-    before: "Жовте забарвлення",
-    after: "Яскравий рівномірний відтінок",
-    accent: C.pink as string,
-  },
-];
-
+const ACCENTS = [C.lime, C.cyan, C.pink];
 const CASE_ACCENTS = [C.lime, C.cyan, C.pink, C.purple];
 
-function ZSlider({ c }: { c: (typeof CASES_LIST)[0] }) {
+type Case = {
+  treatment: string;
+  duration: string;
+  before: string;
+  after: string;
+  accent: string;
+};
+
+function ZSlider({ c }: { c: Case }) {
   const [pos, setPos] = useState(50);
   const ref = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
@@ -100,20 +86,8 @@ function ZSlider({ c }: { c: (typeof CASES_LIST)[0] }) {
         <div className={styles.divider}>
           <div className={styles.handle}>
             <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M7 4L3 10L7 16"
-                stroke="#0a0a0a"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M13 4L17 10L13 16"
-                stroke="#0a0a0a"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M7 4L3 10L7 16" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13 4L17 10L13 16" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
         </div>
@@ -132,15 +106,20 @@ function ZSlider({ c }: { c: (typeof CASES_LIST)[0] }) {
   );
 }
 
-export function SceneBeforeAfter({ isMobile }: SceneProps) {
-  const [cases, setCases] = useState(CASES_LIST);
+export function SceneBeforeAfter({ isMobile, lang }: SceneProps) {
+  const t = STRINGS[lang].beforeAfter;
+  const fallback: Case[] = t.cases.map((c, i) => ({
+    ...c,
+    accent: ACCENTS[i % ACCENTS.length] as string,
+  }));
+  const [cases, setCases] = useState<Case[]>(fallback);
 
   useEffect(() => {
     if (!supabase) return;
     supabase
       .from("cases")
       .select("before_label, after_label, treatment, duration, sort_order")
-      .eq("locale", "uk")
+      .eq("locale", lang)
       .eq("active", true)
       .order("sort_order")
       .then(({ data, error }) => {
@@ -152,44 +131,30 @@ export function SceneBeforeAfter({ isMobile }: SceneProps) {
             duration: c.duration,
             before: c.before_label,
             after: c.after_label,
-            accent: CASE_ACCENTS[i % CASE_ACCENTS.length],
+            accent: CASE_ACCENTS[i % CASE_ACCENTS.length] as string,
           })),
         );
       });
-  }, []);
+  }, [lang]);
 
   return (
     <div className={styles.root}>
       <div>
         <Ring x="-5%" y="60%" size={200} color={C.pink} />
         <div className={styles.title}>
-          <GradientText
-            colors={[C.pink, C.orange, C.pink]}
-            animationSpeed={4}
-            className="scene-hl"
-          >
-            ПЕРЕТЯГНИ.
+          <GradientText colors={[C.pink, C.orange, C.pink]} animationSpeed={4} className="scene-hl">
+            {t.lines[0]}
           </GradientText>
-          <GradientText
-            colors={[C.ink, C.pink, C.ink]}
-            animationSpeed={7}
-            className="scene-hl"
-          >
-            ПОБАЧ.
+          <GradientText colors={[C.ink, C.pink, C.ink]} animationSpeed={7} className="scene-hl">
+            {t.lines[1]}
           </GradientText>
-          <GradientText
-            colors={[C.orange, C.pink, C.orange]}
-            animationSpeed={5}
-            className="scene-hl"
-          >
-            ПОВІР.
+          <GradientText colors={[C.orange, C.pink, C.orange]} animationSpeed={5} className="scene-hl">
+            {t.lines[2]}
           </GradientText>
         </div>
-        <p className={styles.sub}>
-          Реальні до/після. Реальні пацієнти. Кожен випадок — правда.
-        </p>
+        <p className={styles.sub}>{t.sub}</p>
         <div className={styles.hint}>
-          {cases.length} кейси · перетягни повзунок
+          {cases.length} {t.casesHint}
         </div>
       </div>
       <div className={styles.cards}>

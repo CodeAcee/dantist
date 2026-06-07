@@ -149,7 +149,7 @@ export const STRINGS = {
       sub: "Ми в центрі Дніпра. Поруч — метро, паркінг, кава після прийому.",
       contacts: [
         { label: "Телефон", val: "+38 (056) 123-45-67" },
-        { label: "Адреса", val: "просп. Яворницького 22, Дніпро" },
+        { label: "Адреса", val: "вул. Михайла Грушевського, 29, Дніпро" },
         { label: "Графік", val: "Пн–Пт 9:00–20:00 · Сб 10:00–18:00" },
       ],
       reviewsTitle: "GOOGLE ВІДГУКИ",
@@ -324,7 +324,7 @@ export const STRINGS = {
       sub: "We're in central Dnipro. Metro, parking and coffee after your visit nearby.",
       contacts: [
         { label: "Phone", val: "+38 (056) 123-45-67" },
-        { label: "Address", val: "22 Yavornytskoho Ave, Dnipro" },
+        { label: "Address", val: "29 Mykhaila Hrushevskoho St, Dnipro" },
         { label: "Hours", val: "Mon–Fri 9:00–20:00 · Sat 10:00–18:00" },
       ],
       reviewsTitle: "GOOGLE REVIEWS",

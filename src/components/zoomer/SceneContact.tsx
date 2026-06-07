@@ -3,28 +3,12 @@ import type React from "react";
 import { supabase } from "../../lib/supabase";
 import GradientText from "../GradientText";
 import { C } from "./theme";
+import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
 import styles from "./SceneContact.module.css";
 
-const SERVICES = [
-  "Безкоштовна консультація",
-  "Косметика / вініри",
-  "Імпланти",
-  "Відбілювання",
-  "Елайнери",
-  "Огляд",
-  "Невідкладна",
-];
-
-const CONTACT_VIAS = ["Телефон", "Telegram", "Viber", "WhatsApp"];
-
-const TRUST = [
-  "Відповідь за 2 години",
-  "Без спаму",
-  "Перший візит безкоштовно",
-];
-
-export function SceneContact(_: SceneProps) {
+export function SceneContact({ lang }: SceneProps) {
+  const t = STRINGS[lang].contact;
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -75,64 +59,48 @@ export function SceneContact(_: SceneProps) {
     <div className={styles.root}>
       <div>
         <div className={styles.title}>
-          <GradientText
-            colors={[C.lime, C.cyan, C.lime]}
-            animationSpeed={4}
-            className="scene-hl"
-          >
-            ДОСИТЬ
+          <GradientText colors={[C.lime, C.cyan, C.lime]} animationSpeed={4} className="scene-hl">
+            {t.lines[0]}
           </GradientText>
-          <GradientText
-            colors={[C.ink, C.lime, C.ink]}
-            animationSpeed={6}
-            className="scene-hl"
-          >
-            ДУМАТИ.
+          <GradientText colors={[C.ink, C.lime, C.ink]} animationSpeed={6} className="scene-hl">
+            {t.lines[1]}
           </GradientText>
-          <GradientText
-            colors={[C.cyan, C.lime, C.cyan]}
-            animationSpeed={5}
-            className="scene-hl"
-          >
-            ПОЧИНАЙ.
+          <GradientText colors={[C.cyan, C.lime, C.cyan]} animationSpeed={5} className="scene-hl">
+            {t.lines[2]}
           </GradientText>
         </div>
-        <p className={styles.sub}>
-          Перша консультація — безкоштовно. Відповідь за 2 години.
-        </p>
+        <p className={styles.sub}>{t.sub}</p>
       </div>
 
       <div className={styles.formCol}>
-        <div className={styles.eyebrow}>ШВИДКИЙ ЗАПИТ</div>
+        <div className={styles.eyebrow}>{t.eyebrow}</div>
 
         {status === "ok" ? (
           <div className={styles.success}>
             <div className={styles.successEmoji}>🦷</div>
-            <div className={styles.successTitle}>Готово!</div>
-            <div className={styles.successText}>
-              Зателефонуємо протягом 2 годин.
-            </div>
+            <div className={styles.successTitle}>{t.successTitle}</div>
+            <div className={styles.successText}>{t.successText}</div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.row2}>
               <div>
-                <label className={styles.label}>Ваше ім'я</label>
+                <label className={styles.label}>{t.labels.name}</label>
                 <input
                   required
                   type="text"
-                  placeholder="Катерина"
+                  placeholder={t.placeholders.name}
                   value={form.name}
                   onChange={set("name")}
                   className={styles.input}
                 />
               </div>
               <div>
-                <label className={styles.label}>Телефон *</label>
+                <label className={styles.label}>{t.labels.phone}</label>
                 <input
                   required
                   type="tel"
-                  placeholder="+38 (0__) ___-__-__"
+                  placeholder={t.placeholders.phone}
                   value={form.phone}
                   onChange={set("phone")}
                   className={styles.input}
@@ -142,14 +110,14 @@ export function SceneContact(_: SceneProps) {
 
             <div className={styles.rowResp}>
               <div>
-                <label className={styles.label}>Послуга</label>
+                <label className={styles.label}>{t.labels.service}</label>
                 <select
                   value={form.service}
                   onChange={set("service")}
                   className={selectClass(form.service)}
                 >
-                  <option value="">Оберіть...</option>
-                  {SERVICES.map((s) => (
+                  <option value="">{t.placeholders.choose}</option>
+                  {t.services.map((s) => (
                     <option key={s} value={s} className={styles.option}>
                       {s}
                     </option>
@@ -157,14 +125,14 @@ export function SceneContact(_: SceneProps) {
                 </select>
               </div>
               <div>
-                <label className={styles.label}>Зручний зв'язок</label>
+                <label className={styles.label}>{t.labels.via}</label>
                 <select
                   value={form.contact_via}
                   onChange={set("contact_via")}
                   className={selectClass(form.contact_via)}
                 >
-                  <option value="">Оберіть...</option>
-                  {CONTACT_VIAS.map((v) => (
+                  <option value="">{t.placeholders.choose}</option>
+                  {t.vias.map((v) => (
                     <option key={v} value={v} className={styles.option}>
                       {v}
                     </option>
@@ -174,9 +142,9 @@ export function SceneContact(_: SceneProps) {
             </div>
 
             <div>
-              <label className={styles.label}>Примітка (за бажанням)</label>
+              <label className={styles.label}>{t.labels.note}</label>
               <textarea
-                placeholder="Напр. — зручніше вранці, трохи хвилююсь..."
+                placeholder={t.placeholders.note}
                 rows={3}
                 value={form.note}
                 onChange={set("note")}
@@ -184,25 +152,17 @@ export function SceneContact(_: SceneProps) {
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className={styles.submit}
-            >
-              {status === "loading" ? "Надсилається..." : "Надіслати запит →"}
+            <button type="submit" disabled={status === "loading"} className={styles.submit}>
+              {status === "loading" ? t.submitting : t.submit}
             </button>
 
-            {status === "err" && (
-              <p className={styles.error}>
-                Щось пішло не так. Зателефонуйте напряму.
-              </p>
-            )}
+            {status === "err" && <p className={styles.error}>{t.error}</p>}
 
             <div className={styles.trust}>
-              {TRUST.map((t) => (
-                <div key={t} className={styles.trustItem}>
+              {t.trust.map((item) => (
+                <div key={item} className={styles.trustItem}>
                   <span className={styles.trustDot} />
-                  {t}
+                  {item}
                 </div>
               ))}
             </div>

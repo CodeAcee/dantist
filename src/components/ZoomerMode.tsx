@@ -3,6 +3,7 @@ import type React from "react";
 import Aurora from "./backgrounds/Aurora";
 import { SCENES } from "./zoomer/data";
 import { C } from "./zoomer/theme";
+import { STRINGS, type Lang } from "./zoomer/strings";
 import { useIsMobile } from "./zoomer/useIsMobile";
 import LangSwitcher from "./zoomer/LangSwitcher";
 import { SceneHero } from "./zoomer/SceneHero";
@@ -29,7 +30,8 @@ const AURORA_PALETTES: string[][] = [
   [C.lime, C.cyan, "#000d0d"],
 ];
 
-export default function ZoomerMode() {
+export default function ZoomerMode({ lang = "uk" }: { lang?: Lang }) {
+  const navLabels = STRINGS[lang].navLabels;
   const [visible, setVisible] = useState(false);
   const [sceneIdx, setSceneIdx] = useState(0);
   const worldRef = useRef<HTMLDivElement>(null);
@@ -139,15 +141,15 @@ export default function ZoomerMode() {
   const auroraColors = AURORA_PALETTES[sceneIdx] ?? AURORA_PALETTES[0];
 
   const sceneComponents = [
-    <SceneHero isMobile={isMobile} />,
-    <SceneServices isMobile={isMobile} />,
-    <SceneBeforeAfter isMobile={isMobile} />,
-    <SceneTeam isMobile={isMobile} />,
-    <SceneReviews isMobile={isMobile} />,
-    <SceneTikTok isMobile={isMobile} />,
-    <SceneClinic isMobile={isMobile} />,
-    <SceneLocation isMobile={isMobile} />,
-    <SceneContact isMobile={isMobile} />,
+    <SceneHero isMobile={isMobile} lang={lang} />,
+    <SceneServices isMobile={isMobile} lang={lang} />,
+    <SceneBeforeAfter isMobile={isMobile} lang={lang} />,
+    <SceneTeam isMobile={isMobile} lang={lang} />,
+    <SceneReviews isMobile={isMobile} lang={lang} />,
+    <SceneTikTok isMobile={isMobile} lang={lang} />,
+    <SceneClinic isMobile={isMobile} lang={lang} />,
+    <SceneLocation isMobile={isMobile} lang={lang} />,
+    <SceneContact isMobile={isMobile} lang={lang} />,
   ];
 
   const sceneClass = (i: number) => {
@@ -182,9 +184,9 @@ export default function ZoomerMode() {
             </div>
             <div className={styles.navRight}>
               {!isMobile && (
-                <div className={styles.sceneLabel}>{SCENES[sceneIdx]?.label}</div>
+                <div className={styles.sceneLabel}>{navLabels[sceneIdx]}</div>
               )}
-              <LangSwitcher isMobile={isMobile} />
+              <LangSwitcher isMobile={isMobile} lang={lang} />
             </div>
           </div>
 
@@ -202,7 +204,7 @@ export default function ZoomerMode() {
                     ["--accent-glow"]: `${s.accent}60`,
                   } as React.CSSProperties
                 }
-                aria-label={s.label}
+                aria-label={navLabels[i]}
               />
             ))}
           </div>
@@ -225,13 +227,13 @@ export default function ZoomerMode() {
                       : styles.mobileDot
                   }
                   style={{ ["--accent"]: s.accent } as React.CSSProperties}
-                  aria-label={s.label}
+                  aria-label={navLabels[i]}
                 />
               ))}
             </div>
           )}
 
-          <RunningLine />
+          <RunningLine lang={lang} />
         </div>
       </div>
     </div>

@@ -4,80 +4,67 @@ import { supabase } from "../../lib/supabase";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
+import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
 import styles from "./SceneReviews.module.css";
 
-const REVIEWS_LIST = [
-  {
-    initials: "АК",
-    name: "Аліна К.",
-    age: 24 as number | string,
-    color: C.lime as string,
-    text: "Побилась з бомжами та вибив зуб падла безхатня, але Валерка завезла нового клика і все зробила за 2 години, тепер я не переймаюсь за посмішку і піду знову наебашу тому пуделю",
-  },
-  {
-    initials: "МД",
-    name: "Максим Д.",
-    age: 27 as number | string,
-    color: C.cyan as string,
-    text: "Впала з БДСМ хреста та зламала зуб. Валерка все зробила швидко, без болю і нотацій.",
-  },
-  {
-    initials: "ОС",
-    name: "Олена С.",
-    age: 22 as number | string,
-    color: C.pink as string,
-    text: "Наебнула щебня та замість гарного відпочинку в Карпатах отримала тріщину в зубі. Валерка окрім приниження мого колишнього ще й зробила все за 1 візит, тепер я можу їсти навіть горішки.",
-  },
-];
+const COLORS = [C.lime, C.cyan, C.pink];
 
-export function SceneReviews({ isMobile }: SceneProps) {
-  const [reviews, setReviews] = useState(REVIEWS_LIST);
+type Review = {
+  initials: string;
+  name: string;
+  age: string;
+  color: string;
+  text: string;
+};
+
+export function SceneReviews({ isMobile, lang }: SceneProps) {
+  const t = STRINGS[lang].reviews;
+  const fallback: Review[] = t.list.map((r, i) => ({
+    ...r,
+    color: COLORS[i % COLORS.length] as string,
+  }));
+  const [reviews, setReviews] = useState<Review[]>(fallback);
 
   useEffect(() => {
     if (!supabase) return;
     supabase
       .from("reviews")
       .select("quote, name, since, initials, color, sort_order")
-      .eq("locale", "uk")
+      .eq("locale", lang)
       .eq("active", true)
       .order("sort_order")
       .then(({ data, error }) => {
         if (error) return;
         if (!data || data.length === 0) return;
         setReviews(
-          data.map((r: any) => ({
+          data.map((r: any, i: number) => ({
             initials: r.initials,
             name: r.name,
-            age: `з ${r.since}`,
-            color: r.color,
+            age: r.since != null ? String(r.since) : "",
+            color: r.color ?? COLORS[i % COLORS.length],
             text: r.quote,
           })),
         );
       });
-  }, []);
+  }, [lang]);
+
+  const ageLabel = (age: string) =>
+    /^\d+$/.test(age) ? `${age} ${t.yearsSuffix}` : age;
 
   return (
     <div className={styles.root}>
       <Ring x="90%" y="15%" size={140} color={C.lime} />
       <div className={styles.header}>
         <div className={styles.title}>
-          <GradientText
-            colors={[C.ink, C.lime, C.ink]}
-            animationSpeed={6}
-            className="scene-hl"
-          >
-            ВОНИ СКАЗАЛИ.
+          <GradientText colors={[C.ink, C.lime, C.ink]} animationSpeed={6} className="scene-hl">
+            {t.lines[0]}
           </GradientText>
-          <GradientText
-            colors={[C.lime, C.purple, C.lime]}
-            animationSpeed={4}
-            className="scene-hl"
-          >
-            НЕ МИ.
+          <GradientText colors={[C.lime, C.purple, C.lime]} animationSpeed={4} className="scene-hl">
+            {t.lines[1]}
           </GradientText>
         </div>
-        <p className={styles.subtitle}>Реальні слова. Без фільтрів.</p>
+        <p className={styles.subtitle}>{t.sub}</p>
       </div>
       <div className={styles.grid}>
         {reviews
@@ -94,9 +81,7 @@ export function SceneReviews({ isMobile }: SceneProps) {
                 </div>
                 <div>
                   <div className={styles.name}>{r.name}</div>
-                  <div className={styles.meta}>
-                    {typeof r.age === "number" ? `${r.age} років` : r.age}
-                  </div>
+                  <div className={styles.meta}>{ageLabel(r.age)}</div>
                 </div>
               </div>
             </div>

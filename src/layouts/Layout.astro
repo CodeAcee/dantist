@@ -12,15 +12,20 @@ interface Props {
 }
 const {
   title = 'Chirkova Dentist — Косметична стоматологія у Дніпрі',
-  description = 'Бутикова стоматологія у Дніпрі. Вініри, імпланти, елайнери, відбілювання. Перша консультація безкоштовно.',
+  description = 'Cтоматологія у Дніпрі. Вініри, імпланти, елайнери, відбілювання. Перша консультація безкоштовно.',
   keywords = 'стоматолог Дніпро, дантист Дніпро, імплантація зубів Дніпро, Чиркова Валерія, вініри, відбілювання зубів, чистка зубів, лікування карієсу',
   image = '/og-image.png',
   lang = 'uk',
   ogLocale = 'uk_UA',
 } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(image, Astro.site);
+const ogImage = new URL(base + image.replace(/^\//, ''), Astro.site);
+const faviconHref = base + 'favicon.svg';
+const homeUrl = new URL(base, Astro.site);
+const enUrl = new URL(base + 'en/', Astro.site);
+const siteUrl = homeUrl.href.replace(/\/$/, '');
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -39,11 +44,13 @@ const ogImage = new URL(image, Astro.site);
   <!-- Local SEO -->
   <meta name="geo.region" content="UA-12" />
   <meta name="geo.placename" content="Дніпро" />
+  <meta name="geo.position" content="48.457100;35.039851" />
+  <meta name="ICBM" content="48.457100, 35.039851" />
 
   <!-- Alternate language links -->
-  <link rel="alternate" hreflang="uk" href={new URL('/', Astro.site)} />
-  <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
-  <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />
+  <link rel="alternate" hreflang="uk" href={homeUrl} />
+  <link rel="alternate" hreflang="en" href={enUrl} />
+  <link rel="alternate" hreflang="x-default" href={homeUrl} />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -64,21 +71,21 @@ const ogImage = new URL(image, Astro.site);
   <meta name="twitter:image" content={ogImage} />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={faviconHref} />
 
   <!-- LocalBusiness Schema -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Dentist",
-    "@id": "https://chirkovadentist.com/#clinic",
+    "@id": siteUrl + "/#clinic",
     "name": "Chirkova Dentist Studio",
     "alternateName": "Стоматологія Чиркова Валерія",
     "description": description,
-    "url": "https://chirkovadentist.com",
+    "url": siteUrl,
     "telephone": "+380561234567",
     "email": "lerchiiik18@gmail.com",
     "image": ogImage.href,
-    "logo": new URL('/favicon.svg', Astro.site).href,
+    "logo": new URL(faviconHref, Astro.site).href,
     "founder": {
       "@type": "Person",
       "name": "Чиркова Валерія",
@@ -92,11 +99,14 @@ const ogImage = new URL(image, Astro.site);
     "knowsLanguage": ["uk", "en"],
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "просп. Яворницького 22",
+      "streetAddress": "вул. Михайла Грушевського, 29",
       "addressLocality": "Дніпро",
       "addressRegion": "Дніпропетровська область",
+      "postalCode": "49000",
       "addressCountry": "UA"
     },
+    "geo": { "@type": "GeoCoordinates", "latitude": 48.457100, "longitude": 35.039851 },
+    "hasMap": "https://maps.app.goo.gl/7qWRBubjgCrJuS2T9",
     "areaServed": { "@type": "City", "name": "Дніпро" },
     "availableService": [
       { "@type": "MedicalProcedure", "name": "Імплантація зубів" },
@@ -119,6 +129,6 @@ const ogImage = new URL(image, Astro.site);
 <body>
   <SiteLoader client:load />
   <slot />
-  <ZoomerMode client:load />
+  <ZoomerMode client:load lang={lang === 'en' ? 'en' : 'uk'} />
 </body>
 </html>

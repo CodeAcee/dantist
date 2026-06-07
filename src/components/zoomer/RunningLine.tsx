@@ -1,19 +1,8 @@
+import { STRINGS, type Lang } from "./strings";
 import styles from "./RunningLine.module.css";
 
-const MARQUEE_ITEMS = [
-  "НЕВІДКЛАДНА ДОПОМОГА",
-  "КОСМЕТИЧНА СТОМАТОЛОГІЯ",
-  "ВІДБІЛЮВАННЯ",
-  "ІМПЛАНТИ",
-  "ЕЛАЙНЕРИ",
-  "ВІНІРИ",
-  "КОРЕНЕВІ КАНАЛИ",
-  "ОРТОДОНТІЯ",
-  "ІМПЛАНТАЦІЯ",
-];
-
-export function RunningLine() {
-  const text = MARQUEE_ITEMS.map((i) => `${i} •`).join("  ");
+export function RunningLine({ lang }: { lang: Lang }) {
+  const text = STRINGS[lang].marquee.map((i) => `${i} •`).join("  ");
   return (
     <div className={styles.bar}>
       <div className={styles.track}>
