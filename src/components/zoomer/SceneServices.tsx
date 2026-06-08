@@ -1,79 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type React from "react";
-import { supabase } from "../../lib/supabase";
 import SpotlightCard from "../SpotlightCard";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
+import type { ServiceRow, PriceCategoryRow } from "../../lib/content";
 import styles from "./SceneServices.module.css";
 
 const SERVICE_COLORS = [C.lime, C.cyan, C.pink, C.purple, C.lime, C.cyan];
 
-type Service = { num: string; name: string; desc: string; price: string; color: string };
-type PriceCategory = { cat: string; items: { name: string; price: string }[] };
+type Props = SceneProps & {
+  services?: ServiceRow[];
+  priceCategories?: PriceCategoryRow[];
+};
 
-export function SceneServices({ lang }: SceneProps) {
+export function SceneServices({ lang, services, priceCategories }: Props) {
   const t = STRINGS[lang].services;
-  const serviceFallback: Service[] = t.list.map((s, i) => ({
+  const list = services && services.length ? services : t.list;
+  const serviceData = list.map((s, i) => ({
     ...s,
     color: SERVICE_COLORS[i % SERVICE_COLORS.length] as string,
   }));
+  const priceData: PriceCategoryRow[] =
+    priceCategories && priceCategories.length
+      ? priceCategories
+      : (t.priceDetails as unknown as PriceCategoryRow[]);
+
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
-  const [services, setServices] = useState<Service[]>(serviceFallback);
-  const [priceCategories, setPriceCategories] = useState<PriceCategory[]>(
-    t.priceDetails as unknown as PriceCategory[],
-  );
-
-  useEffect(() => {
-    if (!supabase) return;
-    supabase
-      .from("services")
-      .select("name, description, starting_price, sort_order")
-      .eq("locale", lang)
-      .eq("active", true)
-      .order("sort_order")
-      .then(({ data, error }) => {
-        if (error) return;
-        if (!data || data.length === 0) return;
-        setServices(
-          data.map((s: any, i: number) => ({
-            num: String(i + 1).padStart(2, "0"),
-            name: s.name,
-            desc: s.description,
-            price: s.starting_price,
-            color: SERVICE_COLORS[i % SERVICE_COLORS.length] as string,
-          })),
-        );
-      });
-  }, [lang]);
-
-  useEffect(() => {
-    if (!supabase) return;
-    supabase
-      .from("price_categories")
-      .select("id, name, price_items(name, price, sort_order)")
-      .eq("locale", lang)
-      .eq("active", true)
-      .order("sort_order")
-      .then(({ data, error }) => {
-        if (error) return;
-        if (!data || data.length === 0) return;
-        setPriceCategories(
-          data.map((c: any) => ({
-            cat: c.name.toUpperCase(),
-            items: (c.price_items ?? [])
-              .sort((a: any, b: any) => a.sort_order - b.sort_order)
-              .map((item: any) => ({ name: item.name, price: item.price })),
-          })),
-        );
-      });
-  }, [lang]);
-
-  const selected = selectedIdx !== null ? services[selectedIdx] : null;
+  const selected = selectedIdx !== null ? serviceData[selectedIdx] : null;
   const detail =
-    selectedIdx !== null ? (priceCategories[selectedIdx] ?? null) : null;
+    selectedIdx !== null ? (priceData[selectedIdx] ?? null) : null;
 
   return (
     <div className={styles.root}>
@@ -95,7 +53,7 @@ export function SceneServices({ lang }: SceneProps) {
       </div>
 
       <div className={styles.cardsGrid}>
-        {services.map((s, i) => (
+        {serviceData.map((s, i) => (
           <SpotlightCard
             key={s.num}
             spotlightColor={`${s.color}28`}

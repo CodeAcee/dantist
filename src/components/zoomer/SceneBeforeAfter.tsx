@@ -1,23 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type React from "react";
-import { supabase } from "../../lib/supabase";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
+import type { CaseRow } from "../../lib/content";
 import styles from "./SceneBeforeAfter.module.css";
 
-const ACCENTS = [C.lime, C.cyan, C.pink];
-const CASE_ACCENTS = [C.lime, C.cyan, C.pink, C.purple];
+const ACCENTS = [C.lime, C.cyan, C.pink, C.purple];
 
-type Case = {
-  treatment: string;
-  duration: string;
-  before: string;
-  after: string;
-  accent: string;
-};
+type Case = CaseRow & { accent: string };
 
 function ZSlider({ c }: { c: Case }) {
   const [pos, setPos] = useState(50);
@@ -106,36 +99,15 @@ function ZSlider({ c }: { c: Case }) {
   );
 }
 
-export function SceneBeforeAfter({ isMobile, lang }: SceneProps) {
+type Props = SceneProps & { cases?: CaseRow[] };
+
+export function SceneBeforeAfter({ isMobile, lang, cases }: Props) {
   const t = STRINGS[lang].beforeAfter;
-  const fallback: Case[] = t.cases.map((c, i) => ({
+  const list = cases && cases.length ? cases : t.cases;
+  const data: Case[] = list.map((c, i) => ({
     ...c,
     accent: ACCENTS[i % ACCENTS.length] as string,
   }));
-  const [cases, setCases] = useState<Case[]>(fallback);
-
-  useEffect(() => {
-    if (!supabase) return;
-    supabase
-      .from("cases")
-      .select("before_label, after_label, treatment, duration, sort_order")
-      .eq("locale", lang)
-      .eq("active", true)
-      .order("sort_order")
-      .then(({ data, error }) => {
-        if (error) return;
-        if (!data || data.length === 0) return;
-        setCases(
-          data.map((c: any, i: number) => ({
-            treatment: c.treatment,
-            duration: c.duration,
-            before: c.before_label,
-            after: c.after_label,
-            accent: CASE_ACCENTS[i % CASE_ACCENTS.length] as string,
-          })),
-        );
-      });
-  }, [lang]);
 
   return (
     <div className={styles.root}>
@@ -154,11 +126,11 @@ export function SceneBeforeAfter({ isMobile, lang }: SceneProps) {
         </div>
         <p className={styles.sub}>{t.sub}</p>
         <div className={styles.hint}>
-          {cases.length} {t.casesHint}
+          {data.length} {t.casesHint}
         </div>
       </div>
       <div className={styles.cards}>
-        {cases
+        {data
           .filter((_, i) => !isMobile || i < 2)
           .map((c, i) => (
             <ZSlider key={i} c={c} />

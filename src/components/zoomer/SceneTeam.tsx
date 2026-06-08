@@ -1,63 +1,27 @@
-import { useState, useEffect } from "react";
 import type React from "react";
-import { supabase } from "../../lib/supabase";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
+import type { TeamRow } from "../../lib/content";
 import styles from "./SceneTeam.module.css";
 
 const IG_URL = "https://www.instagram.com/mad__dentist/";
 const TIKTOK_URL = "https://www.tiktok.com/@mad__dentist";
 const ACCENTS = [C.pink, C.purple];
 
-type Member = {
-  name: string;
-  title: string;
-  years: number;
-  yearsLabel: string;
-  bio: string;
-  accent: string;
-  ig: string;
-  tiktok: string;
-};
+type Props = SceneProps & { team?: TeamRow[] };
 
-export function SceneTeam({ isMobile, lang }: SceneProps) {
+export function SceneTeam({ isMobile, lang, team }: Props) {
   const t = STRINGS[lang].team;
-  const fallback: Member[] = t.members.map((m, i) => ({
+  const list = team && team.length ? team : t.members;
+  const data = list.map((m, i) => ({
     ...m,
     accent: ACCENTS[i % ACCENTS.length] as string,
     ig: IG_URL,
     tiktok: TIKTOK_URL,
   }));
-  const [team, setTeam] = useState<Member[]>(fallback);
-
-  useEffect(() => {
-    if (!supabase) return;
-    supabase
-      .from("team")
-      .select("name, title, bio, years, years_label, sort_order")
-      .eq("locale", lang)
-      .eq("active", true)
-      .order("sort_order")
-      .then(({ data, error }) => {
-        if (error) return;
-        if (!data || data.length === 0) return;
-        setTeam(
-          data.map((m: any, i: number) => ({
-            name: m.name,
-            title: m.title,
-            years: m.years,
-            yearsLabel: m.years_label,
-            bio: m.bio,
-            accent: ACCENTS[i % ACCENTS.length] as string,
-            ig: IG_URL,
-            tiktok: TIKTOK_URL,
-          })),
-        );
-      });
-  }, [lang]);
 
   return (
     <div className={styles.root}>
@@ -75,7 +39,7 @@ export function SceneTeam({ isMobile, lang }: SceneProps) {
       </div>
 
       <div className={styles.grid}>
-        {team
+        {data
           .filter((_, i) => !isMobile || i === 0)
           .map((m, i) => (
             <div

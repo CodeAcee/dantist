@@ -156,79 +156,31 @@
 
 .embeds {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
-.embedCol {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1 1 0;
-  max-width: 210px;
-}
-
-.embedColSecondary {
-  margin-top: 28px;
-}
-
-.frameTt {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  border-radius: 8px;
+.embedWrap {
+  width: 325px;
+  height: 600px;
+  border-radius: 12px;
   overflow: hidden;
-  background: #111;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.45);
 }
 
-.frameTtA {
-  border: 1px solid rgba(var(--pink-rgb), 0.3);
-  box-shadow: 0 8px 40px rgba(var(--pink-rgb), 0.2);
+/* The embed iframe fills the card; the bulky "related videos" tail is cropped. */
+.embedWrap :global(iframe),
+.embedWrap :global(blockquote) {
+  margin: 0 !important;
 }
 
-.frameTtB {
-  border: 1px solid rgba(var(--cyan-rgb), 0.2);
-  box-shadow: 0 8px 40px rgba(var(--cyan-rgb), 0.12);
-}
-
-.frameTtIframe {
-  position: absolute;
-  inset: 0;
+.embedPlaceholder {
   width: 100%;
   height: 100%;
-  border: none;
-}
-
-.frameIg {
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.frameIgA {
-  border: 1px solid rgba(225, 48, 108, 0.3);
-  box-shadow: 0 8px 40px rgba(225, 48, 108, 0.2);
-}
-
-.frameIgB {
-  border: 1px solid rgba(225, 48, 108, 0.2);
-  box-shadow: 0 8px 40px rgba(188, 24, 136, 0.12);
-}
-
-.frameIgIframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-.caption {
-  font-family: var(--font-body);
-  font-size: 10px;
-  color: rgba(var(--ink-rgb), 0.4);
-  text-align: center;
+  background: rgba(var(--white-rgb), 0.04);
+  border: 1px solid rgba(var(--white-rgb), 0.08);
 }
 
 @media (max-width: 767px) {
@@ -236,14 +188,8 @@
     grid-template-columns: 1fr;
     gap: 18px;
   }
-  .embedCol {
-    max-width: 240px;
-  }
-  .embedColSecondary {
-    margin-top: 0;
-  }
-  .frameTt,
-  .frameIg {
-    max-height: 220px;
+  .embedWrap {
+    width: 320px;
+    height: 560px;
   }
 }

@@ -4,6 +4,7 @@ import Aurora from "./backgrounds/Aurora";
 import { SCENES } from "./zoomer/data";
 import { C } from "./zoomer/theme";
 import { STRINGS, type Lang } from "./zoomer/strings";
+import type { SiteContent } from "../lib/content";
 import { useIsMobile } from "./zoomer/useIsMobile";
 import LangSwitcher from "./zoomer/LangSwitcher";
 import { SceneHero } from "./zoomer/SceneHero";
@@ -31,7 +32,13 @@ const AURORA_PALETTES: string[][] = [
   [C.lime, C.cyan, "#000d0d"],
 ];
 
-export default function ZoomerMode({ lang = "uk" }: { lang?: Lang }) {
+export default function ZoomerMode({
+  lang = "uk",
+  data,
+}: {
+  lang?: Lang;
+  data?: SiteContent;
+}) {
   const navLabels = STRINGS[lang].navLabels;
   const [visible, setVisible] = useState(false);
   const [sceneIdx, setSceneIdx] = useState(0);
@@ -143,10 +150,15 @@ export default function ZoomerMode({ lang = "uk" }: { lang?: Lang }) {
 
   const sceneComponents = [
     <SceneHero isMobile={isMobile} lang={lang} />,
-    <SceneServices isMobile={isMobile} lang={lang} />,
-    <SceneBeforeAfter isMobile={isMobile} lang={lang} />,
-    <SceneTeam isMobile={isMobile} lang={lang} />,
-    <SceneReviews isMobile={isMobile} lang={lang} />,
+    <SceneServices
+      isMobile={isMobile}
+      lang={lang}
+      services={data?.services}
+      priceCategories={data?.priceCategories}
+    />,
+    <SceneBeforeAfter isMobile={isMobile} lang={lang} cases={data?.cases} />,
+    <SceneTeam isMobile={isMobile} lang={lang} team={data?.team} />,
+    <SceneReviews isMobile={isMobile} lang={lang} reviews={data?.reviews} />,
     <SceneTikTok isMobile={isMobile} lang={lang} />,
     <SceneClinic isMobile={isMobile} lang={lang} />,
     <SceneLocation isMobile={isMobile} lang={lang} />,

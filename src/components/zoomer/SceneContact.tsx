@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type React from "react";
-import { supabase } from "../../lib/supabase";
+import { supabase } from "../../db/supabase";
 import GradientText from "../GradientText";
 import { C } from "./theme";
 import { STRINGS } from "./strings";

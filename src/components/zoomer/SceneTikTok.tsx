@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type React from "react";
+import { InstagramEmbed, TikTokEmbed } from "react-social-media-embed";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
 import { C } from "./theme";
@@ -25,6 +26,9 @@ const icon = (path: string, size = 14, fill = "currentColor") => (
 export function SceneTikTok({ isMobile, lang }: SceneProps) {
   const t = STRINGS[lang].tiktok;
   const [slide, setSlide] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const embedWidth = isMobile ? 320 : 325;
 
   const tabs = [
     { label: t.tt.brand, path: TT_PATH, color: C.pink as string },
@@ -91,21 +95,16 @@ export function SceneTikTok({ isMobile, lang }: SceneProps) {
             <div className={styles.embeds}>
               {t.tt.videos
                 .filter((_, i) => !isMobile || i === 0)
-                .map((v, i) => (
-                  <div
-                    key={v.id}
-                    className={i === 1 ? `${styles.embedCol} ${styles.embedColSecondary}` : styles.embedCol}
-                  >
-                    <div className={`${styles.frameTt} ${i === 0 ? styles.frameTtA : styles.frameTtB}`}>
-                      <iframe
-                        src={`https://www.tiktok.com/embed/v2/${v.id}`}
-                        title={v.caption}
-                        allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className={styles.frameTtIframe}
+                .map((v) => (
+                  <div key={v.id} className={styles.embedWrap}>
+                    {mounted ? (
+                      <TikTokEmbed
+                        url={`https://www.tiktok.com/${TIKTOK_HANDLE}/video/${v.id}`}
+                        width={embedWidth}
                       />
-                    </div>
-                    <div className={styles.caption}>{v.caption}</div>
+                    ) : (
+                      <div className={styles.embedPlaceholder} />
+                    )}
                   </div>
                 ))}
             </div>
@@ -150,21 +149,16 @@ export function SceneTikTok({ isMobile, lang }: SceneProps) {
             <div className={styles.embeds}>
               {t.ig.posts
                 .filter((_, i) => !isMobile || i === 0)
-                .map((p, i) => (
-                  <div
-                    key={p.id}
-                    className={i === 1 ? `${styles.embedCol} ${styles.embedColSecondary}` : styles.embedCol}
-                  >
-                    <div className={`${styles.frameIg} ${i === 0 ? styles.frameIgA : styles.frameIgB}`}>
-                      <iframe
-                        src={`https://www.instagram.com/reel/${p.id}/embed/`}
-                        className={styles.frameIgIframe}
-                        loading="lazy"
-                        title={p.caption}
-                        allowFullScreen
+                .map((p) => (
+                  <div key={p.id} className={styles.embedWrap}>
+                    {mounted ? (
+                      <InstagramEmbed
+                        url={`https://www.instagram.com/reel/${p.id}/`}
+                        width={embedWidth}
                       />
-                    </div>
-                    <div className={styles.caption}>{p.caption}</div>
+                    ) : (
+                      <div className={styles.embedPlaceholder} />
+                    )}
                   </div>
                 ))}
             </div>

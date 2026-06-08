@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SeoHead from '../components/SeoHead.astro';
 import ZoomerMode from '../components/ZoomerMode';
 import SiteLoader from '../components/SiteLoader';
+import { getContent } from '../lib/content';
 interface Props {
   title?: string;
   description?: string;
@@ -19,6 +20,9 @@ const {
   lang = 'uk',
   ogLocale = 'uk_UA',
 } = Astro.props;
+
+const zoomerLang = lang === 'en' ? 'en' : 'uk';
+const content = await getContent(zoomerLang);
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -35,6 +39,6 @@ const {
 <body>
   <SiteLoader client:load />
   <slot />
-  <ZoomerMode client:load lang={lang === 'en' ? 'en' : 'uk'} />
+  <ZoomerMode client:load lang={zoomerLang} data={content} />
 </body>
 </html>

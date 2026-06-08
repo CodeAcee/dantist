@@ -4,11 +4,21 @@ on:
   push:
     branches:
       - master
+  # Triggered by Supabase when content changes (see supabase/functions/trigger-rebuild)
+  repository_dispatch:
+    types: [supabase-content-update]
+  # Manual "Run workflow" button in the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# Collapse rapid content edits into a single build
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
 
 jobs:
   build:
