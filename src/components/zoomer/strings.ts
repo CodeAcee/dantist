@@ -51,33 +51,33 @@ export const STRINGS = {
         { num: "06", name: "Терміново", desc: "Зламаний зуб? Того ж дня.", price: "Телефонуй" },
       ],
       priceDetails: [
-        { cat: "КОСМЕТИКА", items: [
+        { cat: "ВІНІРИ", items: [
           { name: "Порцеляновий вінір (1)", price: "від 8 000 грн" },
-          { name: "Нарощення (1)", price: "від 2 500 грн" },
-          { name: "Zoom-відбілювання", price: "4 500 грн" },
+          { name: "Композитна реставрація", price: "від 2 500 грн" },
+          { name: "Зліпки + дизайн усмішки", price: "Безкоштовно" },
         ] },
         { cat: "ІМПЛАНТИ", items: [
           { name: "Імплант (під ключ)", price: "від 25 000 грн" },
           { name: "Коронка (кераміка)", price: "від 5 500 грн" },
           { name: "Синус-ліфтинг", price: "від 12 000 грн" },
         ] },
-        { cat: "ОРТОДОНТІЯ", items: [
-          { name: "Елайнери (повний курс)", price: "від 45 000 грн" },
-          { name: "Металева брекет-система", price: "від 18 000 грн" },
+        { cat: "ЕЛАЙНЕРИ", items: [
+          { name: "Елайнери (повний курс)", price: "від 25 000 грн" },
+          { name: "Брекет-система", price: "від 18 000 грн" },
           { name: "Ретейнери", price: "від 2 400 грн" },
         ] },
         { cat: "ВІДБІЛЮВАННЯ", items: [
           { name: "Zoom-відбілювання", price: "4 500 грн" },
-          { name: "Домашнє відбілювання (каппи)", price: "від 2 800 грн" },
-          { name: "Air Flow (профілактика)", price: "1 500 грн" },
+          { name: "Домашнє (каппи)", price: "від 2 800 грн" },
+          { name: "Air Flow", price: "1 500 грн" },
         ] },
-        { cat: "КОНСУЛЬТАЦІЯ", items: [
-          { name: "Первинна консультація", price: "Безкоштовно" },
-          { name: "Повторна консультація", price: "200 грн" },
-          { name: "Цифровий рентген (повний)", price: "800 грн" },
+        { cat: "ОГЛЯД", items: [
+          { name: "Консультація + план", price: "Безкоштовно" },
+          { name: "Цифровий рентген", price: "800 грн" },
+          { name: "Професійна чистка", price: "від 1 500 грн" },
         ] },
-        { cat: "НЕВІДКЛАДНА ДОПОМОГА", items: [
-          { name: "Огляд + план лікування", price: "Безкоштовно" },
+        { cat: "ТЕРМІНОВО", items: [
+          { name: "Огляд при болю", price: "Безкоштовно" },
           { name: "Видалення зуба", price: "від 1 200 грн" },
           { name: "Тимчасова пломба", price: "від 600 грн" },
         ] },
@@ -104,11 +104,10 @@ export const STRINGS = {
     reviews: {
       lines: ["ВОНИ СКАЗАЛИ.", "НЕ МИ."],
       sub: "Реальні слова. Без фільтрів.",
-      yearsSuffix: "років",
       list: [
-        { initials: "АК", name: "Аліна К.", age: "24", text: "Чудовий сервіс — все швидко, без болю і нотацій. Тепер не переживаю за посмішку." },
-        { initials: "МД", name: "Максим Д.", age: "27", text: "Зламав зуб — все зробили швидко, акуратно і без зайвих слів. Рекомендую." },
-        { initials: "ОС", name: "Олена С.", age: "22", text: "Тріщину на зубі прибрали за один візит. Тепер можу їсти навіть горішки." },
+        { initials: "АК", name: "Аліна К.", age: "з 2021", text: "Чудовий сервіс — все швидко, без болю і нотацій. Тепер не переживаю за посмішку." },
+        { initials: "МД", name: "Максим Д.", age: "з 2020", text: "Зламав зуб — все зробили швидко, акуратно і без зайвих слів. Рекомендую." },
+        { initials: "ОС", name: "Олена С.", age: "з 2022", text: "Тріщину на зубі прибрали за один візит. Тепер можу їсти навіть горішки." },
       ],
     },
     tiktok: {
@@ -226,33 +225,33 @@ export const STRINGS = {
         { num: "06", name: "Urgent", desc: "Broken tooth? Same day.", price: "Call us" },
       ],
       priceDetails: [
-        { cat: "COSMETIC", items: [
+        { cat: "VENEERS", items: [
           { name: "Porcelain veneer (1)", price: "from ₴8,000" },
-          { name: "Bonding (1)", price: "from ₴2,500" },
-          { name: "Zoom whitening", price: "₴4,500" },
+          { name: "Composite restoration", price: "from ₴2,500" },
+          { name: "Impressions + smile design", price: "Free" },
         ] },
         { cat: "IMPLANTS", items: [
           { name: "Implant (turnkey)", price: "from ₴25,000" },
           { name: "Crown (ceramic)", price: "from ₴5,500" },
           { name: "Sinus lift", price: "from ₴12,000" },
         ] },
-        { cat: "ORTHODONTICS", items: [
-          { name: "Aligners (full course)", price: "from ₴45,000" },
-          { name: "Metal braces", price: "from ₴18,000" },
+        { cat: "ALIGNERS", items: [
+          { name: "Aligners (full course)", price: "from ₴25,000" },
+          { name: "Braces", price: "from ₴18,000" },
           { name: "Retainers", price: "from ₴2,400" },
         ] },
         { cat: "WHITENING", items: [
           { name: "Zoom whitening", price: "₴4,500" },
-          { name: "Home whitening (trays)", price: "from ₴2,800" },
-          { name: "Air Flow (prophylaxis)", price: "₴1,500" },
+          { name: "Home (trays)", price: "from ₴2,800" },
+          { name: "Air Flow", price: "₴1,500" },
         ] },
-        { cat: "CONSULTATION", items: [
-          { name: "Initial consultation", price: "Free" },
-          { name: "Follow-up consultation", price: "₴200" },
-          { name: "Digital X-ray (full)", price: "₴800" },
+        { cat: "CHECK-UP", items: [
+          { name: "Consultation + plan", price: "Free" },
+          { name: "Digital X-ray", price: "₴800" },
+          { name: "Professional cleaning", price: "from ₴1,500" },
         ] },
-        { cat: "EMERGENCY CARE", items: [
-          { name: "Exam + treatment plan", price: "Free" },
+        { cat: "URGENT", items: [
+          { name: "Pain exam", price: "Free" },
           { name: "Tooth extraction", price: "from ₴1,200" },
           { name: "Temporary filling", price: "from ₴600" },
         ] },
@@ -279,11 +278,10 @@ export const STRINGS = {
     reviews: {
       lines: ["THEY SAID IT.", "NOT US."],
       sub: "Real words. No filters.",
-      yearsSuffix: "y.o.",
       list: [
-        { initials: "AK", name: "Alina K.", age: "24", text: "Great service — everything fast, painless and no lectures. Now I don't worry about my smile." },
-        { initials: "MD", name: "Maksym D.", age: "27", text: "Broke a tooth — it was fixed quickly, neatly and without fuss. Highly recommend." },
-        { initials: "OS", name: "Olena S.", age: "22", text: "A crack in my tooth was fixed in a single visit. Now I can even eat nuts again." },
+        { initials: "AK", name: "Alina K.", age: "since 2021", text: "Great service — everything fast, painless and no lectures. Now I don't worry about my smile." },
+        { initials: "MD", name: "Maksym D.", age: "since 2020", text: "Broke a tooth — it was fixed quickly, neatly and without fuss. Highly recommend." },
+        { initials: "OS", name: "Olena S.", age: "since 2022", text: "A crack in my tooth was fixed in a single visit. Now I can even eat nuts again." },
       ],
     },
     tiktok: {

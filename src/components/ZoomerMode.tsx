@@ -47,6 +47,7 @@ export default function ZoomerMode({
   const isTransitioning = useRef(false);
   const sceneIdxRef = useRef(0);
   const touchStartY = useRef(0);
+  console.log(data);
 
   useEffect(() => {
     const id = "zoomer-fonts";
@@ -144,6 +145,20 @@ export default function ZoomerMode({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [navigateScene]);
+
+  // Jump to a scene from the URL hash (e.g. #contact), including links from
+  // other pages like /#contact. Fires on load and on every hash change.
+  useEffect(() => {
+    const goFromHash = () => {
+      const id = decodeURIComponent(window.location.hash.replace("#", ""));
+      if (!id) return;
+      const idx = SCENES.findIndex((s) => s.id === id);
+      if (idx >= 0) goToScene(idx);
+    };
+    goFromHash();
+    window.addEventListener("hashchange", goFromHash);
+    return () => window.removeEventListener("hashchange", goFromHash);
+  }, [goToScene]);
 
   const totalProgress = SCENES.length > 1 ? sceneIdx / (SCENES.length - 1) : 0;
   const auroraColors = AURORA_PALETTES[sceneIdx] ?? AURORA_PALETTES[0];

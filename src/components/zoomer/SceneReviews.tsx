@@ -19,9 +19,6 @@ export function SceneReviews({ isMobile, lang, reviews }: Props) {
     color: COLORS[i % COLORS.length] as string,
   }));
 
-  const ageLabel = (age: string) =>
-    /^\d+$/.test(age) ? `${age} ${t.yearsSuffix}` : age;
-
   return (
     <div className={styles.root}>
       <Ring x="90%" y="15%" size={140} color={C.lime} />
@@ -51,7 +48,7 @@ export function SceneReviews({ isMobile, lang, reviews }: Props) {
                 </div>
                 <div>
                   <div className={styles.name}>{r.name}</div>
-                  <div className={styles.meta}>{ageLabel(r.age)}</div>
+                  <div className={styles.meta}>{r.age}</div>
                 </div>
               </div>
             </div>

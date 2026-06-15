@@ -123,93 +123,127 @@
   pointer-events: auto;
   position: relative;
   z-index: 1;
-  background: #0e0e12;
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: 8px;
-  padding: 28px 32px;
-  min-width: 340px;
-  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 15%, transparent);
+  width: min(540px, 92vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #15151c, #0b0b0f);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 18px;
+  padding: 38px;
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.65),
+    0 0 70px color-mix(in srgb, var(--accent) 16%, transparent);
+  animation: panel-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.panelHead {
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(var(--white-rgb), 0.04);
+  border: 1px solid rgba(var(--white-rgb), 0.12);
+  color: rgba(var(--white-rgb), 0.55);
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: center;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.closeBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .panelEyebrow {
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--accent);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
-.panelCat {
+.panelTitle {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--c-ink);
+}
+
+.panelDesc {
+  margin: 10px 0 0;
   font-family: var(--font-body);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(var(--white-rgb), 0.45);
-}
-
-.closeBtn {
-  background: none;
-  border: 1px solid rgba(var(--white-rgb), 0.12);
-  color: rgba(var(--white-rgb), 0.4);
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(var(--ink-rgb), 0.5);
 }
 
 .panelItems {
-  border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
-  padding-top: 16px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .item {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  font-size: 13px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(var(--white-rgb), 0.07);
+}
+
+.item:last-child {
+  border-bottom: none;
 }
 
 .itemName {
   font-family: var(--font-body);
-  color: rgba(var(--white-rgb), 0.75);
-}
-
-.itemDots {
-  flex: 1;
-  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 19%, transparent);
-  margin-bottom: 3px;
+  font-size: 15px;
+  color: rgba(var(--ink-rgb), 0.82);
 }
 
 .itemPrice {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
+  font-size: 16px;
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
+.panelCta {
+  margin-top: 26px;
+}
+
 .panelFoot {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(var(--white-rgb), 0.06);
+  margin-top: 16px;
   font-family: var(--font-body);
-  font-size: 9px;
-  color: rgba(var(--white-rgb), 0.2);
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  color: rgba(var(--white-rgb), 0.35);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
   text-align: center;
 }
 
@@ -219,7 +253,9 @@
     gap: 20px;
   }
   .panel {
-    min-width: unset;
-    width: calc(100% - 32px);
+    padding: 28px 24px;
+  }
+  .panelTitle {
+    font-size: 24px;
   }
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type React from "react";
 import GradientText from "../GradientText";
-import { Ring } from "./Ring";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
@@ -68,17 +67,27 @@ function ZSlider({ c }: { c: Case }) {
           handleMove(e.touches[0].clientX);
         }}
       >
-        <div className={styles.before}>
-          <div className={styles.beforeText}>Before</div>
+        <div
+          className={styles.before}
+          style={
+            c.beforeImg ? { backgroundImage: `url(${c.beforeImg})` } : undefined
+          }
+        >
+          {!c.beforeImg && <div className={styles.beforeText}>Before</div>}
         </div>
         <div className={styles.after}>
-          <div className={styles.afterInner}>
-            <div className={styles.afterText}>After</div>
+          <div
+            className={styles.afterInner}
+            style={
+              c.afterImg ? { backgroundImage: `url(${c.afterImg})` } : undefined
+            }
+          >
+            {!c.afterImg && <div className={styles.afterText}>After</div>}
           </div>
         </div>
         <div className={styles.divider}>
           <div className={styles.handle}>
-            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
               <path d="M7 4L3 10L7 16" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M13 4L17 10L13 16" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -87,32 +96,23 @@ function ZSlider({ c }: { c: Case }) {
         <div className={styles.labelBefore}>BEFORE</div>
         <div className={styles.labelAfter}>AFTER</div>
       </div>
-      <div className={styles.metaRow}>
-        <span className={styles.metaTreat}>{c.treatment}</span>
-        <span className={styles.metaDur}>{c.duration}</span>
-      </div>
-      <div className={styles.descRow}>
-        <span className={styles.descBefore}>{c.before}</span>
-        <span className={styles.descAfter}>{c.after}</span>
-      </div>
     </div>
   );
 }
 
-type Props = SceneProps & { cases?: CaseRow[] };
-
-export function SceneBeforeAfter({ isMobile, lang, cases }: Props) {
+export function SceneBeforeAfter({ lang, cases }: SceneProps & { cases?: CaseRow[] }) {
   const t = STRINGS[lang].beforeAfter;
-  const list = cases && cases.length ? cases : t.cases;
+  const list: readonly CaseRow[] = cases && cases.length ? cases : t.cases;
   const data: Case[] = list.map((c, i) => ({
     ...c,
     accent: ACCENTS[i % ACCENTS.length] as string,
   }));
+  const [active, setActive] = useState(0);
+  const current = data[Math.min(active, data.length - 1)];
 
   return (
     <div className={styles.root}>
-      <div>
-        <Ring x="-5%" y="60%" size={200} color={C.pink} />
+      <div className={styles.left}>
         <div className={styles.title}>
           <GradientText colors={[C.pink, C.orange, C.pink]} animationSpeed={4} className="scene-hl">
             {t.lines[0]}
@@ -125,16 +125,40 @@ export function SceneBeforeAfter({ isMobile, lang, cases }: Props) {
           </GradientText>
         </div>
         <p className={styles.sub}>{t.sub}</p>
-        <div className={styles.hint}>
-          {data.length} {t.casesHint}
-        </div>
-      </div>
-      <div className={styles.cards}>
-        {data
-          .filter((_, i) => !isMobile || i < 2)
-          .map((c, i) => (
-            <ZSlider key={i} c={c} />
+
+        <div className={styles.cases}>
+          {data.map((cs, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActive(i)}
+              className={i === active ? `${styles.caseBtn} ${styles.caseActive}` : styles.caseBtn}
+              style={{ ["--accent"]: cs.accent } as React.CSSProperties}
+            >
+              <span className={styles.caseName}>{cs.treatment}</span>
+              <span className={styles.caseDur}>{cs.duration}</span>
+            </button>
           ))}
+        </div>
+
+        <div className={styles.hint}>{t.casesHint}</div>
+      </div>
+
+      <div
+        className={styles.right}
+        style={{ ["--accent"]: current.accent } as React.CSSProperties}
+      >
+        <ZSlider key={active} c={current} />
+        <div className={styles.desc}>
+          <div className={styles.descCol}>
+            <span className={styles.descLabel}>BEFORE</span>
+            <span className={styles.descText}>{current.before}</span>
+          </div>
+          <div className={`${styles.descCol} ${styles.descColRight}`}>
+            <span className={styles.descLabel}>AFTER</span>
+            <span className={styles.descText}>{current.after}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

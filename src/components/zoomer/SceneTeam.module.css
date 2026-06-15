@@ -50,12 +50,14 @@
 .photo {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 5 / 4;
   background: linear-gradient(
     135deg,
     color-mix(in srgb, var(--accent) 9%, transparent),
     #100c18
   );
+  background-size: cover;
+  background-position: center top;
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -123,46 +125,6 @@
   margin: 0;
 }
 
-.social {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-}
-
-.linkBase {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 9px;
-  border-radius: 2px;
-  text-decoration: none;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.ig {
-  background: linear-gradient(
-    135deg,
-    #f09433,
-    #e6683c,
-    #dc2743,
-    #cc2366,
-    #bc1888
-  );
-  color: #fff;
-}
-
-.tiktok {
-  background: rgba(var(--white-rgb), 0.04);
-  border: 1px solid color-mix(in srgb, var(--accent) 27%, transparent);
-  color: var(--accent);
-}
-
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: 1fr;
@@ -172,6 +134,6 @@
     gap: 10px;
   }
   .photo {
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 4 / 3;
   }
 }

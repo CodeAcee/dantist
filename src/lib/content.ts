@@ -16,6 +16,8 @@ export interface CaseRow {
   duration: string;
   before: string;
   after: string;
+  beforeImg?: string;
+  afterImg?: string;
 }
 export interface TeamRow {
   name: string;
@@ -23,6 +25,7 @@ export interface TeamRow {
   years: number;
   yearsLabel: string;
   bio: string;
+  img?: string;
 }
 export interface ReviewRow {
   initials: string;
@@ -66,13 +69,13 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         .order("sort_order"),
       supabase
         .from("cases")
-        .select("before_label, after_label, treatment, duration, sort_order")
+        .select("before_label, after_label, treatment, duration, before_img, after_img, sort_order")
         .eq("locale", lang)
         .eq("active", true)
         .order("sort_order"),
       supabase
         .from("team")
-        .select("name, title, bio, years, years_label, sort_order")
+        .select("name, title, bio, years, years_label, img, sort_order")
         .eq("locale", lang)
         .eq("active", true)
         .order("sort_order"),
@@ -102,6 +105,8 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         duration: c.duration,
         before: c.before_label,
         after: c.after_label,
+        beforeImg: c.before_img ?? undefined,
+        afterImg: c.after_img ?? undefined,
       })),
       team: (team.data ?? []).map((m: any) => ({
         name: m.name,
@@ -109,11 +114,15 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         years: m.years,
         yearsLabel: m.years_label,
         bio: m.bio,
+        img: m.img ?? undefined,
       })),
       reviews: (reviews.data ?? []).map((r: any) => ({
         initials: r.initials,
         name: r.name,
-        age: r.since != null ? String(r.since) : "",
+        age:
+          r.since != null
+            ? `${lang === "en" ? "since" : "з"} ${r.since}`
+            : "",
         text: r.quote,
       })),
     };

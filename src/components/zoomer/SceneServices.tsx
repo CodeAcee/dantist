@@ -30,8 +30,17 @@ export function SceneServices({ lang, services, priceCategories }: Props) {
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const selected = selectedIdx !== null ? serviceData[selectedIdx] : null;
-  const detail =
-    selectedIdx !== null ? (priceData[selectedIdx] ?? null) : null;
+  // Match the price group to the service BY NAME (robust to ordering / count mismatch).
+  const detail = selected
+    ? (priceData.find(
+        (p) => p.cat.trim().toUpperCase() === selected.name.trim().toUpperCase(),
+      ) ?? null)
+    : null;
+  const items =
+    detail?.items ??
+    (selected
+      ? [{ name: lang === "en" ? "Starting price" : "Вартість від", price: selected.price }]
+      : []);
 
   return (
     <div className={styles.root}>
@@ -76,33 +85,44 @@ export function SceneServices({ lang, services, priceCategories }: Props) {
         ))}
       </div>
 
-      {selected && detail && (
+      {selected && (
         <div
           className={styles.panelOverlay}
           style={{ ["--accent"]: selected.color } as React.CSSProperties}
         >
           <div className={styles.scrim} onClick={() => setSelectedIdx(null)} />
           <div className={styles.panel}>
-            <div className={styles.panelHead}>
-              <div>
-                <div className={styles.panelEyebrow}>
-                  {selected.num} / {selected.name}
-                </div>
-                <div className={styles.panelCat}>{detail.cat}</div>
-              </div>
-              <button onClick={() => setSelectedIdx(null)} className={styles.closeBtn}>
-                ×
-              </button>
+            <button
+              onClick={() => setSelectedIdx(null)}
+              className={styles.closeBtn}
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            <div className={styles.panelEyebrow}>
+              {lang === "en" ? "Price list" : "Прайс-лист"} · {selected.num}
             </div>
+            <div className={styles.panelTitle}>{selected.name}</div>
+            <p className={styles.panelDesc}>{selected.desc}</p>
+
             <div className={styles.panelItems}>
-              {detail.items.map((item, i) => (
+              {items.map((item, i) => (
                 <div key={i} className={styles.item}>
                   <span className={styles.itemName}>{item.name}</span>
-                  <span className={styles.itemDots} />
                   <span className={styles.itemPrice}>{item.price}</span>
                 </div>
               ))}
             </div>
+
+            <a
+              href="#contact"
+              onClick={() => setSelectedIdx(null)}
+              className={`cd-btn cd-btn--block ${styles.panelCta}`}
+            >
+              {lang === "en" ? "Book a free consultation" : "Записатись безкоштовно"}
+            </a>
+
             <div className={styles.panelFoot}>{t.panelFoot}</div>
           </div>
         </div>

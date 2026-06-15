@@ -1,15 +1,20 @@
 .root {
   width: 100%;
-  max-width: 1020px;
+  max-width: 1200px;
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 330px 1fr;
   gap: 56px;
   align-items: center;
 }
 
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
 .title {
   font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(34px, 4.6vw, 54px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.03em;
@@ -17,15 +22,67 @@
 }
 
 .sub {
-  margin-top: 20px;
+  margin-top: 16px;
   font-family: var(--font-body);
   font-size: 13px;
   color: rgba(var(--ink-rgb), 0.4);
   line-height: 1.7;
 }
 
+.cases {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 1px solid rgba(var(--white-rgb), 0.08);
+  border-radius: 8px;
+  background: rgba(var(--white-rgb), 0.02);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.caseBtn:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.caseActive {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.caseName {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(var(--ink-rgb), 0.75);
+}
+
+.caseActive .caseName {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.caseDur {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(var(--white-rgb), 0.4);
+  white-space: nowrap;
+}
+
 .hint {
-  margin-top: 24px;
+  margin-top: 18px;
   font-family: var(--font-body);
   font-size: 9px;
   color: rgba(var(--white-rgb), 0.2);
@@ -33,28 +90,28 @@
   text-transform: uppercase;
 }
 
-.cards {
+.right {
   display: flex;
-  gap: 14px;
-  align-items: stretch;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
 }
 
 .slider {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1 1 0;
+  width: 100%;
+  max-width: 620px;
 }
 
 .frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   cursor: ew-resize;
   user-select: none;
-  border-radius: 4px;
-  border: 1px solid rgba(var(--white-rgb), 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(var(--white-rgb), 0.1);
   touch-action: none;
 }
 
@@ -62,6 +119,10 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #1e141f, #0f0a14);
+  background-color: #0e0c12;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,9 +130,9 @@
 
 .beforeText {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 800;
-  color: rgba(var(--white-rgb), 0.04);
+  color: rgba(var(--white-rgb), 0.05);
   user-select: none;
   letter-spacing: -0.02em;
 }
@@ -90,6 +151,10 @@
     color-mix(in srgb, var(--accent) 8%, transparent),
     #1a0f20
   );
+  background-color: #0e0c12;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,9 +162,9 @@
 
 .afterText {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 800;
-  color: color-mix(in srgb, var(--accent) 7%, transparent);
+  color: color-mix(in srgb, var(--accent) 14%, transparent);
   user-select: none;
   letter-spacing: -0.02em;
 }
@@ -110,7 +175,7 @@
   bottom: 0;
   left: var(--pos);
   transform: translateX(-50%);
-  width: 1.5px;
+  width: 2px;
   background: var(--accent);
   z-index: 10;
   pointer-events: none;
@@ -121,82 +186,88 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 34px;
-  height: 34px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 53%, transparent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 .labelBefore {
   position: absolute;
-  top: 8px;
-  left: 10px;
+  top: 12px;
+  left: 14px;
   font-family: var(--font-body);
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(var(--white-rgb), 0.25);
+  color: rgba(var(--white-rgb), 0.6);
   z-index: 5;
 }
 
 .labelAfter {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 12px;
+  right: 14px;
   font-family: var(--font-body);
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: 0.8;
   z-index: 5;
 }
 
-.metaRow {
+.desc {
+  width: 100%;
+  max-width: 620px;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  gap: 24px;
 }
 
-.metaTreat {
-  font-family: var(--font-body);
-  font-size: 10px;
-  color: rgba(var(--ink-rgb), 0.5);
-}
-
-.metaDur {
-  font-family: var(--font-body);
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 0.06em;
-}
-
-.descRow {
+.descCol {
+  flex: 1;
   display: flex;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.descBefore {
-  font-family: var(--font-body);
-  font-size: 10px;
-  color: rgba(var(--white-rgb), 0.22);
-}
-
-.descAfter {
-  font-family: var(--font-body);
-  font-size: 10px;
-  color: rgba(var(--ink-rgb), 0.5);
+.descColRight {
   text-align: right;
 }
 
-@media (max-width: 767px) {
+.descLabel {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(var(--white-rgb), 0.35);
+}
+
+.descColRight .descLabel {
+  color: var(--accent);
+}
+
+.descText {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(var(--ink-rgb), 0.55);
+}
+
+.descColRight .descText {
+  color: rgba(var(--ink-rgb), 0.75);
+}
+
+@media (max-width: 860px) {
   .root {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 24px;
+  }
+  .slider,
+  .desc {
+    max-width: 100%;
   }
 }
