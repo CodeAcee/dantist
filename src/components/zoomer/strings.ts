@@ -43,40 +43,40 @@ export const STRINGS = {
       panelFoot:
         "Точну вартість уточнює лікар на консультації — вона безкоштовна",
       list: [
-        { num: "01", name: "Вініри", desc: "Кастомний фарфор. 2 тижні.", price: "від 8 000 грн" },
-        { num: "02", name: "Імпланти", desc: "Титанові корені. Назавжди.", price: "від 18 000 грн" },
-        { num: "03", name: "Елайнери", desc: "Ніхто не помітить. Ти — відчуєш.", price: "від 25 000 грн" },
-        { num: "04", name: "Відбілювання", desc: "1 сеанс. 8 тонів яскравіше.", price: "від 3 500 грн" },
-        { num: "05", name: "Огляд", desc: "30 хв. Повний скан. Кава включена.", price: "БЕЗКОШТОВНО" },
-        { num: "06", name: "Терміново", desc: "Зламаний зуб? Того ж дня.", price: "Телефонуй" },
-      ],
-      priceDetails: [
-        { cat: "ВІНІРИ", items: [
-          { name: "Порцеляновий вінір (1)", price: "від 8 000 грн" },
-          { name: "Композитна реставрація", price: "від 2 500 грн" },
-          { name: "Зліпки + дизайн усмішки", price: "Безкоштовно" },
+        { num: "01", name: "Вініри", desc: "Кастомний фарфор. 10-15 років служби.", price: "від 9 500 грн", items: [
+          { name: "Керамічні вініри без нанесення", price: "9 500 грн" },
+          { name: "Керамічні вініри з нанесенням", price: "10 500 грн" },
+          { name: "Керамічні вініри з нанесенням Преміум", price: "12 000 грн" },
         ] },
-        { cat: "ІМПЛАНТИ", items: [
+        { num: "02", name: "Імпланти", desc: "Титанові корені. Назавжди.", price: "від 18 000 грн", items: [
           { name: "Імплант (під ключ)", price: "від 25 000 грн" },
           { name: "Коронка (кераміка)", price: "від 5 500 грн" },
           { name: "Синус-ліфтинг", price: "від 12 000 грн" },
         ] },
-        { cat: "ЕЛАЙНЕРИ", items: [
+        { num: "03", name: "Елайнери", desc: "Ніхто не помітить. Ти — відчуєш.", price: "від 25 000 грн", items: [
           { name: "Елайнери (повний курс)", price: "від 25 000 грн" },
           { name: "Брекет-система", price: "від 18 000 грн" },
           { name: "Ретейнери", price: "від 2 400 грн" },
         ] },
-        { cat: "ВІДБІЛЮВАННЯ", items: [
+        { num: "04", name: "Відбілювання", desc: "1 сеанс. 8 тонів яскравіше.", price: "від 3 500 грн", items: [
           { name: "Zoom-відбілювання", price: "4 500 грн" },
           { name: "Домашнє (каппи)", price: "від 2 800 грн" },
           { name: "Air Flow", price: "1 500 грн" },
         ] },
-        { cat: "ОГЛЯД", items: [
-          { name: "Консультація + план", price: "Безкоштовно" },
-          { name: "Цифровий рентген", price: "800 грн" },
-          { name: "Професійна чистка", price: "від 1 500 грн" },
+        { num: "05", name: "Огляд", desc: "Консультація, анестезія, пломбування, лікування каналів.", price: "від 300 грн", items: [
+          { name: "Консультація", price: "500 грн" },
+          { name: "Консультація онлайн", price: "300 грн" },
+          { name: "Анестезія", price: "200 грн" },
+          { name: "Коффердам", price: "200 грн" },
+          { name: "Оптрагейт (роторозширювач)", price: "200 грн" },
+          { name: "Тимчасова пломба", price: "300 грн" },
+          { name: "Пломба (поверхневий каріс)", price: "2 000 грн" },
+          { name: "Пломба (середній каріс)", price: "2 200 грн" },
+          { name: "Пломба (глибокий каріс)", price: "2 500 грн" },
+          { name: "Лікування кореневих каналів (1 канал)", price: "1 200–1 500 грн" },
+          { name: "Зняття гострого болю", price: "1 200 грн" },
         ] },
-        { cat: "ТЕРМІНОВО", items: [
+        { num: "06", name: "Терміново", desc: "Зламаний зуб? Того ж дня.", price: "Телефонуй", items: [
           { name: "Огляд при болю", price: "Безкоштовно" },
           { name: "Видалення зуба", price: "від 1 200 грн" },
           { name: "Тимчасова пломба", price: "від 600 грн" },
@@ -163,7 +163,8 @@ export const STRINGS = {
       sub: "Перша консультація — безкоштовно. Відповідь за 2 години.",
       eyebrow: "ШВИДКИЙ ЗАПИТ",
       labels: { name: "Ваше ім'я", phone: "Телефон *", service: "Послуга", via: "Зручний зв'язок", note: "Примітка (за бажанням)" },
-      placeholders: { name: "Катерина", phone: "+38 (0__) ___-__-__", note: "Напр. — зручніше вранці, трохи хвилююсь...", choose: "Оберіть..." },
+      placeholders: { name: "Катерина", phone: "+380 __ ___-__-__", note: "Напр. — зручніше вранці, трохи хвилююсь...", choose: "Оберіть..." },
+      phoneInvalid: "Введіть номер у форматі +380XXXXXXXXX",
       services: ["Безкоштовна консультація", "Косметика / вініри", "Імпланти", "Відбілювання", "Елайнери", "Огляд", "Невідкладна"],
       vias: ["Телефон", "Telegram", "Viber", "WhatsApp"],
       submit: "Надіслати запит →",
@@ -217,40 +218,40 @@ export const STRINGS = {
       panelFoot:
         "The exact cost is confirmed by the doctor at the consultation — it's free",
       list: [
-        { num: "01", name: "Veneers", desc: "Custom porcelain. 2 weeks.", price: "from ₴8,000" },
-        { num: "02", name: "Implants", desc: "Titanium roots. Forever.", price: "from ₴18,000" },
-        { num: "03", name: "Aligners", desc: "No one will notice. You'll feel it.", price: "from ₴25,000" },
-        { num: "04", name: "Whitening", desc: "1 session. 8 shades brighter.", price: "from ₴3,500" },
-        { num: "05", name: "Check-up", desc: "30 min. Full scan. Coffee included.", price: "FREE" },
-        { num: "06", name: "Urgent", desc: "Broken tooth? Same day.", price: "Call us" },
-      ],
-      priceDetails: [
-        { cat: "VENEERS", items: [
-          { name: "Porcelain veneer (1)", price: "from ₴8,000" },
-          { name: "Composite restoration", price: "from ₴2,500" },
-          { name: "Impressions + smile design", price: "Free" },
+        { num: "01", name: "Veneers", desc: "Custom porcelain. 10-15 year lifespan.", price: "from ₴9,500", items: [
+          { name: "Ceramic veneers (no layering)", price: "₴9,500" },
+          { name: "Ceramic veneers (with layering)", price: "₴10,500" },
+          { name: "Ceramic veneers (with layering) Premium", price: "₴12,000" },
         ] },
-        { cat: "IMPLANTS", items: [
+        { num: "02", name: "Implants", desc: "Titanium roots. Forever.", price: "from ₴18,000", items: [
           { name: "Implant (turnkey)", price: "from ₴25,000" },
           { name: "Crown (ceramic)", price: "from ₴5,500" },
           { name: "Sinus lift", price: "from ₴12,000" },
         ] },
-        { cat: "ALIGNERS", items: [
+        { num: "03", name: "Aligners", desc: "No one will notice. You'll feel it.", price: "from ₴25,000", items: [
           { name: "Aligners (full course)", price: "from ₴25,000" },
           { name: "Braces", price: "from ₴18,000" },
           { name: "Retainers", price: "from ₴2,400" },
         ] },
-        { cat: "WHITENING", items: [
+        { num: "04", name: "Whitening", desc: "1 session. 8 shades brighter.", price: "from ₴3,500", items: [
           { name: "Zoom whitening", price: "₴4,500" },
           { name: "Home (trays)", price: "from ₴2,800" },
           { name: "Air Flow", price: "₴1,500" },
         ] },
-        { cat: "CHECK-UP", items: [
-          { name: "Consultation + plan", price: "Free" },
-          { name: "Digital X-ray", price: "₴800" },
-          { name: "Professional cleaning", price: "from ₴1,500" },
+        { num: "05", name: "Check-up", desc: "Consultation, anesthesia, fillings, root canals.", price: "from ₴300", items: [
+          { name: "Consultation", price: "₴500" },
+          { name: "Online consultation", price: "₴300" },
+          { name: "Anesthesia", price: "₴200" },
+          { name: "Rubber dam", price: "₴200" },
+          { name: "Mouth opener (Optragate)", price: "₴200" },
+          { name: "Temporary filling", price: "₴300" },
+          { name: "Filling (shallow cavity)", price: "₴2,000" },
+          { name: "Filling (medium cavity)", price: "₴2,200" },
+          { name: "Filling (deep cavity)", price: "₴2,500" },
+          { name: "Root canal treatment (1 canal)", price: "₴1,200–1,500" },
+          { name: "Emergency pain relief", price: "₴1,200" },
         ] },
-        { cat: "URGENT", items: [
+        { num: "06", name: "Urgent", desc: "Broken tooth? Same day.", price: "Call us", items: [
           { name: "Pain exam", price: "Free" },
           { name: "Tooth extraction", price: "from ₴1,200" },
           { name: "Temporary filling", price: "from ₴600" },
@@ -337,7 +338,8 @@ export const STRINGS = {
       sub: "First consultation is free. Reply within 2 hours.",
       eyebrow: "QUICK REQUEST",
       labels: { name: "Your name", phone: "Phone *", service: "Service", via: "Preferred contact", note: "Note (optional)" },
-      placeholders: { name: "Kateryna", phone: "+38 (0__) ___-__-__", note: "E.g. — mornings are better, a bit nervous...", choose: "Choose..." },
+      placeholders: { name: "Kateryna", phone: "+380 __ ___-__-__", note: "E.g. — mornings are better, a bit nervous...", choose: "Choose..." },
+      phoneInvalid: "Enter a number in the format +380XXXXXXXXX",
       services: ["Free consultation", "Cosmetic / veneers", "Implants", "Whitening", "Aligners", "Check-up", "Emergency"],
       vias: ["Phone", "Telegram", "Viber", "WhatsApp"],
       submit: "Send request →",

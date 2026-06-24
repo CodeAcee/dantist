@@ -1,11 +1,18 @@
 import { useState } from "react";
 import type React from "react";
-import { supabase } from "../../db/supabase";
 import GradientText from "../GradientText";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
 import styles from "./SceneContact.module.css";
+
+const CONTACT_WORKER_URL = import.meta.env.PUBLIC_CONTACT_WORKER_URL as
+  | string
+  | undefined;
+
+const NOTE_MAX = 1000;
+
+const isValidUaPhone = (raw: string) => /^380\d{9}$/.test(raw.replace(/\D/g, ""));
 
 export function SceneContact({ lang }: SceneProps) {
   const t = STRINGS[lang].contact;
@@ -19,6 +26,7 @@ export function SceneContact({ lang }: SceneProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">(
     "idle",
   );
+  const [phoneTouched, setPhoneTouched] = useState(false);
 
   const set =
     (k: string) =>
@@ -26,23 +34,35 @@ export function SceneContact({ lang }: SceneProps) {
       e: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
       >,
-    ) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
+    ) => {
+      const value =
+        k === "note" ? e.target.value.slice(0, NOTE_MAX) : e.target.value;
+      setForm((f) => ({ ...f, [k]: value }));
+    };
+
+  const phoneValid = isValidUaPhone(form.phone);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim()) return;
+    if (!form.name.trim() || !phoneValid) {
+      setPhoneTouched(true);
+      return;
+    }
     setStatus("loading");
     try {
-      if (supabase) {
-        await supabase.from("contact_requests").insert({
-          name: form.name.trim(),
-          phone: form.phone.trim(),
-          service: form.service || null,
-          contact_via: form.contact_via || null,
-          note: form.note.trim() || null,
-          source: "zoomer_form",
+      if (CONTACT_WORKER_URL) {
+        const res = await fetch(CONTACT_WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name.trim(),
+            phone: form.phone.trim(),
+            service: form.service || undefined,
+            contact_via: form.contact_via || undefined,
+            note: form.note.trim() || undefined,
+          }),
         });
+        if (!res.ok) throw new Error("Request failed");
       }
       setStatus("ok");
     } catch {
@@ -97,14 +117,33 @@ export function SceneContact({ lang }: SceneProps) {
               </div>
               <div>
                 <label className={styles.label}>{t.labels.phone}</label>
-                <input
-                  required
-                  type="tel"
-                  placeholder={t.placeholders.phone}
-                  value={form.phone}
-                  onChange={set("phone")}
-                  className={styles.input}
-                />
+                <div
+                  className={
+                    phoneTouched && !phoneValid
+                      ? `${styles.input} ${styles.phoneWrap} ${styles.inputInvalid}`
+                      : `${styles.input} ${styles.phoneWrap}`
+                  }
+                >
+                  <span className={styles.phonePrefix}>+380</span>
+                  <input
+                    required
+                    type="tel"
+                    inputMode="numeric"
+                    placeholder="__ ___-__-__"
+                    value={form.phone.replace(/^\+?380/, "")}
+                    onChange={(e) => {
+                      const digits = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 9);
+                      setForm((f) => ({ ...f, phone: digits ? `+380${digits}` : "" }));
+                    }}
+                    onBlur={() => setPhoneTouched(true)}
+                    className={styles.phoneInput}
+                  />
+                </div>
+                {phoneTouched && !phoneValid && (
+                  <p className={styles.fieldError}>{t.phoneInvalid}</p>
+                )}
               </div>
             </div>
 
@@ -146,10 +185,20 @@ export function SceneContact({ lang }: SceneProps) {
               <textarea
                 placeholder={t.placeholders.note}
                 rows={3}
+                maxLength={NOTE_MAX}
                 value={form.note}
                 onChange={set("note")}
                 className={`${styles.input} ${styles.textarea}`}
               />
+              <p
+                className={
+                  form.note.length >= NOTE_MAX
+                    ? `${styles.counter} ${styles.counterOver}`
+                    : styles.counter
+                }
+              >
+                {form.note.length}/{NOTE_MAX}
+              </p>
             </div>
 
             <button

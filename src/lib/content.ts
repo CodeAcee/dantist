@@ -1,4 +1,5 @@
-import { supabase } from "../db/supabase";
+import { createImageUrlBuilder } from "@sanity/image-url";
+import { sanity } from "../db/sanity";
 import type { Lang } from "../components/zoomer/strings";
 
 export interface ServiceRow {
@@ -6,9 +7,6 @@ export interface ServiceRow {
   name: string;
   desc: string;
   price: string;
-}
-export interface PriceCategoryRow {
-  cat: string;
   items: { name: string; price: string }[];
 }
 export interface CaseRow {
@@ -36,94 +34,81 @@ export interface ReviewRow {
 
 export interface SiteContent {
   services: ServiceRow[];
-  priceCategories: PriceCategoryRow[];
   cases: CaseRow[];
   team: TeamRow[];
   reviews: ReviewRow[];
 }
 
-const EMPTY: SiteContent = {
-  services: [],
-  priceCategories: [],
-  cases: [],
-  team: [],
-  reviews: [],
-};
+const EMPTY: SiteContent = { services: [], cases: [], team: [], reviews: [] };
 
-// Fetched once per locale at build time and baked into the static HTML.
+const builder = sanity ? createImageUrlBuilder(sanity) : null;
+function imgUrl(source: unknown): string | undefined {
+  if (!builder || !source) return undefined;
+  return builder.image(source as never).url();
+}
+
+const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
+  nameUk, nameEn, descUk, descEn, startingPriceUk, startingPriceEn,
+  priceItems[]{ nameUk, nameEn, priceUk, priceEn }
+}`;
+
+const CASES_QUERY = `*[_type == "caseStudy"] | order(order asc) {
+  treatmentUk, treatmentEn, durationUk, durationEn,
+  beforeDescUk, beforeDescEn, afterDescUk, afterDescEn,
+  beforeImage, afterImage
+}`;
+
+const TEAM_QUERY = `*[_type == "teamMember"] | order(order asc) {
+  name, titleUk, titleEn, bioUk, bioEn, years, yearsLabelUk, yearsLabelEn, photo
+}`;
+
+const REVIEWS_QUERY = `*[_type == "review"] | order(order asc) {
+  name, initials, since, textUk, textEn
+}`;
+
 export async function getContent(lang: Lang): Promise<SiteContent> {
-  if (!supabase) return EMPTY;
+  if (!sanity) return EMPTY;
+  const en = lang === "en";
   try {
-    const [services, prices, cases, team, reviews] = await Promise.all([
-      supabase
-        .from("services")
-        .select("name, description, starting_price, sort_order")
-        .eq("locale", lang)
-        .eq("active", true)
-        .order("sort_order"),
-      supabase
-        .from("price_categories")
-        .select("name, sort_order, price_items(name, price, sort_order)")
-        .eq("locale", lang)
-        .eq("active", true)
-        .order("sort_order"),
-      supabase
-        .from("cases")
-        .select("before_label, after_label, treatment, duration, before_img, after_img, sort_order")
-        .eq("locale", lang)
-        .eq("active", true)
-        .order("sort_order"),
-      supabase
-        .from("team")
-        .select("name, title, bio, years, years_label, img, sort_order")
-        .eq("locale", lang)
-        .eq("active", true)
-        .order("sort_order"),
-      supabase
-        .from("reviews")
-        .select("quote, name, since, initials, sort_order")
-        .eq("locale", lang)
-        .eq("active", true)
-        .order("sort_order"),
+    const [services, cases, team, reviews] = await Promise.all([
+      sanity.fetch(SERVICES_QUERY),
+      sanity.fetch(CASES_QUERY),
+      sanity.fetch(TEAM_QUERY),
+      sanity.fetch(REVIEWS_QUERY),
     ]);
 
     return {
-      services: (services.data ?? []).map((s: any, i: number) => ({
+      services: (services ?? []).map((s: any, i: number) => ({
         num: String(i + 1).padStart(2, "0"),
-        name: s.name,
-        desc: s.description,
-        price: s.starting_price,
+        name: en ? s.nameEn : s.nameUk,
+        desc: en ? s.descEn : s.descUk,
+        price: en ? s.startingPriceEn : s.startingPriceUk,
+        items: (s.priceItems ?? []).map((it: any) => ({
+          name: en ? it.nameEn : it.nameUk,
+          price: en ? it.priceEn : it.priceUk,
+        })),
       })),
-      priceCategories: (prices.data ?? []).map((c: any) => ({
-        cat: String(c.name).toUpperCase(),
-        items: (c.price_items ?? [])
-          .sort((a: any, b: any) => a.sort_order - b.sort_order)
-          .map((it: any) => ({ name: it.name, price: it.price })),
+      cases: (cases ?? []).map((c: any) => ({
+        treatment: en ? c.treatmentEn : c.treatmentUk,
+        duration: en ? c.durationEn : c.durationUk,
+        before: en ? c.beforeDescEn : c.beforeDescUk,
+        after: en ? c.afterDescEn : c.afterDescUk,
+        beforeImg: imgUrl(c.beforeImage),
+        afterImg: imgUrl(c.afterImage),
       })),
-      cases: (cases.data ?? []).map((c: any) => ({
-        treatment: c.treatment,
-        duration: c.duration,
-        before: c.before_label,
-        after: c.after_label,
-        beforeImg: c.before_img ?? undefined,
-        afterImg: c.after_img ?? undefined,
-      })),
-      team: (team.data ?? []).map((m: any) => ({
+      team: (team ?? []).map((m: any) => ({
         name: m.name,
-        title: m.title,
+        title: en ? m.titleEn : m.titleUk,
         years: m.years,
-        yearsLabel: m.years_label,
-        bio: m.bio,
-        img: m.img ?? undefined,
+        yearsLabel: en ? m.yearsLabelEn : m.yearsLabelUk,
+        bio: en ? m.bioEn : m.bioUk,
+        img: imgUrl(m.photo),
       })),
-      reviews: (reviews.data ?? []).map((r: any) => ({
+      reviews: (reviews ?? []).map((r: any) => ({
         initials: r.initials,
         name: r.name,
-        age:
-          r.since != null
-            ? `${lang === "en" ? "since" : "з"} ${r.since}`
-            : "",
-        text: r.quote,
+        age: r.since != null ? `${en ? "since" : "з"} ${r.since}` : "",
+        text: en ? r.textEn : r.textUk,
       })),
     };
   } catch {

@@ -47,7 +47,6 @@ export default function ZoomerMode({
   const isTransitioning = useRef(false);
   const sceneIdxRef = useRef(0);
   const touchStartY = useRef(0);
-  console.log(data);
 
   useEffect(() => {
     const id = "zoomer-fonts";
@@ -165,12 +164,7 @@ export default function ZoomerMode({
 
   const sceneComponents = [
     <SceneHero isMobile={isMobile} lang={lang} />,
-    <SceneServices
-      isMobile={isMobile}
-      lang={lang}
-      services={data?.services}
-      priceCategories={data?.priceCategories}
-    />,
+    <SceneServices isMobile={isMobile} lang={lang} services={data?.services} />,
     <SceneBeforeAfter isMobile={isMobile} lang={lang} cases={data?.cases} />,
     <SceneTeam isMobile={isMobile} lang={lang} team={data?.team} />,
     <SceneReviews isMobile={isMobile} lang={lang} reviews={data?.reviews} />,

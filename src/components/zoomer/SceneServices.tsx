@@ -6,41 +6,32 @@ import { Ring } from "./Ring";
 import { C } from "./theme";
 import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
-import type { ServiceRow, PriceCategoryRow } from "../../lib/content";
+import type { ServiceRow } from "../../lib/content";
 import styles from "./SceneServices.module.css";
 
 const SERVICE_COLORS = [C.lime, C.cyan, C.pink, C.purple, C.lime, C.cyan];
 
 type Props = SceneProps & {
   services?: ServiceRow[];
-  priceCategories?: PriceCategoryRow[];
 };
 
-export function SceneServices({ lang, services, priceCategories }: Props) {
+export function SceneServices({ lang, services }: Props) {
   const t = STRINGS[lang].services;
-  const list = services && services.length ? services : t.list;
+  const list: readonly ServiceRow[] =
+    services && services.length ? services : (t.list as unknown as ServiceRow[]);
   const serviceData = list.map((s, i) => ({
     ...s,
     color: SERVICE_COLORS[i % SERVICE_COLORS.length] as string,
   }));
-  const priceData: PriceCategoryRow[] =
-    priceCategories && priceCategories.length
-      ? priceCategories
-      : (t.priceDetails as unknown as PriceCategoryRow[]);
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const selected = selectedIdx !== null ? serviceData[selectedIdx] : null;
-  // Match the price group to the service BY NAME (robust to ordering / count mismatch).
-  const detail = selected
-    ? (priceData.find(
-        (p) => p.cat.trim().toUpperCase() === selected.name.trim().toUpperCase(),
-      ) ?? null)
-    : null;
   const items =
-    detail?.items ??
-    (selected
-      ? [{ name: lang === "en" ? "Starting price" : "Вартість від", price: selected.price }]
-      : []);
+    selected && selected.items.length
+      ? selected.items
+      : selected
+        ? [{ name: lang === "en" ? "Starting price" : "Вартість від", price: selected.price }]
+        : [];
 
   return (
     <div className={styles.root}>

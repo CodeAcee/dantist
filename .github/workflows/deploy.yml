@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-  # Triggered by Supabase when content changes (see supabase/functions/trigger-rebuild)
-  repository_dispatch:
-    types: [supabase-content-update]
   # Manual "Run workflow" button in the Actions tab
   workflow_dispatch:
 
@@ -29,13 +26,14 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - run: npm ci
       - run: npm run build
         env:
-          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
-          PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
+          PUBLIC_SANITY_PROJECT_ID: ry5ky7kc
+          PUBLIC_SANITY_DATASET: production
+          PUBLIC_CONTACT_WORKER_URL: ${{ secrets.PUBLIC_CONTACT_WORKER_URL }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
