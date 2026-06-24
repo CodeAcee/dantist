@@ -50,20 +50,21 @@ export function SceneContact({ lang }: SceneProps) {
     }
     setStatus("loading");
     try {
-      if (CONTACT_WORKER_URL) {
-        const res = await fetch(CONTACT_WORKER_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: form.name.trim(),
-            phone: form.phone.trim(),
-            service: form.service || undefined,
-            contact_via: form.contact_via || undefined,
-            note: form.note.trim() || undefined,
-          }),
-        });
-        if (!res.ok) throw new Error("Request failed");
+      if (!CONTACT_WORKER_URL) {
+        throw new Error("Contact worker URL is not configured");
       }
+      const res = await fetch(CONTACT_WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          service: form.service || undefined,
+          contact_via: form.contact_via || undefined,
+          note: form.note.trim() || undefined,
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
       setStatus("ok");
     } catch {
       setStatus("err");
