@@ -28,7 +28,7 @@ export function SceneTikTok({ isMobile, lang }: SceneProps) {
   const [slide, setSlide] = useState(0);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const embedWidth = isMobile ? 320 : 325;
+  const embedWidth = isMobile ? 300 : 325;
 
   const tabs = [
     { label: t.tt.brand, path: TT_PATH, color: C.pink as string },

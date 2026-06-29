@@ -169,7 +169,7 @@ export default function ZoomerMode({
     <SceneTeam isMobile={isMobile} lang={lang} team={data?.team} />,
     <SceneReviews isMobile={isMobile} lang={lang} reviews={data?.reviews} />,
     <SceneTikTok isMobile={isMobile} lang={lang} />,
-    <SceneClinic isMobile={isMobile} lang={lang} />,
+    <SceneClinic isMobile={isMobile} lang={lang} media={data?.clinicMedia} />,
     <SceneLocation isMobile={isMobile} lang={lang} />,
     <SceneContact isMobile={isMobile} lang={lang} />,
   ];

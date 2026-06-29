@@ -184,12 +184,37 @@
 }
 
 @media (max-width: 767px) {
+  .root {
+    gap: 12px;
+  }
   .slide {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 12px;
+  }
+  .brandRow {
+    margin-bottom: 8px;
+  }
+  .title {
+    font-size: clamp(28px, 8vw, 38px);
+  }
+  .titleIg {
+    font-size: clamp(26px, 7.5vw, 36px);
+  }
+  .sub {
+    margin-top: 8px;
+  }
+  .stats {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  .cdBtnSpacer {
+    margin-top: 10px;
+  }
+  .embeds {
+    justify-content: flex-start;
   }
   .embedWrap {
-    width: 320px;
-    height: 560px;
+    width: 300px;
+    height: 'auto';
   }
 }

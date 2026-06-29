@@ -194,5 +194,6 @@
   }
   .scene {
     padding: 64px 16px 56px;
+    align-items: flex-start;
   }
 }

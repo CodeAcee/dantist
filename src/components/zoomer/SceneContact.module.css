@@ -77,10 +77,18 @@
   gap: 10px;
 }
 
+.row2 > div {
+  min-width: 0;
+}
+
 .rowResp {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+
+.rowResp > div {
+  min-width: 0;
 }
 
 .label {

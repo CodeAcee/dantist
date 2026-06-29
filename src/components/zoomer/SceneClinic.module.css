@@ -66,6 +66,28 @@
   overflow: hidden;
   background: rgba(var(--white-rgb), 0.03);
   border: 1px solid rgba(var(--purple-rgb), 0.2);
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.video:disabled {
+  cursor: default;
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  transition: background 0.2s;
+}
+
+.video:not(:disabled):hover .videoOverlay {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .videoEl {
@@ -94,6 +116,11 @@
   justify-content: center;
 }
 
+.videoOverlay .playIcon {
+  border: none;
+  background: rgba(168, 85, 247, 0.85);
+}
+
 .videoLabel {
   font-family: var(--font-body);
   font-size: 11px;
@@ -111,12 +138,23 @@
 .photo {
   aspect-ratio: 1 / 1;
   border-radius: 3px;
-  background: rgba(var(--white-rgb), 0.03);
+  background-color: rgba(var(--white-rgb), 0.03);
+  background-size: cover;
+  background-position: center;
   border: 1px dashed rgba(var(--purple-rgb), 0.2);
   display: flex;
   align-items: flex-end;
   padding: 6px 7px;
   overflow: hidden;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+button.photo {
+  cursor: pointer;
+  border-style: solid;
 }
 
 .photoLabel {
@@ -135,5 +173,140 @@
   }
   .photos {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--white-rgb), 0.2);
+  background: rgba(var(--white-rgb), 0.06);
+  color: var(--c-ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalVideo {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+}
+
+.modalVideoEl {
+  width: 100%;
+  max-height: 80vh;
+  border-radius: 6px;
+  display: block;
+  background: #000;
+}
+
+.modalCarousel {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalImg {
+  max-width: 100%;
+  max-height: 78vh;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.modalCaption {
+  margin-top: 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(var(--white-rgb), 0.55);
+  text-align: center;
+}
+
+.modalDots {
+  margin-top: 16px;
+  display: flex;
+  gap: 7px;
+}
+
+.modalDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(var(--white-rgb), 0.25);
+  transition: all 0.25s;
+}
+
+.modalDotActive {
+  width: 20px;
+  border-radius: 4px;
+  background: var(--c-purple);
+}
+
+.navArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--white-rgb), 0.18);
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--c-ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.navPrev {
+  left: -8px;
+}
+
+.navNext {
+  right: -8px;
+}
+
+@media (max-width: 767px) {
+  .closeBtn {
+    top: -36px;
+    right: 4px;
+  }
+  .navArrow {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+  .navPrev {
+    left: 4px;
+  }
+  .navNext {
+    right: 4px;
   }
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type React from "react";
 import GradientText from "../GradientText";
 import { Ring } from "./Ring";
@@ -19,6 +20,8 @@ export function SceneTeam({ isMobile, lang, team }: Props) {
     ...m,
     accent: ACCENTS[i % ACCENTS.length] as string,
   }));
+  const [mobileIdx, setMobileIdx] = useState(0);
+  const visible = isMobile ? data.filter((_, i) => i === mobileIdx) : data;
 
   return (
     <div className={styles.root}>
@@ -36,34 +39,71 @@ export function SceneTeam({ isMobile, lang, team }: Props) {
       </div>
 
       <div className={styles.grid}>
-        {data
-          .filter((_, i) => !isMobile || i === 0)
-          .map((m, i) => (
+        {visible.map((m, i) => (
+          <div
+            key={i}
+            className={styles.card}
+            style={{ ["--accent"]: m.accent } as React.CSSProperties}
+          >
             <div
-              key={i}
-              className={styles.card}
-              style={{ ["--accent"]: m.accent } as React.CSSProperties}
+              className={styles.photo}
+              style={m.img ? { backgroundImage: `url(${m.img})` } : undefined}
             >
-              <div
-                className={styles.photo}
-                style={m.img ? { backgroundImage: `url(${m.img})` } : undefined}
-              >
-                {!m.img && <div className={styles.photoName}>{m.name}</div>}
-                <div className={styles.badge}>
-                  <div className={styles.badgeYears}>{m.years}</div>
-                  <div className={styles.badgeLabel}>{m.yearsLabel}</div>
-                </div>
+              {!m.img && <div className={styles.photoName}>{m.name}</div>}
+              <div className={styles.badge}>
+                <div className={styles.badgeYears}>{m.years}</div>
+                <div className={styles.badgeLabel}>{m.yearsLabel}</div>
               </div>
-
-              <div>
-                <div className={styles.name}>{m.name}</div>
-                <div className={styles.role}>{m.title}</div>
-              </div>
-
-              <p className={styles.bio}>{m.bio}</p>
             </div>
-          ))}
+
+            <div>
+              <div className={styles.name}>{m.name}</div>
+              <div className={styles.role}>{m.title}</div>
+            </div>
+
+            <p className={styles.bio}>{m.bio}</p>
+          </div>
+        ))}
       </div>
+
+      {isMobile && data.length > 1 && (
+        <div className={styles.slider}>
+          <button
+            type="button"
+            onClick={() =>
+              setMobileIdx((i) => (i - 1 + data.length) % data.length)
+            }
+            className={styles.arrow}
+            aria-label="Previous"
+          >
+            ‹
+          </button>
+          <div className={styles.dots}>
+            {data.map((m, i) => (
+              <button
+                key={m.name}
+                type="button"
+                onClick={() => setMobileIdx(i)}
+                className={
+                  i === mobileIdx
+                    ? `${styles.dot} ${styles.dotActive}`
+                    : styles.dot
+                }
+                style={{ ["--accent"]: m.accent } as React.CSSProperties}
+                aria-label={m.name}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileIdx((i) => (i + 1) % data.length)}
+            className={styles.arrow}
+            aria-label="Next"
+          >
+            ›
+          </button>
+        </div>
+      )}
     </div>
   );
 }
