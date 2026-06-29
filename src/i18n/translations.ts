@@ -29,9 +29,9 @@ const uk = {
     about:
       "Сучасне обладнання, затишна атмосфера та підхід без осуду. Працюємо у центрі Дніпра.",
     contactTitle: "Контакти",
-    address: "вул. Михайла Грушевського, 29, Дніпро",
-    phone: "+38 (056) 123-45-67",
-    hours: "Пн–Пт 9:00–20:00 · Сб 10:00–18:00",
+    address: "вул. Михайла Грушевського, 16, Дніпро",
+    phone: "+38 (099) 31-21-565",
+    hours: "Пн–Пт 9:00–20:00 · Сб 12:00–18:00",
   },
 };
 
@@ -64,9 +64,9 @@ const en = {
     about:
       "Modern equipment, a calm atmosphere and a judgement-free approach. Located in central Dnipro.",
     contactTitle: "Contacts",
-    address: "29 Mykhaila Hrushevskoho St, Dnipro",
-    phone: "+38 (056) 123-45-67",
-    hours: "Mon–Fri 9:00–20:00 · Sat 10:00–18:00",
+    address: "16 Mykhaila Hrushevskoho St, Dnipro",
+    phone: "+38 (099) 31-21-565",
+    hours: "Mon–Fri 9:00–20:00 · Sat 12:00–18:00",
   },
 };
 
