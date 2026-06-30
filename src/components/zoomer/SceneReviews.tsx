@@ -35,7 +35,7 @@ export function SceneReviews({ isMobile, lang, reviews }: Props) {
       </div>
       <div className={styles.grid}>
         {data
-          .filter((_, i) => !isMobile || i < 2)
+          .filter((_, i) => !isMobile || i < 3)
           .map((r) => (
             <div key={r.initials} className={styles.card}>
               <div className={styles.quote}>"{r.text}"</div>

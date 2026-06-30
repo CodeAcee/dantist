@@ -115,6 +115,9 @@ export const STRINGS = {
       lines: ["ВОНИ СКАЗАЛИ.", "НЕ МИ."],
       sub: "Реальні слова. Без фільтрів.",
       list: [
+        { initials: "МВ", name: "Марія В.", age: "з 2026", text: "Найкраща клініка у Дніпрі! Вінири зробили за 2 тижні — результат вище очікувань." },
+        { initials: "ДК", name: "Дмитро К.", age: "з 2026", text: "Лікар уважний і не поспішає. Вперше не боявся йти до стоматолога!" },
+        { initials: "ІС", name: "Ірина С.", age: "з 2026", text: "Зробили імплант — навіть забула де він. Дякую всій команді за увагу та підтримку!" },
         { initials: "АК", name: "Аліна К.", age: "з 2021", text: "Чудовий сервіс — все швидко, без болю і нотацій. Тепер не переживаю за посмішку." },
         { initials: "МД", name: "Максим Д.", age: "з 2020", text: "Зламав зуб — все зробили швидко, акуратно і без зайвих слів. Рекомендую." },
         { initials: "ОС", name: "Олена С.", age: "з 2022", text: "Тріщину на зубі прибрали за один візит. Тепер можу їсти навіть горішки." },
@@ -300,6 +303,9 @@ export const STRINGS = {
       lines: ["THEY SAID IT.", "NOT US."],
       sub: "Real words. No filters.",
       list: [
+        { initials: "MV", name: "Maria V.", age: "since 2026", text: "Best clinic in Dnipro! Got veneers done in 2 weeks — the result exceeded all expectations." },
+        { initials: "DK", name: "Dmytro K.", age: "since 2026", text: "The doctor is attentive and never rushes. First time I wasn't afraid of going to the dentist!" },
+        { initials: "IS", name: "Iryna S.", age: "since 2026", text: "Got an implant — I even forgot where it is. Thank you to the whole team for the care and support!" },
         { initials: "AK", name: "Alina K.", age: "since 2021", text: "Great service — everything fast, painless and no lectures. Now I don't worry about my smile." },
         { initials: "MD", name: "Maksym D.", age: "since 2020", text: "Broke a tooth — it was fixed quickly, neatly and without fuss. Highly recommend." },
         { initials: "OS", name: "Olena S.", age: "since 2022", text: "A crack in my tooth was fixed in a single visit. Now I can even eat nuts again." },
