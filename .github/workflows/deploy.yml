@@ -1,4 +1,4 @@
-name: Deploy to Hostiq
+name: Deploy
 
 on:
   push:
@@ -6,12 +6,17 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
   group: deploy
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +28,7 @@ jobs:
 
       - run: npm ci
 
+      # ── Build for Hostiq (base "/") ──────────────────────────────
       - run: npm run build
         env:
           PUBLIC_SANITY_PROJECT_ID: ry5ky7kc
@@ -38,3 +44,30 @@ jobs:
           local-dir: ./dist/
           server-dir: /public_html/
           dangerous-clean-slate: false
+
+      # ── Build for GitHub Pages (base "/dantist") ─────────────────
+      - run: npx astro build --base /dantist --outdir dist-gh
+        env:
+          PUBLIC_SANITY_PROJECT_ID: ry5ky7kc
+          PUBLIC_SANITY_DATASET: production
+          PUBLIC_CONTACT_WORKER_URL: ${{ secrets.PUBLIC_CONTACT_WORKER_URL }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist-gh
+
+  deploy-pages:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
