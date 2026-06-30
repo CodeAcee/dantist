@@ -163,8 +163,8 @@ export default function ZoomerMode({
   const auroraColors = AURORA_PALETTES[sceneIdx] ?? AURORA_PALETTES[0];
 
   const sceneComponents = [
-    <SceneHero isMobile={isMobile} lang={lang} />,
-    <SceneServices isMobile={isMobile} lang={lang} services={data?.services} />,
+    <SceneHero isMobile={isMobile} lang={lang} onGoToContact={() => goToScene(SCENES.findIndex(s => s.id === "contact"))} />,
+    <SceneServices isMobile={isMobile} lang={lang} services={data?.services} onGoToContact={() => goToScene(SCENES.findIndex(s => s.id === "contact"))} />,
     <SceneBeforeAfter isMobile={isMobile} lang={lang} cases={data?.cases} />,
     <SceneTeam isMobile={isMobile} lang={lang} team={data?.team} />,
     <SceneReviews isMobile={isMobile} lang={lang} reviews={data?.reviews} />,

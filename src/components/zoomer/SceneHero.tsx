@@ -5,7 +5,7 @@ import { STRINGS } from "./strings";
 import type { SceneProps } from "./types";
 import styles from "./SceneHero.module.css";
 
-export function SceneHero({ lang }: SceneProps) {
+export function SceneHero({ lang, onGoToContact }: SceneProps & { onGoToContact?: () => void }) {
   const t = STRINGS[lang].hero;
   return (
     <div className={styles.root}>
@@ -28,9 +28,9 @@ export function SceneHero({ lang }: SceneProps) {
 
       <p className={styles.sub}>{t.sub}</p>
 
-      <a href="#contact" className="cd-btn cd-btn--lg">
+      <button type="button" onClick={() => onGoToContact?.()} className="cd-btn cd-btn--lg">
         {t.cta}
-      </a>
+      </button>
 
       <div className={styles.stats}>
         {t.stats.map(([v, l]) => (

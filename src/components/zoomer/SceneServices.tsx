@@ -13,9 +13,10 @@ const SERVICE_COLORS = [C.lime, C.cyan, C.pink, C.purple, C.lime, C.cyan];
 
 type Props = SceneProps & {
   services?: ServiceRow[];
+  onGoToContact?: () => void;
 };
 
-export function SceneServices({ lang, services }: Props) {
+export function SceneServices({ lang, services, onGoToContact }: Props) {
   const t = STRINGS[lang].services;
   const list: readonly ServiceRow[] =
     services && services.length ? services : (t.list as unknown as ServiceRow[]);
@@ -106,13 +107,16 @@ export function SceneServices({ lang, services }: Props) {
               ))}
             </div>
 
-            <a
-              href="#contact"
-              onClick={() => setSelectedIdx(null)}
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedIdx(null);
+                onGoToContact?.();
+              }}
               className={`cd-btn cd-btn--block ${styles.panelCta}`}
             >
               {lang === "en" ? "Book a free consultation" : "Записатись безкоштовно"}
-            </a>
+            </button>
 
             <div className={styles.panelFoot}>{t.panelFoot}</div>
           </div>
