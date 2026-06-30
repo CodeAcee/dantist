@@ -83,7 +83,12 @@ export function SceneServices({ lang, services, onGoToContact }: Props) {
           style={{ ["--accent"]: selected.color } as React.CSSProperties}
         >
           <div className={styles.scrim} onClick={() => setSelectedIdx(null)} />
-          <div className={styles.panel}>
+          <div
+              className={styles.panel}
+              onWheel={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
             <button
               onClick={() => setSelectedIdx(null)}
               className={styles.closeBtn}
