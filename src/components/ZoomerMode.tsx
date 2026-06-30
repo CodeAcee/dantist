@@ -55,7 +55,7 @@ export default function ZoomerMode({
     link.id = id;
     link.rel = "stylesheet";
     link.href =
-      "https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500&display=swap";
+      "https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800;900&family=Space+Grotesk:wght@300;400;500&display=swap";
     document.head.appendChild(link);
   }, []);
 

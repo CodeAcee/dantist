@@ -16,7 +16,7 @@ export default function SiteLoader() {
 
   if (!mounted) return null;
 
-  const syne: React.CSSProperties = { fontFamily: "'Syne', sans-serif" };
+  const syne: React.CSSProperties = { fontFamily: "'Unbounded', sans-serif" };
   const grotesk: React.CSSProperties = {
     fontFamily: "'Space Grotesk', sans-serif",
   };
