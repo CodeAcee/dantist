@@ -116,13 +116,18 @@ export default function ZoomerMode({
   useEffect(() => {
     const el = worldRef.current;
     if (!el) return;
+    const isInsideScrollable = (t: EventTarget | null) =>
+      !!(t as Element)?.closest("[data-scrollable]");
     const onTouchStart = (e: TouchEvent) => {
+      if (isInsideScrollable(e.target)) return;
       touchStartY.current = e.touches[0].clientY;
     };
     const onTouchMove = (e: TouchEvent) => {
+      if (isInsideScrollable(e.target)) return;
       e.preventDefault();
     };
     const onTouchEnd = (e: TouchEvent) => {
+      if (isInsideScrollable(e.target)) return;
       const dy = touchStartY.current - e.changedTouches[0].clientY;
       if (Math.abs(dy) > 80) navigateScene(dy > 0 ? 1 : -1);
     };

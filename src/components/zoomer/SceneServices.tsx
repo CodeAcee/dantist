@@ -85,9 +85,8 @@ export function SceneServices({ lang, services, onGoToContact }: Props) {
           <div className={styles.scrim} onClick={() => setSelectedIdx(null)} />
           <div
               className={styles.panel}
+              data-scrollable
               onWheel={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-              onTouchMove={(e) => e.stopPropagation()}
             >
             <button
               onClick={() => setSelectedIdx(null)}
