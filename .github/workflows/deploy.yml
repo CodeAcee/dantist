@@ -46,7 +46,7 @@ jobs:
           dangerous-clean-slate: false
 
       # ── Build for GitHub Pages (base "/dantist") ─────────────────
-      - run: npx astro build --base /dantist --outdir dist-gh
+      - run: npx astro build --base /dantist --outDir dist-gh
         env:
           PUBLIC_SANITY_PROJECT_ID: ry5ky7kc
           PUBLIC_SANITY_DATASET: production
