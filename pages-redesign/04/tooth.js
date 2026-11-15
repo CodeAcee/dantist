@@ -117,8 +117,8 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   const natural = new THREE.Mesh(toothG, enamel); tooth.add(natural);
   const xray = new THREE.Group(); tooth.add(xray);
   xray.add(new THREE.Mesh(toothG, xrayMat), new THREE.Mesh(pulpG, pulpMat));
-  const veneer = new THREE.Mesh(subMesh(toothG, (x, y, z) => z > .16 && y > -.1 && y < .82, .03), veneerMat); tooth.add(veneer);
-  const cap = new THREE.Mesh(subMesh(toothG, (x, y) => y > -.2, .025), zirconia); tooth.add(cap);
+  const veneer = new THREE.Mesh(subMesh(toothG, (x, y, z) => z > .12 && y > -.02, .03), veneerMat); tooth.add(veneer);
+  const cap = new THREE.Mesh(subMesh(toothG, (x, y) => y > .02, .025), zirconia); tooth.add(cap);
   const implant = implantGroup(titanium, lite); tooth.add(implant);
   const ring = new THREE.Mesh(new THREE.TorusGeometry(1.3, .01, 8, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false }));
   ring.rotation.x = Math.PI / 2; ring.position.y = -2.45; scene.add(ring);
