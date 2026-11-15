@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chirkova Dentist: стоматологія в центрі Дніпра</title>
+<meta name="description" content="Вініри, коронки, імпланти, елайнери і лікування зубів у центрі Дніпра. Перша консультація безкоштовна, відповідь за 2 години.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Chirkova Dentist: стоматологія в центрі Дніпра">
+<meta property="og:description" content="Без нотацій і без осуду. Перша консультація безкоштовна.">
+<meta name="theme-color" content="#f4f1ec">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  :root {
+    --bg: #f4f1ec; --bg2: #ebe6df; --card: #fbfaf8; --ink: #121417; --muted: #5d6168; --line: rgb(18 20 23 / .1);
+    --ice: #8fd0ff; --rose: #ffc9df; --mint: #c9f5df; --butter: #fff0c4;
+    --iri: conic-gradient(from var(--a), #ffd3e6, #cfe8ff, #d2f7e4, #fff2c9, #ffd3e6);
+    --serif: "Playfair Display", Georgia, serif; --sans: "Manrope", system-ui, sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1); --gut: clamp(20px, 5vw, 80px); --r: 28px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.55 var(--sans); overflow-x: clip; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .skip { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 99px; }
+  .skip:focus { top: 12px; }
+  .wrap { width: min(100% - 2 * var(--gut), 1280px); margin-inline: auto; }
+  em.s { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+  h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+  h2 { font-size: clamp(40px, 7vw, 96px); }
+  p { margin: 0; }
+
+  /* buttons: ink pill with an iridescent ring */
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 99px; font: 600 16px/1 var(--sans); text-decoration: none; border: 0; cursor: pointer; transition: transform .4s var(--ease); }
+  .btn--ink { background: var(--ink); color: #fff; isolation: isolate; }
+  .btn--ink::before { content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: inherit; background: var(--iri); animation: spin 6s linear infinite; }
+  .btn--ink::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--ink); }
+  .btn--ghost { background: rgb(255 255 255 / .55); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); backdrop-filter: blur(10px); }
+  .btn:active { transform: scale(.97); }
+  @keyframes spin { to { --a: 360deg; } }
+
+  /* nav */
+  .nav { position: fixed; inset: 12px 12px auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 18px; border-radius: 99px; background: rgb(251 250 248 / .72); backdrop-filter: blur(16px) saturate(1.4); box-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 10px 30px rgb(18 20 23 / .06); }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.03em; text-decoration: none; }
+  .logo i { width: 22px; height: 22px; border-radius: 50%; background: var(--iri); animation: spin 8s linear infinite; }
+  .nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font-size: 15px; font-weight: 500; }
+  .nav ul a { text-decoration: none; }
+  .nav .btn { min-height: 44px; padding: 0 20px; font-size: 15px; }
+  @media (max-width: 899px) { .nav ul { display: none; } }
+
+  /* the story: the 3D tooth stays while five acts pass over it */
+  .story { position: relative; }
+  html.js .story { height: 520svh; }
+  .stage { position: relative; height: 100svh; overflow: hidden; }
+  html.js .stage { position: sticky; top: 0; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+  .glow { position: absolute; inset: -20%; pointer-events: none; background: radial-gradient(40% 35% at 50% 42%, rgb(255 255 255 / .9), transparent 70%), radial-gradient(30% 30% at 30% 60%, rgb(255 201 223 / .55), transparent 70%), radial-gradient(30% 30% at 72% 35%, rgb(143 208 255 / .45), transparent 70%), radial-gradient(35% 30% at 60% 75%, rgb(201 245 223 / .5), transparent 70%); filter: blur(20px); animation: drift 14s ease-in-out infinite alternate; }
+  @keyframes drift { to { transform: translate3d(3%, -2%, 0) rotate(6deg) scale(1.05); } }
+  .no-gl .stage canvas { display: none; }
+  .no-gl .stage::after { content: ""; position: absolute; left: 50%; top: 40%; width: min(56vw, 360px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 46% 46% 40% 40%; background: radial-gradient(60% 60% at 35% 30%, #fff, #f1ece6 60%, #e2dcd4); box-shadow: 0 40px 80px rgb(18 20 23 / .12); }
+
+  .acts { position: absolute; inset: 0; pointer-events: none; }
+  .act { position: absolute; left: var(--gut); right: var(--gut); bottom: calc(96px + env(safe-area-inset-bottom)); max-width: 620px; opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .act.is-on { opacity: 1; transform: none; pointer-events: auto; }
+  .act__n { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--muted); margin-bottom: 14px; }
+  .act__n b { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 10px; border-radius: 99px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); }
+  .act h2 { font-size: clamp(38px, 6.4vw, 84px); }
+  .act p { margin-top: 14px; font-size: clamp(17px, 1.6vw, 20px); color: var(--ink); max-width: 44ch; }
+  .act .price { display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 99px; background: rgb(255 255 255 / .7); backdrop-filter: blur(8px); font-weight: 600; box-shadow: inset 0 0 0 1px var(--line); }
+  .act--hero { bottom: auto; top: calc(96px + 2svh); max-width: none; }
+  .act--hero h1 { font-size: clamp(46px, 11vw, 150px); line-height: .92; max-width: 10ch; }
+  .act--hero .lead { margin-top: 18px; font-size: clamp(17px, 1.7vw, 21px); max-width: 34ch; }
+  .act--hero .row { position: fixed; left: var(--gut); right: var(--gut); bottom: calc(24px + env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; gap: 10px; }
+  .act--hero .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: rgb(255 255 255 / .6); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; background: #3ccf7a; box-shadow: 0 0 0 4px rgb(60 207 122 / .18); }
+  .progress { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); display: grid; gap: 8px; }
+  .progress i { width: 4px; height: 22px; border-radius: 4px; background: rgb(18 20 23 / .12); transition: background .4s, height .4s var(--ease); }
+  .progress i.is-on { background: var(--ink); height: 40px; }
+  .hint { position: absolute; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom)); transform: translateX(-50%); font-size: 13px; color: var(--muted); display: none; }
+  @media (min-width: 900px) {
+    .act { bottom: auto; top: 50%; transform: translateY(calc(-50% + 28px)); }
+    .act.is-on { transform: translateY(-50%); }
+    .act--hero { top: 150px; transform: translateY(28px); }
+    .act--hero.is-on { transform: none; }
+    .act--hero .row { position: static; margin-top: 30px; }
+    .act:not(.act--hero) { left: auto; right: var(--gut); max-width: 520px; }
+  }
+  html:not(.js) .acts { position: static; }
+  html:not(.js) .act { position: static; opacity: 1; transform: none; padding: 60px var(--gut); }
+
+  /* sections */
+  section.blk { padding-block: clamp(80px, 12vw, 160px); }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 40px; }
+  .head p { max-width: 38ch; color: var(--muted); }
+  [data-rv] { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: calc(var(--i, 0) * 90ms); }
+  [data-rv].in { opacity: 1; transform: none; }
+  html:not(.js) [data-rv] { opacity: 1; transform: none; }
+
+  /* letters rise */
+  .split .ch { display: inline-block; transform: translateY(110%); transition: transform .9s var(--ease); transition-delay: calc(var(--c) * 22ms); }
+  .split .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+  .split.in .ch { transform: none; }
+
+  /* services: a horizontal track driven by vertical scroll */
+  .hs { position: relative; }
+  html.js .hs { height: var(--hs-h, 400svh); }
+  .hs__stick { height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+  html.js .hs__stick { position: sticky; top: 0; }
+  .hs__track { display: flex; gap: 16px; padding-inline: var(--gut); margin-top: 32px; will-change: transform; }
+  html:not(.js) .hs__track { overflow-x: auto; scroll-snap-type: x mandatory; }
+  .svc { flex: none; width: min(78vw, 420px); border-radius: var(--r); background: var(--card); overflow: hidden; scroll-snap-align: start; box-shadow: 0 1px 0 rgb(255 255 255 / .9) inset, 0 30px 60px -30px rgb(18 20 23 / .25); text-decoration: none; display: flex; flex-direction: column; }
+  .svc figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; position: relative; }
+  .svc figure img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+  .svc:hover figure img { transform: scale(1.06); }
+  .svc__n { position: absolute; top: 14px; left: 14px; padding: 6px 12px; border-radius: 99px; background: rgb(251 250 248 / .8); backdrop-filter: blur(8px); font-size: 13px; font-weight: 600; }
+  .svc__b { padding: 22px 22px 24px; display: grid; gap: 8px; }
+  .svc h3 { font-size: 30px; }
+  .svc p { color: var(--muted); font-size: 16px; }
+  .svc .from { margin-top: 6px; font-weight: 700; font-size: 18px; }
+  .hs__bar { margin: 28px var(--gut) 0; height: 3px; border-radius: 3px; background: rgb(18 20 23 / .08); overflow: hidden; }
+  .hs__bar i { display: block; height: 100%; width: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: var(--ink); }
+
+  /* before and after */
+  .ba { position: relative; margin-top: 40px; border-radius: var(--r); overflow: hidden; height: min(72vw, 640px); user-select: none; box-shadow: 0 40px 80px -40px rgb(18 20 23 / .35); }
+  .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ba__after { clip-path: inset(0 0 0 var(--pos, 50%)); }
+  .ba__line { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 20px rgb(255 255 255 / .9); pointer-events: none; }
+  .ba__knob { position: absolute; top: 50%; left: var(--pos, 50%); width: 60px; height: 60px; transform: translate(-50%, -50%); border-radius: 50%; background: rgb(255 255 255 / .75); backdrop-filter: blur(10px); display: grid; place-items: center; font-weight: 700; pointer-events: none; box-shadow: 0 10px 30px rgb(0 0 0 / .2); }
+  .ba__tag { position: absolute; top: 16px; padding: 7px 14px; border-radius: 99px; background: rgb(255 255 255 / .8); font-size: 14px; font-weight: 600; }
+  .ba__tag--l { left: 16px; } .ba__tag--r { right: 16px; }
+  .ba input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .ba:focus-within { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+  .fact { padding: 22px; border-radius: 22px; background: var(--card); }
+  .fact b { display: block; font-size: clamp(36px, 5vw, 64px); letter-spacing: -0.05em; line-height: 1; background: linear-gradient(120deg, #121417 30%, #6a7a90); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .fact span { display: block; margin-top: 8px; color: var(--muted); font-size: 15px; }
+  @media (max-width: 899px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  /* prices */
+  .pc { margin-top: 40px; border-top: 1px solid var(--line); }
+  .pc details { border-bottom: 1px solid var(--line); }
+  .pc summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto 44px; align-items: center; gap: 16px; padding-block: 22px; }
+  .pc summary::-webkit-details-marker { display: none; }
+  .pc summary b { font-size: clamp(24px, 3.4vw, 44px); letter-spacing: -0.04em; font-weight: 600; transition: transform .5s var(--ease); }
+  .pc summary:hover b { transform: translateX(6px); }
+  .pc summary span { font-weight: 600; white-space: nowrap; }
+  .pc summary i { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 22px; box-shadow: inset 0 0 0 1px var(--line); transition: transform .5s var(--ease), background .3s; }
+  .pc details[open] summary i { transform: rotate(45deg); background: var(--ink); color: #fff; }
+  .pc ul { list-style: none; margin: 0; padding: 0 0 22px; display: grid; gap: 0; max-width: 820px; }
+  .pc li { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0; border-top: 1px dashed var(--line); font-size: 16px; }
+  .pc li span:last-child { font-weight: 600; white-space: nowrap; }
+  @media (max-width: 599px) { .pc summary { grid-template-columns: 1fr 40px; } .pc summary span { grid-column: 1; grid-row: 2; color: var(--muted); font-weight: 500; } .pc summary i { grid-row: 1 / 3; grid-column: 2; } }
+
+  /* reviews: a native swipe row */
+  .rv { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 40px var(--gut) 20px; scrollbar-width: none; }
+  .rv::-webkit-scrollbar { display: none; }
+  .rv figure { flex: none; width: min(82vw, 400px); margin: 0; scroll-snap-align: center; border-radius: var(--r); padding: 28px; background: var(--card); display: grid; gap: 24px; align-content: space-between; position: relative; overflow: hidden; }
+  .rv figure::before { content: "“"; position: absolute; right: 18px; top: -18px; font: italic 140px/1 var(--serif); color: rgb(18 20 23 / .06); }
+  .rv blockquote { margin: 0; font-size: 20px; line-height: 1.45; letter-spacing: -0.01em; }
+  .rv footer { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--muted); }
+  .rv .av { width: 42px; height: 42px; border-radius: 50%; background: var(--iri); display: grid; place-items: center; color: var(--ink); font-weight: 700; animation: spin 10s linear infinite; }
+  .rv .st { margin-left: auto; letter-spacing: 2px; color: var(--ink); }
+  .g49 { display: inline-flex; align-items: baseline; gap: 10px; }
+  .g49 b { font-size: clamp(56px, 8vw, 110px); letter-spacing: -0.06em; line-height: .9; }
+
+  /* founder */
+  .founder { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+  .founder blockquote { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(30px, 4.4vw, 60px); line-height: 1.08; letter-spacing: -0.02em; }
+  .founder .who { margin-top: 24px; display: grid; gap: 4px; }
+  .doc { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .doc span:last-child { font-weight: 600; white-space: nowrap; }
+  .orbpic { position: relative; aspect-ratio: 1; border-radius: 50%; overflow: hidden; isolation: isolate; }
+  .orbpic::before { content: ""; position: absolute; inset: -3px; z-index: -1; border-radius: 50%; background: var(--iri); animation: spin 9s linear infinite; }
+  .orbpic img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); border-radius: 50%; object-fit: cover; }
+  @media (max-width: 899px) { .founder { grid-template-columns: 1fr; } .orbpic { width: min(80vw, 360px); justify-self: center; } }
+
+  /* booking */
+  .book { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: start; }
+  .form { display: grid; gap: 14px; padding: clamp(22px, 4vw, 40px); border-radius: var(--r); background: var(--card); box-shadow: 0 40px 80px -50px rgb(18 20 23 / .35); }
+  .field { display: grid; gap: 6px; }
+  .field label { font-size: 14px; font-weight: 600; }
+  .field input, .field select, .field textarea { width: 100%; min-height: 54px; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg); font: 400 16px var(--sans); color: var(--ink); }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--ink); outline-offset: 0; }
+  .field__err { color: #b42318; font-size: 14px; }
+  .addr { margin-top: 28px; font-size: clamp(24px, 3vw, 36px); letter-spacing: -0.03em; font-weight: 600; line-height: 1.15; font-style: normal; }
+  .hours { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; margin: 20px 0 0; }
+  .hours dt { color: var(--muted); } .hours dd { margin: 0; font-weight: 600; }
+  @media (max-width: 899px) { .book { grid-template-columns: 1fr; } }
+
+  footer.end { padding: 80px 0 140px; overflow: hidden; }
+  .word { font-size: clamp(64px, 19vw, 300px); line-height: .8; letter-spacing: -0.075em; font-weight: 700; margin: 0; background: var(--iri); -webkit-background-clip: text; background-clip: text; color: transparent; animation: spin 12s linear infinite; white-space: nowrap; }
+  .end__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-top: 32px; color: var(--muted); font-size: 14px; }
+  .end__row a { margin-right: 18px; }
+
+  /* the phone bar */
+  .bar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 40; display: none; gap: 8px; padding: 8px; border-radius: 99px; background: rgb(251 250 248 / .8); backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgb(18 20 23 / .12); transform: translateY(140%); transition: transform .5s var(--ease); }
+  .bar.show { transform: none; }
+  .bar .btn { flex: 1; min-height: 48px; }
+  @media (max-width: 899px) { .bar { display: flex; } }
+  @media (min-width: 900px) { .demo { bottom: 20px; } }
+
+  /* demo switcher */
+  .demo { position: fixed; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 45; display: flex; gap: 4px; padding: 4px; border-radius: 99px; background: rgb(18 20 23 / .85); font-size: 12px; font-weight: 600; }
+  .demo a { color: #fff; text-decoration: none; padding: 6px 10px; border-radius: 99px; }
+  .demo a[aria-current] { background: #fff; color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    html.js .story { height: auto; }
+    html.js .stage { position: relative; height: 100svh; }
+    .acts { position: static; }
+    .act { position: static; opacity: 1; transform: none !important; padding: 40px var(--gut); max-width: none; }
+    .act--hero { position: absolute; }
+    html.js .hs { height: auto; }
+    .hs__track { overflow-x: auto; scroll-snap-type: x mandatory; transform: none !important; }
+    [data-rv], .split .ch { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#booking">Перейти до запису</a>
+
+<header class="nav">
+  <a class="logo" href="#top"><i aria-hidden="true"></i>Chirkova Dentist</a>
+  <ul>
+    <li><a href="#services">Послуги</a></li>
+    <li><a href="#cases">Результати</a></li>
+    <li><a href="#prices">Ціни</a></li>
+    <li><a href="#reviews">Відгуки</a></li>
+  </ul>
+  <a class="btn btn--ink" href="#booking">Записатися</a>
+</header>
+<nav class="demo" aria-label="Варіанти дизайну"><a href="../">03</a><a href="./" aria-current="page">04</a></nav>
+
+<main id="top">
+  <!-- the story: one sticky stage, the 3D tooth, five acts over the scroll -->
+  <section class="story" id="story" aria-label="Як ми лікуємо">
+    <div class="stage">
+      <div class="glow" aria-hidden="true"></div>
+      <canvas id="tooth" aria-hidden="true"></canvas>
+      <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="acts">
+        <div class="act act--hero is-on" data-act="0">
+          <div class="meta"><span class="chip"><i></i>Пн–Пт до 20:00, Сб до 18:00</span><span class="chip">вул. Грушевського</span></div>
+          <h1 style="margin-top: 18px">Стоматологія в&nbsp;центрі <em class="s">Дніпра</em></h1>
+          <p class="lead">Вініри, коронки, імпланти й лікування без нотацій. Перша консультація безкоштовна.</p>
+          <div class="row"><a class="btn btn--ink" href="#booking">Записатися на огляд</a><a class="btn btn--ghost" href="#prices">Ціни</a></div>
+        </div>
+        <div class="act" data-act="1">
+          <span class="act__n"><b>01</b>Огляд і діагностика</span>
+          <h2>Спочатку <em class="s">бачимо</em> все</h2>
+          <p>Лікар оглядає зуби, за потреби робить цифровий скан і називає точну ціну до початку лікування.</p>
+          <span class="price">Скан 2 000 грн · огляд при болю безкоштовно</span>
+        </div>
+        <div class="act" data-act="2">
+          <span class="act__n"><b>02</b>Вініри</span>
+          <h2>Нова форма і <em class="s">колір</em></h2>
+          <p>Композитні або керамічні E-max. Вісім вінірів ми робили за два тижні.</p>
+          <span class="price">від 3 500 грн</span>
+        </div>
+        <div class="act" data-act="3">
+          <span class="act__n"><b>03</b>Коронки й імпланти</span>
+          <h2>Зуб, який <em class="s">повернули</em></h2>
+          <p>Коронки з металокераміки або цирконію, імплант замість втраченого кореня.</p>
+          <span class="price">Коронка від 5 000 грн</span>
+        </div>
+        <div class="act" data-act="4">
+          <span class="act__n"><b>04</b>Результат</span>
+          <h2>Посмішка, якою <em class="s">хочеться</em> ділитися</h2>
+          <p>2400+ посмішок і 4,9 у Google. Без нотацій і без осуду.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hs" id="services" aria-labelledby="svc-h">
+    <div class="hs__stick">
+      <div class="wrap head">
+        <h2 id="svc-h" class="split">Послуги</h2>
+        <p data-rv>Ціни «від». Точну суму лікар називає на безкоштовній консультації.</p>
+      </div>
+      <div class="hs__track" id="hs-track">
+        <a class="svc" href="#booking"><figure><img src="img/photo-f29462631-960.jpg" width="960" height="827" alt="Модель щелепи з білими передніми зубами" loading="lazy"><span class="svc__n">01</span></figure><div class="svc__b"><h3>Вініри</h3><p>Композит або кераміка E-max</p><span class="from">від 3 500 грн</span></div></a>
+        <a class="svc" href="#booking"><figure><img src="img/photo-f156042973-960.jpg" width="960" height="640" alt="Руки тримають прозору ортодонтичну капу" loading="lazy"><span class="svc__n">02</span></figure><div class="svc__b"><h3>Елайнери</h3><p>Повний курс; брекети від 18 000 грн</p><span class="from">від 25 000 грн</span></div></a>
+        <a class="svc" href="#booking"><figure><img src="img/photo-f190774253-960.jpg" width="960" height="640" alt="Матеріали для відбілювання в руках лікаря" loading="lazy"><span class="svc__n">03</span></figure><div class="svc__b"><h3>Відбілювання</h3><p>За один візит або капами вдома</p><span class="from">від 4 000 грн</span></div></a>
+        <a class="svc" href="#booking"><figure><img src="img/photo-f123751291-960.jpg" width="960" height="640" alt="Цирконієва коронка на моделі" loading="lazy"><span class="svc__n">04</span></figure><div class="svc__b"><h3>Коронки</h3><p>Металокераміка і цирконій</p><span class="from">від 5 000 грн</span></div></a>
+        <a class="svc" href="#booking"><figure><img src="img/photo-f14101125-960.jpg" width="960" height="640" alt="Стерильні дзеркала і зонди на лотку" loading="lazy"><span class="svc__n">05</span></figure><div class="svc__b"><h3>Карієс і канали</h3><p>Японські та американські матеріали</p><span class="from">від 1 200 грн</span></div></a>
+        <a class="svc" href="#booking"><figure><img src="img/photo-f130333575-960.jpg" width="960" height="640" alt="Рентгенівський знімок зубів на негатоскопі" loading="lazy"><span class="svc__n">06</span></figure><div class="svc__b"><h3>Гострий біль</h3><p>Огляд безкоштовний, у день звернення</p><span class="from">1 200 грн</span></div></a>
+      </div>
+      <div class="hs__bar" aria-hidden="true"><i id="hs-bar"></i></div>
+    </div>
+  </section>
+
+  <section class="blk" id="cases" aria-labelledby="cases-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="cases-h" class="split">До і після</h2>
+        <p data-rv>Реальний пацієнт клініки, вініри. Тягни повзунок.</p>
+      </div>
+      <div class="ba" id="ba" data-rv style="--pos: 50%">
+        <img src="img/case-veneers-before.jpg" width="820" height="615" alt="Зуби до лікування: жовтий наліт і нерівний ряд">
+        <img class="ba__after" src="img/case-veneers-after.jpg" width="820" height="615" alt="Ті самі зуби після вінірів: рівний білий ряд">
+        <span class="ba__tag ba__tag--l">До</span><span class="ba__tag ba__tag--r">Після</span>
+        <span class="ba__line" aria-hidden="true"></span><span class="ba__knob" aria-hidden="true">⇆</span>
+        <input type="range" min="0" max="100" value="50" aria-label="Порівняти до і після">
+      </div>
+      <div class="facts">
+        <div class="fact" data-rv style="--i:0"><b data-count="2400" data-suffix="+">2400+</b><span>посмішок за роки роботи</span></div>
+        <div class="fact" data-rv style="--i:1"><b data-count="98" data-suffix="%">98%</b><span>пацієнтів повертаються</span></div>
+        <div class="fact" data-rv style="--i:2"><b>4,9</b><span>рейтинг у Google</span></div>
+        <div class="fact" data-rv style="--i:3"><b data-count="14">14</b><span>років практики засновниці</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="prices" aria-labelledby="prices-h" style="background: var(--bg2)">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="prices-h" class="split">Повний прайс</h2>
+        <p data-rv>Відкрий категорію. Ціни з прайсу клініки, у гривнях.</p>
+      </div>
+      <div class="pc">
+        <details open><summary><b>Вініри</b><span>від 3 500 грн</span><i aria-hidden="true">+</i></summary><ul><li><span>Композитні без нанесення</span><span>3 500 грн</span></li><li><span>Композитні з нанесенням</span><span>100 $</span></li><li><span>Керамічні E-max</span><span>10 500 грн</span></li><li><span>Керамічні E-max Преміум</span><span>12 000 грн</span></li></ul></details>
+        <details><summary><b>Ортопедія</b><span>від 700 грн</span><i aria-hidden="true">+</i></summary><ul><li><span>Металокерамічна коронка</span><span>5 000 грн</span></li><li><span>Коронка з цирконію</span><span>8 000–10 000 грн</span></li><li><span>Знімне протезування</span><span>18 000–25 000 грн</span></li><li><span>Зняття відбитків</span><span>1 000 грн</span></li><li><span>Зняття сканів</span><span>2 000 грн</span></li><li><span>Цементування коронки, 1 од.</span><span>700 грн</span></li><li><span>Зняття коронки</span><span>700 грн</span></li></ul></details>
+        <details><summary><b>Елайнери і брекети</b><span>від 2 400 грн</span><i aria-hidden="true">+</i></summary><ul><li><span>Елайнери, повний курс</span><span>від 25 000 грн</span></li><li><span>Брекет-система</span><span>від 18 000 грн</span></li><li><span>Ретейнери</span><span>від 2 400 грн</span></li></ul></details>
+        <details><summary><b>Чистка і відбілювання</b><span>від 2 000 грн</span><i aria-hidden="true">+</i></summary><ul><li><span>Професійна чистка</span><span>2 000–2 500 грн</span></li><li><span>Відбілювання за візит</span><span>4 000 грн</span></li><li><span>Чистка + відбілювання</span><span>5 500 грн</span></li><li><span>Капами, 2 тижні</span><span>7 700 грн</span></li><li><span>Капами, 4 тижні</span><span>10 400 грн</span></li></ul></details>
+        <details><summary><b>Огляд і лікування</b><span>від 200 грн</span><i aria-hidden="true">+</i></summary><ul><li><span>Консультація</span><span>500 грн</span></li><li><span>Анестезія</span><span>200 грн</span></li><li><span>Пломба, середній карієс</span><span>2 300 грн</span></li><li><span>Пломба, глибокий карієс</span><span>2 500 грн</span></li><li><span>Лікування каналу, за один</span><span>1 200–1 500 грн</span></li><li><span>Зняття гострого болю</span><span>1 200 грн</span></li></ul></details>
+        <details><summary><b>Терміново</b><span>огляд безкоштовно</span><i aria-hidden="true">+</i></summary><ul><li><span>Огляд при болю</span><span>безкоштовно</span></li><li><span>Видалення зуба</span><span>від 1 200 грн</span></li><li><span>Тимчасова пломба</span><span>від 600 грн</span></li></ul></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="reviews" aria-labelledby="reviews-h" style="padding-bottom: 60px">
+    <div class="wrap head">
+      <h2 id="reviews-h" class="split">Відгуки</h2>
+      <p class="g49" data-rv><b>4,9</b><span>у Google</span></p>
+    </div>
+    <div class="rv" tabindex="0" aria-label="Відгуки пацієнтів, гортай вбік">
+      <figure><blockquote>«Найкраща клініка у Дніпрі! Вінири зробили за 2 тижні — результат вище очікувань.»</blockquote><footer><span class="av">МВ</span><span>Марія В.<br>пацієнтка з 2026</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+      <figure><blockquote>«Лікар уважний і не поспішає. Вперше не боявся йти до стоматолога!»</blockquote><footer><span class="av">ДК</span><span>Дмитро К.<br>пацієнт з 2026</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+      <figure><blockquote>«Зробили імплант — навіть забула де він. Дякую всій команді за увагу та підтримку!»</blockquote><footer><span class="av">ІС</span><span>Ірина С.<br>пацієнтка з 2026</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+      <figure><blockquote>«Чудовий сервіс — все швидко, без болю і нотацій. Тепер не переживаю за посмішку.»</blockquote><footer><span class="av">АК</span><span>Аліна К.<br>пацієнтка з 2021</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+      <figure><blockquote>«Зламав зуб — все зробили швидко, акуратно і без зайвих слів. Рекомендую.»</blockquote><footer><span class="av">МД</span><span>Максим Д.<br>пацієнт з 2020</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+      <figure><blockquote>«Тріщину на зубі прибрали за один візит. Тепер можу їсти навіть горішки.»</blockquote><footer><span class="av">ОС</span><span>Олена С.<br>пацієнтка з 2022</span><span class="st" aria-label="5 з 5">★★★★★</span></footer></figure>
+    </div>
+  </section>
+
+  <section class="blk" id="team" aria-labelledby="team-h">
+    <div class="wrap founder">
+      <div>
+        <p class="sr-only" id="team-h">Лікарі клініки</p>
+        <blockquote data-rv>«Я відкрила клініку, щоб пацієнти почувалися почутими, а не зубом у конвеєрі».</blockquote>
+        <div class="who" data-rv style="--i:1">
+          <div class="doc"><span>Д-р Чиркова, засновниця · косметична і реставраційна стоматологія</span><span>14 років</span></div>
+          <div class="doc"><span>Д-р Мельник · ортодонт, понад 800 завершених випадків</span><span>9 років</span></div>
+        </div>
+      </div>
+      <div class="orbpic" data-rv style="--i:2"><img src="img/photo-f22521718-960.jpg" width="960" height="798" alt="Гіпсові моделі зубів крупним планом" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="blk" id="booking" aria-labelledby="booking-h" style="background: var(--bg2)">
+    <div class="wrap book">
+      <div>
+        <h2 id="booking-h" class="split">Запис на огляд</h2>
+        <p style="margin-top: 18px; max-width: 34ch" data-rv>Залиш ім’я і телефон. Передзвонимо протягом 2 годин. Перша консультація безкоштовна.</p>
+        <address class="addr" data-rv>вул. Михайла Грушевського,<br>центр Дніпра</address>
+        <dl class="hours" data-rv><dt>Пн–Пт</dt><dd>9:00–20:00</dd><dt>Сб</dt><dd>10:00–18:00</dd><dt>Нд</dt><dd>вихідний</dd></dl>
+      </div>
+      <form class="form" id="form" action="mailto:hello@chirkova-dentist.example" method="post" enctype="text/plain" novalidate data-rv>
+        <div class="field"><label for="f-name">Ім’я</label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name"><p class="field__err" id="e-name" hidden>Напиши, як до тебе звертатися.</p></div>
+        <div class="field"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="e-phone"><p class="field__err" id="e-phone" hidden>Напиши номер у форматі +380XXXXXXXXX.</p></div>
+        <div class="field"><label for="f-service">Послуга</label><select id="f-service" name="service"><option value="">Оберіть</option><option>Консультація</option><option>Вініри</option><option>Імпланти</option><option>Відбілювання</option><option>Елайнери</option><option>Лікування</option><option>Невідкладна допомога</option></select></div>
+        <div class="field"><label for="f-note">Примітка</label><textarea id="f-note" name="note" placeholder="Напр. зручніше вранці, трохи хвилююсь"></textarea></div>
+        <button class="btn btn--ink" type="submit">Записатися на огляд</button>
+        <p role="status" id="f-status" style="font-size: 14px; color: var(--muted)">Без спаму. Демо-форма: заявка відкриває пошту.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="word" aria-hidden="true">Chirkova</p>
+    <div class="end__row">
+      <span>© 2026 Chirkova Dentist · вул. Михайла Грушевського, центр Дніпра</span>
+      <span><a href="https://www.tiktok.com/@mad__dentist" target="_blank" rel="noopener">TikTok</a><a href="https://www.instagram.com/mad__dentist/" target="_blank" rel="noopener">Instagram</a><a href="../credits.html">Photographs via Wikimedia Commons</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="bar" id="bar"><a class="btn btn--ink" href="#booking">Записатися на огляд</a></div>
+
+<script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }</script>
+<script type="module">
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = t => 1 - Math.pow(1 - t, 3);
+const seg = (p, a, b) => clamp((p - a) / (b - a));
+
+/* ---------- scroll progress of the story ---------- */
+const story = document.getElementById('story');
+const acts = [...document.querySelectorAll('.act')];
+const pips = [...document.querySelectorAll('.progress i')];
+const ranges = [[0, .16], [.16, .38], [.38, .58], [.58, .8], [.8, 1.01]];
+let P = 0;
+function storyProgress() {
+  const r = story.getBoundingClientRect();
+  const total = story.offsetHeight - innerHeight;
+  P = total > 0 ? clamp(-r.top / total) : 0;
+  const k = ranges.findIndex(([a, b]) => P >= a && P < b);
+  acts.forEach((a, i) => a.classList.toggle('is-on', i === k));
+  pips.forEach((p, i) => p.classList.toggle('is-on', i === k));
+}
+
+/* ---------- 3D tooth ---------- */
+let gl = true;
+try {
+  const THREE = await import('three');
+  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+  const canvas = document.getElementById('tooth');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(3, 4, 5); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xbfe3ff, 1.2); rim.position.set(-4, 2, -3); scene.add(rim);
+
+  const V = (r, y) => new THREE.Vector2(r, y);
+  const crownProfile = [V(.6, 0), V(.65, .08), V(.73, .27), V(.78, .5), V(.77, .68), V(.7, .83), V(.55, .93), V(.36, .9), V(.16, .83), V(.001, .8)];
+  function shapeCrown(g) {
+    const p = g.attributes.position, v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i);
+      const th = Math.atan2(v.z, v.x), t = clamp((v.y - .55) / .38), r = Math.hypot(v.x, v.z);
+      v.y += (.13 * Math.max(0, Math.cos(4 * th + .4)) * t) * clamp(r / .5);
+      v.z *= .9;
+      p.setXYZ(i, v.x, v.y, v.z);
+    }
+    g.computeVertexNormals();
+    return g;
+  }
+  const enamel = new THREE.MeshPhysicalMaterial({ color: 0xfbf8f2, roughness: .16, clearcoat: 1, clearcoatRoughness: .06, sheen: .6, sheenColor: new THREE.Color(0xffe9f2), iridescence: .35, iridescenceIOR: 1.4, transparent: true });
+  const rootMat = new THREE.MeshPhysicalMaterial({ color: 0xf1e6d6, roughness: .4, clearcoat: .4, transparent: true });
+
+  const tooth = new THREE.Group();
+  const crown = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(crownProfile, 96)), enamel);
+  tooth.add(crown);
+  const neck = new THREE.Mesh(new THREE.LatheGeometry([V(.46, -.34), V(.55, -.16), V(.6, 0)], 64), rootMat);
+  neck.scale.z = .9; tooth.add(neck);
+  const roots = new THREE.Group();
+  const rootProfile = [V(.001, -1.8), V(.09, -1.68), V(.19, -1.2), V(.26, -.65), V(.3, -.15)];
+  [-1, 1].forEach(s => { const m = new THREE.Mesh(new THREE.LatheGeometry(rootProfile, 48), rootMat); m.position.x = .27 * s; m.rotation.z = .2 * s; m.scale.z = .95; roots.add(m); });
+  tooth.add(roots);
+
+  // x-ray: a wire twin
+  const wireMat = new THREE.MeshBasicMaterial({ color: 0x5aa9e6, wireframe: true, transparent: true, opacity: 0 });
+  const xray = new THREE.Group();
+  [crown, neck, ...roots.children].forEach(m => { const w = new THREE.Mesh(m.geometry, wireMat); w.position.copy(m.position); w.rotation.copy(m.rotation); w.scale.copy(m.scale).multiplyScalar(1.004); xray.add(w); });
+  tooth.add(xray);
+
+  // veneer: the front half of the upper crown, a thin glossy shell
+  const venProfile = crownProfile.slice(2, 8).map(p => V(p.x * 1.05, p.y + .01));
+  const veneerMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .05, clearcoat: 1, clearcoatRoughness: .02, transmission: .25, thickness: .2, iridescence: .6, side: THREE.DoubleSide, transparent: true, opacity: 0 });
+  const veneer = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(venProfile, 64, -Math.PI / 2, Math.PI)), veneerMat);
+  tooth.add(veneer);
+
+  // crown cap (zirconia)
+  const capMat = new THREE.MeshPhysicalMaterial({ color: 0xfffdf8, roughness: .22, clearcoat: 1, sheen: .4, transparent: true, opacity: 0 });
+  const cap = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(crownProfile.map(p => V(p.x * 1.05, p.y * 1.03 + .01)), 96)), capMat);
+  tooth.add(cap);
+
+  // implant: titanium screw with a thread
+  const ti = new THREE.MeshStandardMaterial({ color: 0xbfc5cd, metalness: 1, roughness: .28, transparent: true, opacity: 0 });
+  const implant = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.2, .12, 1.5, 48), ti); body.position.y = -.75; implant.add(body);
+  class Helix extends THREE.Curve { getPoint(t, o = new THREE.Vector3()) { const a = t * Math.PI * 2 * 9, r = .215 - .07 * t; return o.set(Math.cos(a) * r, -t * 1.42, Math.sin(a) * r); } }
+  implant.add(new THREE.Mesh(new THREE.TubeGeometry(new Helix(), 400, .032, 8, false), ti));
+  const abut = new THREE.Mesh(new THREE.CylinderGeometry(.16, .21, .3, 32), ti); abut.position.y = .12; implant.add(abut);
+  tooth.add(implant);
+
+  // a soft ring of light under the tooth
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.25, .012, 16, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .0 }));
+  ring.rotation.x = Math.PI / 2; ring.position.y = -1.9; scene.add(ring);
+
+  scene.add(tooth);
+
+  // pointer and touch tilt
+  let tx = 0, ty = 0, cx = 0, cy = 0, drag = null, spin = 0, px = innerWidth < 900 ? 0 : 2.25, py = innerWidth < 900 ? -1.05 : .25;
+  addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * .6; ty = (e.clientY / innerHeight - .5) * .3; });
+  canvas.addEventListener('pointerdown', e => { drag = e.clientX; });
+  addEventListener('pointerup', () => { drag = null; });
+  canvas.addEventListener('pointermove', e => { if (drag !== null) { spin += (e.clientX - drag) * .01; drag = e.clientX; } });
+
+  function size() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  size(); addEventListener('resize', size);
+
+  let visible = true;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(story);
+  const clock = new THREE.Clock();
+  const mobile = () => innerWidth < 900;
+
+  function frame() {
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    const t = clock.getElapsedTime();
+    const p = still ? 0 : P;
+    cx += (tx - cx) * .05; cy += (ty - cy) * .05;
+
+    const xr = seg(p, .16, .26) * (1 - seg(p, .32, .4));
+    const vn = ease(seg(p, .4, .52)) * (1 - seg(p, .6, .66));
+    const cp = ease(seg(p, .6, .74));
+    const im = ease(seg(p, .62, .78));
+    const fin = seg(p, .8, .95);
+
+    enamel.opacity = 1 - xr * .75 - cp * .6;
+    rootMat.opacity = (1 - xr * .7) * (1 - im);
+    wireMat.opacity = xr * .55;
+    veneerMat.opacity = vn;
+    veneer.position.z = (1 - vn) * 1.6; veneer.position.y = (1 - vn) * .2;
+    capMat.opacity = cp;
+    cap.position.y = (1 - cp) * 2.2;
+    ti.opacity = im;
+    implant.position.y = -.3 - (1 - im) * 3.2;
+    implant.rotation.y = (1 - im) * 18;
+    ring.material.opacity = fin * .8;
+    [enamel, rootMat, veneerMat, capMat, ti].forEach(m => { const tr = m.opacity < .995; if (m.transparent !== tr) { m.transparent = tr; m.depthWrite = !tr || m === veneerMat; m.needsUpdate = true; } });
+    veneer.visible = vn > .01; cap.visible = cp > .01; implant.visible = im > .01; xray.visible = xr > .01; roots.visible = neck.visible = rootMat.opacity > .01;
+
+    const base = t * .25 + p * Math.PI * 4 + spin;
+    tooth.rotation.y = base + cx;
+    tooth.rotation.x = .12 + cy + Math.sin(t * .6) * .03;
+    const gy = mobile() ? (p < .14 ? -1.05 : .7) : .25;
+    py += (gy - py) * .06;
+    tooth.position.y = Math.sin(t * .9) * .05 + py;
+    const goal = mobile() ? 0 : (p < .14 ? 2.25 : -1.95);
+    px += (goal - px) * .06;
+    tooth.position.x = px;
+    const z = (mobile() ? 11 : 7.6) - xr * 1.2 - vn * .9 + fin * .3;
+    camera.position.set(0, .35, z); camera.lookAt(tooth.position.x * .0, -.1, 0);
+    renderer.render(scene, camera);
+  }
+  frame();
+} catch (e) {
+  console.warn('tooth', e); gl = false; document.documentElement.classList.add('no-gl');
+}
+
+/* ---------- services: vertical scroll drives the track ---------- */
+const hs = document.getElementById('services'), track = document.getElementById('hs-track'), bar = document.getElementById('hs-bar');
+function hsSize() { if (still) return; const extra = Math.max(0, track.scrollWidth - innerWidth); hs.style.setProperty('--hs-h', `calc(100svh + ${extra}px)`); }
+function hsMove() {
+  if (still) return;
+  const r = hs.getBoundingClientRect(), total = hs.offsetHeight - innerHeight;
+  const p = total > 0 ? clamp(-r.top / total) : 0;
+  track.style.transform = `translate3d(${-p * Math.max(0, track.scrollWidth - innerWidth)}px,0,0)`;
+  bar.style.setProperty('--p', p);
+}
+
+/* ---------- reveals, letters, counts ---------- */
+document.querySelectorAll('.split').forEach(el => {
+  let c = 0;
+  el.innerHTML = el.textContent.split(' ').map(w => `<span class="w">${[...w].map(ch => `<span class="ch" style="--c:${c++}">${ch}</span>`).join('')}</span>`).join(' ');
+  el.setAttribute('aria-label', el.textContent);
+});
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in'); io.unobserve(e.target);
+  const n = e.target.querySelector('[data-count]');
+  if (n && !still) { const end = +n.dataset.count, suf = n.dataset.suffix || '', t0 = performance.now(); (function tick(now) { const k = ease(clamp((now - t0) / 1400)); n.textContent = Math.round(end * k) + suf; if (k < 1) requestAnimationFrame(tick); })(t0); }
+}), { rootMargin: '0px 0px -12% 0px' });
+document.querySelectorAll('[data-rv], .split').forEach(el => io.observe(el));
+
+/* ---------- before and after ---------- */
+const ba = document.getElementById('ba'), range = ba.querySelector('input');
+range.addEventListener('input', () => ba.style.setProperty('--pos', range.value + '%'));
+
+/* ---------- phone bar: after the story's first screen, never over the form ---------- */
+const barEl = document.getElementById('bar'), booking = document.getElementById('booking');
+function barShow() { const b = booking.getBoundingClientRect(); barEl.classList.toggle('show', scrollY > innerHeight * .9 && !(b.top < innerHeight && b.bottom > 0)); }
+
+/* ---------- form: errors under fields, mailto stand-in ---------- */
+document.getElementById('form').addEventListener('submit', e => {
+  let bad = [];
+  [['f-name', 'e-name', v => v.trim().length > 1], ['f-phone', 'e-phone', v => /^\+?3?8?0\d{9}$/.test(v.replace(/[\s()-]/g, ''))]].forEach(([f, er, ok]) => {
+    const i = document.getElementById(f), m = document.getElementById(er), good = ok(i.value);
+    i.setAttribute('aria-invalid', !good); m.hidden = good; if (!good) bad.push(i);
+  });
+  if (bad.length) { e.preventDefault(); bad[0].focus(); document.getElementById('f-status').textContent = `Виправ ${bad.length === 1 ? 'одне поле' : 'два поля'}.`; }
+});
+
+function onScroll() { storyProgress(); hsMove(); barShow(); }
+addEventListener('scroll', onScroll, { passive: true });
+addEventListener('resize', () => { hsSize(); onScroll(); });
+hsSize(); onScroll();
+// ?at=0.5 scrolls to that share of the story (for review shots)
+const at = new URLSearchParams(location.search).get('at');
+if (at !== null) { scrollTo(0, (story.offsetHeight - innerHeight) * +at); onScroll(); }
+</script>
+</body>
+</html>
