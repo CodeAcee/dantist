@@ -54,17 +54,13 @@ const CUSPS = [[-.37, -.25, .3], [.36, -.27, .29], [-.36, .27, .28], [.35, .28, 
 function crownSDF(x, y, z) {
   const qy = y - .38;
   // widest at mid crown, a light waist at the cementoenamel junction, the trunk below it
-  const s = 1 + .04 * Math.exp(-((qy + .05) ** 2) / .05) - .12 * smoothstep(-.25, -.62, qy) + .02 * smoothstep(-.62, -.85, qy);
+  const s = 1 - .1 * smoothstep(-.2, -.7, qy);
   let d = roundBox(x / s, qy + .22, z / s, .78, .66, .62, .4) * s;
   // pointed cusps: tall narrow lobes with a tight blend
-  for (const [cx, cz, r] of CUSPS) d = smin(d, ellipsoid(x - cx, qy - .38, z - cz, r * .85, .34, r * .8), .1);
+  for (const [cx, cz, r] of CUSPS) d = smin(d, ellipsoid(x - cx, qy - .36, z - cz, r * .85, .34, r * .8), .16);
   // sharp fissures: the central one, the transverse one, the creases down the faces
   d = smax(d, -capsule(x, qy, z, -.72, .62, 0, .72, .62, 0, .055), .06);
   d = smax(d, -capsule(x, qy, z, 0, .62, -.6, 0, .62, .6, .06), .07);
-  d = smax(d, -capsule(x, qy, z, 0, .5, .6, 0, .05, .68, .035), .09);
-  d = smax(d, -capsule(x, qy, z, 0, .5, -.62, 0, .12, -.68, .03), .08);
-  d = smax(d, -capsule(x, qy, z, -.7, .5, 0, -.82, .1, 0, .03), .07);
-  d = smax(d, -capsule(x, qy, z, .7, .5, 0, .82, .1, 0, .03), .07);
   return d;
 }
 const ROOTS = [
@@ -148,7 +144,7 @@ function finish(f, m) {
 
 /* ---------- pack ---------- */
 function pack(meshes) {
-  const parts = [], head = new Uint32Array([0x31485454, meshes.length]); parts.push(Buffer.from(head.buffer));
+  const parts = [], head = new Uint32Array([0x32485454, meshes.length]); parts.push(Buffer.from(head.buffer));
   for (const m of meshes) {
     const vc = m.pos.length / 3, ic = m.idx.length, big = vc > 65535;
     const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
@@ -158,7 +154,7 @@ function pack(meshes) {
     parts.push(h);
     const q = new Int16Array(vc * 3);
     for (let v = 0; v < vc * 3; v++) { const a = v % 3; q[v] = Math.round(((m.pos[v] - min[a]) / ((max[a] - min[a]) || 1)) * 65534 - 32767); }
-    const nb = Buffer.alloc(vc * 3); for (let v = 0; v < vc * 3; v++) nb.writeInt8(Math.round(m.nrm[v] * 127), v);
+    const nn = new Int16Array(vc * 3); for (let v = 0; v < vc * 3; v++) nn[v] = Math.round(m.nrm[v] * 32767); const nb = Buffer.from(nn.buffer);
     const body = q.byteLength + nb.length, pad = (4 - body % 4) % 4;
     parts.push(Buffer.from(q.buffer), nb, Buffer.alloc(pad));
     const ib = Buffer.from((big ? Uint32Array.from(m.idx) : Uint16Array.from(m.idx)).buffer);

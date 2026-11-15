@@ -14,7 +14,7 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 /* ---------- tooth.bin ---------- */
 async function loadMeshes(url) {
   const buf = await (await fetch(url)).arrayBuffer(), dv = new DataView(buf);
-  if (dv.getUint32(0, true) !== 0x31485454) throw new Error('tooth.bin: bad magic');
+  if (dv.getUint32(0, true) !== 0x32485454) throw new Error('tooth.bin: bad magic');
   const n = dv.getUint32(4, true), out = [];
   let o = 8;
   for (let m = 0; m < n; m++) {
@@ -22,13 +22,13 @@ async function loadMeshes(url) {
     const min = [0, 1, 2].map(a => dv.getFloat32(o + 12 + a * 4, true)), max = [0, 1, 2].map(a => dv.getFloat32(o + 24 + a * 4, true));
     o += 36;
     const q = new Int16Array(buf, o, vc * 3); o += vc * 6;
-    const nr = new Int8Array(buf, o, vc * 3); o += vc * 3; o += (4 - (vc * 9) % 4) % 4;
+    const nr = new Int16Array(buf, o, vc * 3); o += vc * 6; o += (4 - (vc * 12) % 4) % 4;
     const idx = ib === 4 ? new Uint32Array(buf, o, ic) : new Uint16Array(buf, o, ic); o += ic * ib; o += (4 - (ic * ib) % 4) % 4;
     const pos = new Float32Array(vc * 3);
     for (let i = 0; i < vc * 3; i++) { const a = i % 3; pos[i] = min[a] + (q[i] + 32767) / 65534 * (max[a] - min[a]); }
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    g.setAttribute('normal', new THREE.BufferAttribute(new Int8Array(nr), 3, true));
+    g.setAttribute('normal', new THREE.BufferAttribute(new Int16Array(nr), 3, true));
     g.setIndex(new THREE.BufferAttribute(ib === 4 ? new Uint32Array(idx) : new Uint16Array(idx), 1));
     out.push(g);
   }
