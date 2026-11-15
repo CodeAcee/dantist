@@ -247,9 +247,51 @@
     .hs__track { overflow-x: auto; scroll-snap-type: x mandatory; transform: none !important; }
     [data-rv], .split .ch { opacity: 1; transform: none; }
   }
+
+  /* ---------- liquid glass on a pearl ground ---------- */
+  body { background: #f2efe9; }
+  #pearl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; pointer-events: none; }
+  .glow { display: none; }
+  .lg {
+    isolation: isolate;
+    background: linear-gradient(150deg, rgb(255 255 255 / .62), rgb(255 255 255 / .22) 55%, rgb(255 255 255 / .38));
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) brightness(1.04); backdrop-filter: blur(18px) saturate(1.8) brightness(1.04);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .95), inset 0 -1px 1px rgb(255 255 255 / .4), inset 0 0 0 1px rgb(255 255 255 / .35), inset 0 0 26px rgb(255 255 255 / .28), 0 22px 44px -24px rgb(40 52 80 / .28);
+  }
+  /* an iridescent rim that turns with the pointer, and a specular spot that follows it */
+  .lg::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1.2px; pointer-events: none;
+    background: conic-gradient(from var(--ang, 0deg), #ffd1e6, #c9e6ff, #ccf6e2, #fff0c2, #ffd1e6);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .85; }
+  .lg::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none; opacity: var(--spot, 0); transition: opacity .4s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), rgb(255 255 255 / .7), rgb(255 255 255 / 0) 60%); }
+  .lg:hover { --spot: 1; }
+  .chip.lg, .btn--ghost.lg, .act .price.lg, .svc.lg, .fact.lg, .pc.lg, .rv figure.lg, .form.lg { position: relative; }
+  .lg > * { position: relative; z-index: 3; }
+  .demo.lg a { color: var(--ink); }
+  .demo.lg a[aria-current] { background: var(--ink); color: #fff; }
+  .svc.lg figure { z-index: 0; }
+  .btn--ghost.lg { background: linear-gradient(150deg, rgb(255 255 255 / .7), rgb(255 255 255 / .3)); }
+  section#prices, section#booking { background: transparent !important; }
+  .pc.lg { border-radius: 28px; padding: 6px 26px; margin-top: 40px; border-top: 0; }
+  .pc details:last-child { border-bottom: 0; }
+  .rv figure.lg::before { content: ""; font: inherit; color: inherit; right: auto; top: auto; }
+  .fact.lg, .form.lg { background: linear-gradient(150deg, rgb(255 255 255 / .6), rgb(255 255 255 / .26)); }
+  @media (hover: none) { .lg { -webkit-backdrop-filter: blur(12px) saturate(1.6); backdrop-filter: blur(12px) saturate(1.6); } }
+
+  /* the name in pearl: a highlight and a shift of hue under the pointer, a tilt, a reflection below */
+  .word { --mx: 50%; --my: 40%; --h: 0deg; --rx: 0deg; --ry: 0deg; animation: none; display: inline-block; cursor: default;
+    background:
+      radial-gradient(320px circle at var(--mx) var(--my), rgb(255 255 255 / .95), rgb(255 255 255 / 0) 55%),
+      linear-gradient(100deg, hsl(calc(330deg + var(--h)) 62% 84%), hsl(calc(215deg + var(--h)) 70% 84%) 38%, hsl(calc(160deg + var(--h)) 52% 82%) 68%, hsl(calc(45deg + var(--h)) 75% 82%));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .5s var(--ease);
+    -webkit-box-reflect: below -0.2em linear-gradient(transparent 52%, rgb(0 0 0 / .22));
+    filter: drop-shadow(0 18px 30px rgb(140 160 200 / .22)); }
+  @media (prefers-reduced-motion: reduce) { .word { transform: none; } }
 </style>
 </head>
 <body>
+<canvas id="pearl" aria-hidden="true"></canvas>
 <a class="skip" href="#booking">Перейти до запису</a>
 
 <header class="nav">
@@ -350,7 +392,7 @@
     </div>
   </section>
 
-  <section class="blk" id="prices" aria-labelledby="prices-h" style="background: var(--bg2)">
+  <section class="blk" id="prices" aria-labelledby="prices-h">
     <div class="wrap">
       <div class="head">
         <h2 id="prices-h" class="split">Повний прайс</h2>
@@ -396,7 +438,7 @@
     </div>
   </section>
 
-  <section class="blk" id="booking" aria-labelledby="booking-h" style="background: var(--bg2)">
+  <section class="blk" id="booking" aria-labelledby="booking-h">
     <div class="wrap book">
       <div>
         <h2 id="booking-h" class="split">Запис на огляд</h2>
@@ -418,7 +460,7 @@
 
 <footer class="end">
   <div class="wrap">
-    <p class="word" aria-hidden="true">Chirkova</p>
+    <p class="word" id="word" aria-hidden="true">Chirkova</p>
     <div class="end__row">
       <span>© 2026 Chirkova Dentist · вул. Михайла Грушевського, центр Дніпра</span>
       <span><a href="https://www.tiktok.com/@mad__dentist" target="_blank" rel="noopener">TikTok</a><a href="https://www.instagram.com/mad__dentist/" target="_blank" rel="noopener">Instagram</a><a href="../credits.html">Photographs via Wikimedia Commons</a></span>
@@ -497,6 +539,38 @@ document.getElementById('form').addEventListener('submit', e => {
   });
   if (bad.length) { e.preventDefault(); bad[0].focus(); document.getElementById('f-status').textContent = `Виправ ${bad.length === 1 ? 'одне поле' : 'два поля'}.`; }
 });
+
+
+/* ---------- pearl ground, liquid glass, the name ---------- */
+import('./pearl.js').then(m => m.mountPearl(document.getElementById('pearl'))).catch(e => console.warn('pearl', e));
+document.querySelectorAll('.nav, .chip, .btn--ghost, .act .price, .svc, .fact, .pc, .rv figure, .form, .bar, .demo').forEach(el => el.classList.add('lg'));
+let gq = null;
+addEventListener('pointermove', e => {
+  if (gq) return; gq = requestAnimationFrame(() => {
+    gq = null;
+    const g = e.target.closest && e.target.closest('.lg');
+    if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--mx', (e.clientX - r.left) + 'px'); g.style.setProperty('--my', (e.clientY - r.top) + 'px'); g.style.setProperty('--ang', (Math.atan2(e.clientY - r.top - r.height / 2, e.clientX - r.left - r.width / 2) * 57.3 + 90) + 'deg'); }
+  });
+}, { passive: true });
+const word = document.getElementById('word');
+if (word) {
+  let on = false, idle = 0, wq = null;
+  const set = (x, y) => {
+    const r = word.getBoundingClientRect(), fx = (x - r.left) / r.width, fy = (y - r.top) / r.height;
+    word.style.setProperty('--mx', (fx * 100) + '%'); word.style.setProperty('--my', (fy * 100) + '%');
+    word.style.setProperty('--h', ((fx - .5) * 90) + 'deg');
+    if (!still) { word.style.setProperty('--ry', (clamp(fx, -.2, 1.2) - .5) * 14 + 'deg'); word.style.setProperty('--rx', (.5 - clamp(fy, -1, 2)) * 10 + 'deg'); }
+  };
+  addEventListener('pointermove', e => { if (!on || wq) return; wq = requestAnimationFrame(() => { wq = null; idle = performance.now(); set(e.clientX, e.clientY); }); }, { passive: true });
+  addEventListener('touchmove', e => { const p = e.touches[0]; if (on && p) { idle = performance.now(); set(p.clientX, p.clientY); } }, { passive: true });
+  new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on && !still) drift(); }).observe(word);
+  // with no pointer on it, the highlight drifts slowly across the letters
+  function drift(now = performance.now()) {
+    if (!on) return;
+    if (now - idle > 2500) { const r = word.getBoundingClientRect(), k = now / 2600; set(r.left + r.width * (.5 + .45 * Math.sin(k)), r.top + r.height * (.4 + .25 * Math.cos(k * 1.3))); }
+    requestAnimationFrame(drift);
+  }
+}
 
 let queued = false;
 function onScroll() { storyProgress(); hsMove(); barShow(); }
