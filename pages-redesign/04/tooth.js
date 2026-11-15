@@ -60,10 +60,10 @@ function subMesh(src, keep, lift = 0) {
 // enamel white on the crown, a warm ivory band at the cementoenamel junction, cementum on the roots
 function paint(g) {
   const P = g.attributes.position, col = new Float32Array(P.count * 3), c = new THREE.Color();
-  const enamel = new THREE.Color(0xfdfbf7), cej = new THREE.Color(0xf1e2c8), root = new THREE.Color(0xeadbc2);
+  const enamel = new THREE.Color(0xfdfbf8), cej = new THREE.Color(0xf0dcbc), root = new THREE.Color(0xe2c294);
   for (let i = 0; i < P.count; i++) {
     const y = P.getY(i);
-    c.copy(enamel).lerp(cej, smooth(.12, -.12, y)).lerp(root, smooth(-.15, -.6, y));
+    c.copy(enamel).lerp(cej, smooth(-.02, -.2, y)).lerp(root, smooth(-.2, -.9, y));
     col.set([c.r, c.g, c.b], i * 3);
   }
   g.setAttribute('color', new THREE.BufferAttribute(col, 3));
@@ -121,7 +121,7 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   const cap = new THREE.Mesh(subMesh(toothG, (x, y) => y > .02, .025), zirconia); tooth.add(cap);
   const implant = implantGroup(titanium, lite); tooth.add(implant);
   const ring = new THREE.Mesh(new THREE.TorusGeometry(1.3, .01, 8, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false }));
-  ring.rotation.x = Math.PI / 2; ring.position.y = -2.45; scene.add(ring);
+  ring.rotation.x = Math.PI / 2; ring.position.y = -2.8; scene.add(ring);
   scene.add(tooth);
 
   let tx = 0, ty = 0, cx = 0, cy = 0, drag = null, spin = 0, spinV = 0;
@@ -147,7 +147,7 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     else if (avg < 14 && dpr < dprMax) { dpr = Math.min(dprMax, dpr + .25); renderer.setPixelRatio(dpr); size(); skip = false; }
   }
 
-  let px = mobile() ? 0 : 2.2, py = mobile() ? -.9 : .3, running = false, t = 0, last = 0;
+  let px = mobile() ? 0 : 2.65, py = mobile() ? -.55 : -.05, running = false, t = 0, last = 0;
   const setT = (m, tr) => { if (m.transparent !== tr) { m.transparent = tr; m.depthWrite = !tr; m.needsUpdate = true; } };
 
   function draw(dt) {
@@ -171,10 +171,10 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     tooth.rotation.y = (still ? .5 : t * .22) + p * Math.PI * 4 + spin + cx;
     tooth.rotation.x = .16 + cy + Math.sin(t * .6) * .025;
     const m = mobile();
-    px += ((m ? 0 : (p < .14 ? 2.2 : -1.7)) - px) * .06;
-    py += ((m ? (p < .14 ? -.9 : 1.05) : (p < .14 ? .3 : .55)) - py) * .06;
+    px += ((m ? 0 : (p < .14 ? 2.65 : -1.7)) - px) * .06;
+    py += ((m ? (p < .14 ? -.55 : 1.15) : (p < .14 ? -.05 : .3)) - py) * .06;
     tooth.position.set(px, py + Math.sin(t * .9) * .045, 0);
-    camera.position.set(0, .35, (m ? 11.6 : 8.4) - xr * 1.2 - vn * 1 + fin * .3);
+    camera.position.set(0, .35, (m ? 13.4 : 9.8) - xr * .5 - vn * .7 + fin * .3);
     camera.lookAt(0, -.15, 0);
     renderer.render(scene, camera);
   }

@@ -47,50 +47,46 @@ function chain(px, py, pz, pts) {
   return d;
 }
 
-/* ---------- the molar (y up, x mesiodistal, z buccolingual), proportions after the client's reference ---------- */
-// a tall crown (about 40% of the height) whose walls run straight down into a broad trunk, a high rounded
-// furcation, two thick roots with blunt tips and a third, palatal root behind them
-const CUSPS = [[-.36, -.26, .4], [.36, -.26, .38], [-.36, .27, .37], [.36, .28, .36]];
+/* ---------- the molar (y up, x mesiodistal, z buccolingual), after the client's references ---------- */
+// crown about 45% of the height with pointed cusps and sharp fissures, a light waist at the neck, a short
+// trunk and three long roots that spread, taper and end in points (two in front, the palatal one behind)
+const CUSPS = [[-.37, -.25, .3], [.36, -.27, .29], [-.36, .27, .28], [.35, .28, .27]];
 function crownSDF(x, y, z) {
-  const qy = y - .42;
-  // crown and trunk as one body: walls almost straight, a gentle taper toward the roots
-  const s = 1 - .1 * smoothstep(.1, -1.0, qy) + .025 * Math.exp(-((qy + .05) ** 2) / .04);
-  let d = roundBox(x / s, qy + .28, z / s, .8, .76, .64, .42) * s;
-  // two big cusps seen from the front (four in all), rounded
-  for (const [cx, cz, r] of CUSPS) d = smin(d, ellipsoid(x - cx, qy - .36, z - cz, r, .26, r * .9), .2);
-  // the deep central fissure, the transverse groove and the crease down the buccal and lingual faces
-  d = smax(d, -capsule(x, qy, z, -.7, .66, 0, .7, .66, 0, .07), .1);
-  d = smax(d, -capsule(x, qy, z, 0, .72, -.6, 0, .72, .6, .12), .15);
-  d = smax(d, -capsule(x, qy, z, 0, .6, .62, 0, .02, .7, .05), .14);
-  d = smax(d, -capsule(x, qy, z, 0, .6, -.64, 0, .1, -.7, .04), .12);
+  const qy = y - .38;
+  // widest at mid crown, a light waist at the cementoenamel junction, the trunk below it
+  const s = 1 + .04 * Math.exp(-((qy + .05) ** 2) / .05) - .12 * smoothstep(-.25, -.62, qy) + .02 * smoothstep(-.62, -.85, qy);
+  let d = roundBox(x / s, qy + .22, z / s, .78, .66, .62, .4) * s;
+  // pointed cusps: tall narrow lobes with a tight blend
+  for (const [cx, cz, r] of CUSPS) d = smin(d, ellipsoid(x - cx, qy - .38, z - cz, r * .85, .34, r * .8), .1);
+  // sharp fissures: the central one, the transverse one, the creases down the faces
+  d = smax(d, -capsule(x, qy, z, -.72, .62, 0, .72, .62, 0, .055), .06);
+  d = smax(d, -capsule(x, qy, z, 0, .62, -.6, 0, .62, .6, .06), .07);
+  d = smax(d, -capsule(x, qy, z, 0, .5, .6, 0, .05, .68, .035), .09);
+  d = smax(d, -capsule(x, qy, z, 0, .5, -.62, 0, .12, -.68, .03), .08);
+  d = smax(d, -capsule(x, qy, z, -.7, .5, 0, -.82, .1, 0, .03), .07);
+  d = smax(d, -capsule(x, qy, z, .7, .5, 0, .82, .1, 0, .03), .07);
   return d;
 }
 const ROOTS = [
-  [[-.41, -.3, .1, .34], [-.44, -.9, .1, .31], [-.43, -1.42, .08, .26], [-.37, -1.76, .06, .19]],
-  [[.41, -.3, .1, .34], [.44, -.9, .1, .31], [.42, -1.4, .08, .26], [.36, -1.72, .06, .19]],
-  [[0, -.3, -.3, .3], [.02, -.85, -.36, .26], [.03, -1.32, -.38, .2], [.04, -1.6, -.38, .15]],
+  [[-.38, -.35, .08, .32], [-.46, -1.0, .1, .27], [-.52, -1.62, .08, .19], [-.5, -2.15, .05, .1], [-.44, -2.55, .03, .025]],
+  [[.38, -.35, .08, .32], [.47, -1.0, .1, .27], [.52, -1.58, .08, .19], [.48, -2.1, .05, .1], [.42, -2.48, .03, .025]],
+  [[0, -.35, -.28, .28], [.03, -1.0, -.42, .22], [.05, -1.62, -.5, .15], [.05, -2.05, -.5, .08], [.04, -2.3, -.48, .025]],
 ];
 function rootsSDF(x, y, z) {
   let d = 1e9;
-  for (const r of ROOTS) d = smin(d, chain(x, y, z, r), .05);
+  for (const r of ROOTS) d = smin(d, chain(x, y, z, r), .04);
   return d;
 }
-function trunkSDF(x, y, z) { return roundBox(x, y + .28, z, .76, .32, .6, .3); }
-function toothSDF(x, y, z) {
-  return smin(crownSDF(x, y, z), rootsSDF(x, y, z), .22);
-  return d;
-}
+function toothSDF(x, y, z) { return smin(crownSDF(x, y, z), rootsSDF(x, y, z), .22); }
 function pulpSDF(x, y, z) {
-  let d = ellipsoid(x, y - .1, z, .44, .22, .32);
-  for (const [cx, cz] of CUSPS) d = smin(d, ellipsoid(x - cx * .7, y - .32, z - cz * .7, .09, .16, .09), .1);
+  let d = ellipsoid(x, y - .05, z, .42, .2, .3);
+  for (const [cx, cz] of CUSPS) d = smin(d, ellipsoid(x - cx * .72, y - .3, z - cz * .72, .07, .18, .07), .08);
   for (const r of ROOTS) {
-    const c = r.map(([px, py, pz], i) => [px * .95, py + (i ? 0 : .3), pz, [.11, .08, .055, .025][i]]);
-    d = smin(d, chain(x, y, z, c), .1);
+    const c = r.map(([px, py, pz], i) => [px * .97, py + (i ? 0 : .3), pz, Math.max(.015, .1 * (1 - i / (r.length - 1)))]);
+    d = smin(d, chain(x, y, z, c), .08);
   }
   return d;
 }
-function capSDF(x, y, z) { return smax(crownSDF(x, y, z), -(y + .16), .06); }
-void trunkSDF;
 
 /* ---------- marching cubes with welded vertices ---------- */
 function polygonize(f, [x0, y0, z0], [x1, y1, z1], h) {
@@ -173,8 +169,8 @@ function pack(meshes) {
 }
 
 const t0 = Date.now();
-const tooth = finish(toothSDF, polygonize(toothSDF, [-1.05, -2.05, -.95], [1.05, 1.3, .95], STEP));
-const pulp = finish(pulpSDF, polygonize(pulpSDF, [-.75, -1.85, -.6], [.75, .65, .5], .035));
+const tooth = finish(toothSDF, polygonize(toothSDF, [-1.05, -2.7, -1.0], [1.05, 1.3, .95], STEP));
+const pulp = finish(pulpSDF, polygonize(pulpSDF, [-.75, -2.6, -.75], [.75, .65, .5], .035));
 const buf = pack([tooth, pulp]);
 fs.writeFileSync(out, buf);
 console.log(`${out}: ${(buf.length / 1024).toFixed(0)} KB in ${Date.now() - t0} ms`);
