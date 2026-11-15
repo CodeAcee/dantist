@@ -111,10 +111,10 @@ export const pearl = {
   },
 } as const;
 
-// the clinic on the map (the same point as the old site's map) and its accounts
+// the clinic on the map (Hrushevskoho 16) and its accounts
 export const clinicLinks = {
-  mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10583.881065077816!2d35.03985051583366!3d48.45710003338652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dbe3206666c9dd%3A0x316566a1e70291e4!2sMykhaila%20Hrushevskoho%20St%2C%2029%2C%20Dnipro%2C%20Dnipropetrovs'ka%20oblast%2C%2049000!5e0!3m2!1sen!2sua!4v1780852088302!5m2!1sen!2sua",
-  mapLink: "https://maps.app.goo.gl/7qWRBubjgCrJuS2T9",
+  mapEmbed: "https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1z0LLRg9C70LjRhtGPINCc0LjRhdCw0LnQu9CwINCT0YDRg9GI0LXQstGB0YzQutC-0LPQviwgMTYsINCU0L3RltC_0YDQvg!6i17",
+  mapLink: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent("вулиця Михайла Грушевського, 16, Дніпро"),
   tiktok: "https://www.tiktok.com/@mad__dentist",
   instagram: "https://www.instagram.com/mad__dentist/",
   handle: "@mad__dentist",
