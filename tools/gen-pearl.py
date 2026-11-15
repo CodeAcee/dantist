@@ -250,6 +250,14 @@ markup = '''<!doctype html>
             <span class="more">{t.pages.more} <i aria-hidden="true">→</i></span>
           </a>
         ))}
+        {pages.length % 3 !== 0 && (
+          <a class="page-card page-card--ask glass" href="#booking" data-rv style={`--i:${pages.length % 4}`}>
+            <span class="chip">{t.pages.askTag}</span>
+            <h3>{t.pages.askH}</h3>
+            <p>{t.pages.askP}</p>
+            <span class="more">{t.pages.askMore} <i aria-hidden="true">→</i></span>
+          </a>
+        )}
       </div>
     </div>
   </section>}
