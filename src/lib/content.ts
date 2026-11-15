@@ -67,7 +67,7 @@ const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   "page": *[_type == "servicePage" && priceCategory._ref == ^._id][0].slug.current
 }`;
 
-const CASES_QUERY = `*[_type == "caseStudy"] | order(order asc) {
+const CASES_QUERY = `*[_type == "caseStudy"] | order(order asc, _createdAt asc) {
   treatmentUk, treatmentEn, durationUk, durationEn,
   beforeDescUk, beforeDescEn, afterDescUk, afterDescEn,
   beforeImage, afterImage

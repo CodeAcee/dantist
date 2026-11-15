@@ -23,7 +23,7 @@ export const pearl = {
       { tag: "Результат", h: ["Посмішка, якою ", "хочеться", " ділитися"], p: "2400+ посмішок і 4,9 у Google. Без нотацій і без осуду.", price: "" },
     ],
     services: { h: "Послуги", note: "Ціни «від». Точну суму лікар називає на безкоштовній консультації." },
-    cases: { h: "До і після", note: "Реальний пацієнт клініки, вініри. Тягни повзунок.", before: "До", after: "Після" },
+    cases: { h: "До і після", note: "Реальні випадки пацієнтів клініки. Обери випадок і тягни повзунок.", before: "До", after: "Після" },
     facts: [
       { b: "2400+", count: 2400, suffix: "+", label: "посмішок за роки роботи" },
       { b: "98%", count: 98, suffix: "%", label: "пацієнтів повертаються" },
@@ -71,7 +71,7 @@ export const pearl = {
       { tag: "The result", h: ["A smile you ", "want", " to share"], p: "2,400+ smiles and 4.9 on Google. No lectures, no judgement.", price: "" },
     ],
     services: { h: "Services", note: "Prices are “from”. The exact cost is confirmed at the free consultation." },
-    cases: { h: "Before and after", note: "A real patient of the clinic, veneers. Drag the slider.", before: "Before", after: "After" },
+    cases: { h: "Before and after", note: "Real cases of the clinic’s patients. Pick one and drag the slider.", before: "Before", after: "After" },
     facts: [
       { b: "2400+", count: 2400, suffix: "+", label: "smiles over the years" },
       { b: "98%", count: 98, suffix: "%", label: "of patients come back" },

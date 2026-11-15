@@ -44,3 +44,14 @@
 .soc-btn svg { width: 34px; height: 34px; padding: 8px; border-radius: 50%; background: var(--ink); color: #fff; }
 .soc-btn small { display: block; font-weight: 500; color: var(--muted); font-size: 12px; line-height: 1.1; }
 .end__social { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 30px; }
+
+/* before and after: several cases */
+.case-tabs { display: flex; gap: 8px; margin-top: 32px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.case-tabs::-webkit-scrollbar { display: none; }
+.case-tab { flex: none; cursor: pointer; border: 0; font: 600 15px var(--sans); color: var(--ink); min-height: 44px; }
+.case-tab small { font-weight: 500; color: var(--muted); }
+.case-tab[aria-selected="true"] { background: var(--ink); color: #fff; }
+.case-tab[aria-selected="true"] small { color: rgb(255 255 255 / .7); }
+.case-tabs + .ba { margin-top: 16px; }
+.case-note { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 16px; color: var(--muted); font-size: 15px; }
+.case-note b { color: var(--ink); font-weight: 600; }

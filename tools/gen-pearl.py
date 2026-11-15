@@ -22,6 +22,18 @@ js = rep(js, "import('./pearl.js').then(m => m.mountPearl(document.getElementByI
 js = rep(js, "const { mountTooth } = await import('./tooth.js');",
           "const { mountTooth } = await import(PB + 'tooth.js');")
 js = rep(js, ".rv figure, .form, .bar, .demo')", ".rv figure, .form, .bar, .demo, .glass')")
+js = rep(js, "range.addEventListener('input', () => ba.style.setProperty('--pos', range.value + '%'));", """range.addEventListener('input', () => ba.style.setProperty('--pos', range.value + '%'));
+// several cases: the tabs swap the pair under the slider
+const CASES = JSON.parse(ba.dataset.cases || '[]');
+document.querySelectorAll('.case-tab').forEach(tab => tab.addEventListener('click', () => {
+  const c = CASES[+tab.dataset.case]; if (!c) return;
+  document.querySelectorAll('.case-tab').forEach(x => x.setAttribute('aria-selected', String(x === tab)));
+  const [b, a] = ba.querySelectorAll('img');
+  b.src = c.b; b.alt = c.bt; a.src = c.a; a.alt = c.at;
+  range.value = 50; ba.style.setProperty('--pos', '50%');
+  const bt = document.getElementById('case-bt'), at = document.getElementById('case-at');
+  if (bt) bt.textContent = c.bt; if (at) at.textContent = c.at;
+}));""")
 js = rep(js, "{ progress: () => P, still, host: story });",
           "{ progress: () => P, still, host: story, src: PB + 'tooth.bin' });")
 
@@ -82,13 +94,15 @@ const svc = svcAll.slice(0, 6);
 const reviews = data.reviews.slice(0, 8);
 const team = data.team;
 const founder = team[0];
-const kase = data.cases[0];
+const cases = data.cases.filter((c) => c.beforeImg && c.afterImg);
+const kase = cases[0];
 
 const base = import.meta.env.BASE_URL.replace(/\\/?$/, "/");
 const P = base + "pearl/";
 const photos = ["photo-f29462631-960.jpg", "photo-f123751291-960.jpg", "photo-f156042973-960.jpg", "photo-f190774253-960.jpg", "photo-f14101125-960.jpg", "photo-f130333575-960.jpg"].map((f) => P + "img/" + f);
 const caseBefore = kase?.beforeImg;
 const caseAfter = kase?.afterImg;
+const caseData = JSON.stringify(cases.map((c) => ({ b: c.beforeImg, a: c.afterImg, bt: c.before ?? "", at: c.after ?? "" })));
 const slides = [[572, 1163], [598, 1214], [617, 1242], [592, 922], [842, 1696]];
 const importmap = JSON.stringify({ imports: { three: P + "vendor/three.module.min.js", "three/addons/": P + "vendor/" } });
 const CONTACT = import.meta.env.PUBLIC_CONTACT_WORKER_URL || "";
@@ -179,13 +193,23 @@ markup = '''<!doctype html>
         <h2 id="cases-h" class="split">{t.cases.h}</h2>
         <p data-rv>{t.cases.note}</p>
       </div>
-      <div class="ba" id="ba" data-rv style="--pos: 50%">
+      {cases.length > 1 && (
+        <div class="case-tabs" role="tablist" aria-label={t.cases.h} data-rv>
+          {cases.map((c, i) => (
+            <button class="chip case-tab" type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} data-case={i}>
+              {c.treatment}{c.duration && <small> · {c.duration}</small>}
+            </button>
+          ))}
+        </div>
+      )}
+      <div class="ba" id="ba" data-rv style="--pos: 50%" data-cases={caseData}>
         <img src={caseBefore} width="820" height="615" alt={kase?.before ?? ""}>
         <img class="ba__after" src={caseAfter} width="820" height="615" alt={kase?.after ?? ""}>
         <span class="ba__tag ba__tag--l">{t.cases.before}</span><span class="ba__tag ba__tag--r">{t.cases.after}</span>
         <span class="ba__line" aria-hidden="true"></span><span class="ba__knob" aria-hidden="true">⇆</span>
         <input type="range" min="0" max="100" value="50" aria-label={t.cases.h}>
       </div>
+      {(kase.before || kase.after) && <p class="case-note" id="case-note" data-rv><span>{t.cases.before}: <b id="case-bt">{kase.before}</b></span><span>{t.cases.after}: <b id="case-at">{kase.after}</b></span></p>}
       <div class="facts">
         {t.facts.map((f, i) => (
           <div class="fact" data-rv style={`--i:${i}`}><b {...(f.count ? { "data-count": f.count, "data-suffix": f.suffix || "" } : {})}>{f.b}</b><span>{f.label}</span></div>
