@@ -92,3 +92,25 @@
 .map-gate__pin::after { content: ""; width: 18px; height: 18px; border-radius: 50%; background: #fff; }
 .map-gate p { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 @media (max-width: 899px) { .map-gate { min-height: 304px; } }
+
+/* desktop hero: fits short laptop screens too. The offset and the headline follow the window height,
+   so the buttons keep air under them; tall screens look as before. */
+@media (min-width: 900px) {
+  .act--hero, .act--hero.is-on { top: clamp(92px, 12.5vh, 150px); }
+  .act--hero h1 { font-size: clamp(46px, min(11vw, 15vh), 150px); }
+  .act--hero .lead { margin-top: clamp(10px, 1.8vh, 18px); }
+  .act--hero .row { margin-top: clamp(16px, 3vh, 30px); }
+  .act--hero .meta { margin-bottom: 0; }
+}
+
+/* with an announcement on screen, the first screen moves down by the bar's height */
+html.has-announce { --ann: 58px; }
+@media (min-width: 900px) {
+  html.has-announce .act--hero, html.has-announce .act--hero.is-on { top: calc(clamp(92px, 12.5vh, 150px) + var(--ann)); }
+  html.has-announce .act--hero h1 { font-size: clamp(46px, min(11vw, 13.5vh), 150px); }
+}
+@media (max-width: 899px) {
+  html.has-announce .act--hero, html.has-announce .act--hero.is-on { padding-top: calc(104px + var(--ann)); }
+}
+html.has-announce .sp-hero { padding-top: calc(140px + var(--ann)); }
+@media (max-width: 899px) { html.has-announce .sp-hero { padding-top: calc(110px + var(--ann)); } }
