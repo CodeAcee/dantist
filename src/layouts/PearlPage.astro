@@ -2,9 +2,10 @@
 // The shell of the pearl inner pages (services): the pearl ground, the glass nav, the footer with the
 // pearl name. Styles come from styles/pearl.css, shared with the home page.
 import "../styles/pearl.css";
+import "../styles/pearl-site.css";
 import SeoHead from "../components/SeoHead.astro";
 import { PAGE_UI, type Lang, type Service } from "../i18n/services";
-import { pearl } from "../i18n/pearl";
+import { pearl, clinicLinks as L, icons } from "../i18n/pearl";
 
 interface Props {
   title: string;
@@ -25,7 +26,7 @@ const path = Astro.url.pathname;
 const rel = path.startsWith(base) ? path.slice(base.length) : path.replace(/^\//, "");
 const stripped = rel.replace(/\/$/, "");
 const slugPart = stripped === "en" ? "" : stripped.startsWith("en/") ? stripped.slice(3) : stripped;
-const otherLangHref = lang === "en" ? base + slugPart : base + "en/" + slugPart;
+const ukHref = base + slugPart, enHref = base + "en/" + slugPart;
 const home = lang === "en" ? base + "en/" : base;
 const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.classList.add("js")`;
 ---
@@ -48,9 +49,12 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
       <li><a href={home + "#services"}>{t.nav.services}</a></li>
       <li><a href={home + "#cases"}>{t.nav.results}</a></li>
       <li><a href={home + "#prices"}>{t.nav.prices}</a></li>
-      <li><a href={otherLangHref}>{lang === "en" ? "Укр" : "EN"}</a></li>
+      <li><a href={home + "#visit"}>{t.nav.contacts}</a></li>
     </ul>
-    <a class="btn btn--ink" href={home + "#booking"}>{t.nav.book}</a>
+    <div class="nav__end">
+      <nav class="lang" aria-label={t.nav.langLabel}>{lang === "uk" ? <span aria-current="true">UA</span> : <a href={ukHref} hreflang="uk">UA</a>}{lang === "en" ? <span aria-current="true">EN</span> : <a href={enHref} hreflang="en">EN</a>}</nav>
+      <a class="btn btn--ink" href={home + "#booking"}>{t.nav.book}</a>
+    </div>
   </header>
 
   <main id="main">
@@ -63,10 +67,17 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
         <div><b>{ui.contactsTitle}</b><a href={"tel:" + ui.phone.replace(/[^+\d]/g, "")}>{ui.phone}</a><span>{ui.address}</span><span>{ui.hours}</span></div>
         <div><b>{ui.services}</b>{pages.map((s) => <a href={home + s.slug}>{s[lang].name}</a>)}</div>
       </div>
+      <div class="end__social">
+        <div class="socials">
+          <a class="soc-btn" href={L.tiktok} target="_blank" rel="noopener"><Fragment set:html={icons.tiktok} /><span>TikTok<small>{L.handle}</small></span></a>
+          <a class="soc-btn" href={L.instagram} target="_blank" rel="noopener"><Fragment set:html={icons.instagram} /><span>Instagram<small>{L.handle}</small></span></a>
+        </div>
+        <nav class="lang" aria-label={t.nav.langLabel}>{lang === "uk" ? <span aria-current="true">UA</span> : <a href={ukHref} hreflang="uk">UA</a>}{lang === "en" ? <span aria-current="true">EN</span> : <a href={enHref} hreflang="en">EN</a>}</nav>
+      </div>
       <p class="word" id="word" aria-hidden="true">Chirkova</p>
       <div class="end__row">
         <span>© {new Date().getFullYear()} Chirkova Dentist · {ui.rights}</span>
-        <span><a href="https://www.tiktok.com/@mad__dentist" target="_blank" rel="noopener">TikTok</a><a href="https://www.instagram.com/mad__dentist/" target="_blank" rel="noopener">Instagram</a></span>
+        <span><a href={L.mapLink} target="_blank" rel="noopener">Google Maps</a></span>
       </div>
     </div>
   </footer>

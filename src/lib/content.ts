@@ -8,6 +8,7 @@ export interface ServiceRow {
   desc: string;
   price: string;
   items: { name: string; price: string }[];
+  page?: string;
 }
 export interface CaseRow {
   treatment: string;
@@ -62,7 +63,8 @@ function imgUrl(source: unknown): string | undefined {
 
 const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   nameUk, nameEn, descUk, descEn, startingPriceUk, startingPriceEn,
-  priceItems[]{ nameUk, nameEn, priceUk, priceEn }
+  priceItems[]{ nameUk, nameEn, priceUk, priceEn },
+  "page": *[_type == "servicePage" && priceCategory._ref == ^._id][0].slug.current
 }`;
 
 const CASES_QUERY = `*[_type == "caseStudy"] | order(order asc) {
@@ -101,6 +103,7 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         name: en ? s.nameEn : s.nameUk,
         desc: en ? s.descEn : s.descUk,
         price: en ? s.startingPriceEn : s.startingPriceUk,
+        page: s.page ?? undefined,
         items: (s.priceItems ?? []).map((it: any) => ({
           name: en ? it.nameEn : it.nameUk,
           price: en ? it.priceEn : it.priceUk,

@@ -21,6 +21,7 @@ js = rep(js, "import('./pearl.js').then(m => m.mountPearl(document.getElementByI
           "import(PB + 'pearl.js').then(m => m.mountPearl(document.getElementById('pearl')))")
 js = rep(js, "const { mountTooth } = await import('./tooth.js');",
           "const { mountTooth } = await import(PB + 'tooth.js');")
+js = rep(js, ".rv figure, .form, .bar, .demo')", ".rv figure, .form, .bar, .demo, .glass')")
 js = rep(js, "{ progress: () => P, still, host: story });",
           "{ progress: () => P, still, host: story, src: PB + 'tooth.bin' });")
 
@@ -59,10 +60,11 @@ frontmatter = '''---
 // copy from i18n/pearl. Services, prices, the case, doctors and reviews come only from Sanity.
 // Regenerate from the demo with: python3 tools/gen-pearl.py (see the redesign branch history).
 import "../styles/pearl.css";
+import "../styles/pearl-site.css";
 import SeoHead from "./SeoHead.astro";
 import { getContent, getServicePages } from "../lib/content";
 import { translations } from "../i18n/translations";
-import { pearl, type PearlLang } from "../i18n/pearl";
+import { pearl, clinicLinks as L, icons, type PearlLang } from "../i18n/pearl";
 import { PAGE_UI } from "../i18n/services";
 
 interface Props { lang: PearlLang; }
@@ -90,6 +92,7 @@ const caseAfter = kase?.afterImg;
 const slides = [[572, 1163], [598, 1214], [617, 1242], [592, 922], [842, 1696]];
 const importmap = JSON.stringify({ imports: { three: P + "vendor/three.module.min.js", "three/addons/": P + "vendor/" } });
 const CONTACT = import.meta.env.PUBLIC_CONTACT_WORKER_URL || "";
+const langUk = base, langEn = base + "en/";
 const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stringify(CONTACT)};document.documentElement.classList.add("js")`;
 ---
 '''
@@ -117,8 +120,12 @@ markup = '''<!doctype html>
     <li><a href="#cases">{t.nav.results}</a></li>
     <li><a href="#prices">{t.nav.prices}</a></li>
     <li><a href="#reviews">{t.nav.reviews}</a></li>
+    <li><a href="#visit">{t.nav.contacts}</a></li>
   </ul>
-  <a class="btn btn--ink" href="#booking">{t.nav.book}</a>
+  <div class="nav__end">
+    <nav class="lang" aria-label={t.nav.langLabel}>{lang === "uk" ? <span aria-current="true">UA</span> : <a href={langUk} hreflang="uk">UA</a>}{lang === "en" ? <span aria-current="true">EN</span> : <a href={langEn} hreflang="en">EN</a>}</nav>
+    <a class="btn btn--ink" href="#booking">{t.nav.book}</a>
+  </div>
 </header>
 
 <main id="top">
@@ -156,9 +163,9 @@ markup = '''<!doctype html>
       </div>
       <div class="hs__track" id="hs-track">
         {svc.map((s, i) => (
-          <a class="svc" href="#booking">
+          <a class="svc" href={s.page ? home + s.page : "#prices"}>
             <figure><img src={photos[i % photos.length]} width="960" height="720" alt={s.name} loading="lazy"><span class="svc__n">{s.num}</span></figure>
-            <div class="svc__b"><h3>{s.name}</h3><p>{s.desc}</p><span class="from">{s.price}</span></div>
+            <div class="svc__b"><h3>{s.name}</h3><p>{s.desc}</p><span class="from">{s.price}</span>{s.page && <span class="svc__more">{t.svcMore} →</span>}</div>
           </a>
         ))}
       </div>
@@ -204,6 +211,25 @@ markup = '''<!doctype html>
     </div>
   </section>
 
+  {pages.length > 0 && <section class="blk" id="pages" aria-labelledby="pages-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="pages-h" class="split">{t.pages.h}</h2>
+        <p data-rv>{t.pages.note}</p>
+      </div>
+      <div class="pages">
+        {pages.map((pg, i) => (
+          <a class="page-card glass" href={home + pg.slug} data-rv style={`--i:${i % 4}`}>
+            <span class="chip">{pg[lang].eyebrow}</span>
+            <h3>{pg[lang].name}</h3>
+            <p>{pg[lang].intro}</p>
+            <span class="more">{t.pages.more} <i aria-hidden="true">→</i></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>}
+
   {reviews.length > 0 && <section class="blk" id="reviews" aria-labelledby="reviews-h" style="padding-bottom: 60px">
     <div class="wrap head">
       <h2 id="reviews-h" class="split">{t.reviews.h}</h2>
@@ -234,14 +260,41 @@ markup = '''<!doctype html>
     </div>
   </section>}
 
+  <section class="blk" id="visit" aria-labelledby="visit-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="visit-h" class="split">{t.visit.h}</h2>
+        <p data-rv>{t.visit.note}</p>
+      </div>
+      <div class="visit">
+        <div class="visit__info glass" data-rv>
+          <address class="visit__addr">{ui.address}</address>
+          <dl class="hours">{t.booking.hours.map(([d, h]) => <><dt>{d}</dt><dd>{h}</dd></>)}</dl>
+          <div class="visit__btns">
+            <a class="btn btn--ink" href={L.mapLink} target="_blank" rel="noopener">{t.visit.route}</a>
+            <a class="btn btn--ghost" href={tel}>{ui.phone}</a>
+          </div>
+          <div>
+            <p style="font-weight: 600; margin-bottom: 10px">{t.visit.follow}</p>
+            <div class="socials">
+              <a class="soc-btn" href={L.tiktok} target="_blank" rel="noopener"><Fragment set:html={icons.tiktok} /><span>TikTok<small>{L.handle}</small></span></a>
+              <a class="soc-btn" href={L.instagram} target="_blank" rel="noopener"><Fragment set:html={icons.instagram} /><span>Instagram<small>{L.handle}</small></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="visit__map glass" data-rv style="--i:1">
+          <iframe src={L.mapEmbed} title={t.visit.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="blk" id="booking" aria-labelledby="booking-h">
     <div class="wrap book">
       <div>
         <h2 id="booking-h" class="split">{t.booking.h}</h2>
         <p style="margin-top: 18px; max-width: 34ch" data-rv>{t.booking.note}</p>
-        <address class="addr" data-rv>{ui.address}</address>
-        <p data-rv style="margin-top: 14px"><a class="btn btn--ghost" href={tel}>{ui.phone}</a></p>
-        <dl class="hours" data-rv>{t.booking.hours.map(([d, h]) => <><dt>{d}</dt><dd>{h}</dd></>)}</dl>
+        <p data-rv style="margin-top: 22px"><a class="btn btn--ghost" href={tel}>{ui.phone}</a></p>
       </div>
       <form class="form" id="form" novalidate data-rv data-fix1={t.booking.fix1} data-fix2={t.booking.fix2} data-sending={t.booking.sending} data-ok={t.booking.ok} data-err={t.booking.err}>
         <div class="field"><label for="f-name">{t.booking.name}</label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name"><p class="field__err" id="e-name" hidden>{t.booking.nameErr}</p></div>
@@ -257,18 +310,23 @@ markup = '''<!doctype html>
 
 <footer class="end">
   <div class="wrap">
-    <nav class="end__svc" aria-label={ui.services}>{pages.map((s) => <a class="chip" href={home + s.slug}>{s[lang].name}</a>)}</nav>
+    <div class="end__social">
+      <div class="socials">
+        <a class="soc-btn" href={L.tiktok} target="_blank" rel="noopener"><Fragment set:html={icons.tiktok} /><span>TikTok<small>{L.handle}</small></span></a>
+        <a class="soc-btn" href={L.instagram} target="_blank" rel="noopener"><Fragment set:html={icons.instagram} /><span>Instagram<small>{L.handle}</small></span></a>
+      </div>
+      <nav class="lang" aria-label={t.nav.langLabel}>{lang === "uk" ? <span aria-current="true">UA</span> : <a href={langUk} hreflang="uk">UA</a>}{lang === "en" ? <span aria-current="true">EN</span> : <a href={langEn} hreflang="en">EN</a>}</nav>
+    </div>
     <p class="word" id="word" aria-hidden="true">Chirkova</p>
     <div class="end__row">
       <span>© {new Date().getFullYear()} Chirkova Dentist · {ui.address} · <a href={tel}>{ui.phone}</a></span>
-      <span><a href="https://www.tiktok.com/@mad__dentist" target="_blank" rel="noopener">TikTok</a><a href="https://www.instagram.com/mad__dentist/" target="_blank" rel="noopener">Instagram</a><a href={lang === "en" ? base : base + "en/"}>{lang === "en" ? "Укр" : "EN"}</a></span>
+      <span>{pages.map((s) => <a href={home + s.slug}>{s[lang].name}</a>)}</span>
     </div>
   </div>
 </footer>
 
 <div class="bar" id="bar"><a class="btn btn--ink" href="#booking">{t.nav.bookFull}</a></div>
 
-<style is:global>.end__svc { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; } .end__svc a { text-decoration: none; }</style>
 <script is:inline type="module">__JS__</script>
 </body>
 </html>

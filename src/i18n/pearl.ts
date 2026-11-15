@@ -4,7 +4,10 @@ export type PearlLang = "uk" | "en";
 
 export const pearl = {
   uk: {
-    nav: { services: "Послуги", results: "Результати", prices: "Ціни", reviews: "Відгуки", book: "Записатися", bookFull: "Записатися на огляд" },
+    nav: { services: "Послуги", results: "Результати", prices: "Ціни", reviews: "Відгуки", contacts: "Контакти", book: "Записатися", bookFull: "Записатися на огляд", langLabel: "Мова сайту" },
+    pages: { h: "Детально про послуги", note: "Кожна послуга має свою сторінку: етапи, ціни, відповіді на часті питання.", more: "Детальніше" },
+    visit: { h: "Як нас знайти", note: "Ми в центрі Дніпра. Поруч метро і паркінг.", route: "Прокласти маршрут", call: "Зателефонувати", hoursTitle: "Графік", follow: "Ми в соцмережах", mapTitle: "Клініка на карті" },
+    svcMore: "Детальніше",
     hero: {
       chipHours: "Пн–Пт до 20:00, Сб до 18:00",
       chipAddr: "вул. Грушевського",
@@ -49,7 +52,10 @@ export const pearl = {
     footer: { legal: "вул. Михайла Грушевського, центр Дніпра", credits: "Photographs via Wikimedia Commons" },
   },
   en: {
-    nav: { services: "Services", results: "Results", prices: "Prices", reviews: "Reviews", book: "Book now", bookFull: "Book a check-up" },
+    nav: { services: "Services", results: "Results", prices: "Prices", reviews: "Reviews", contacts: "Contacts", book: "Book now", bookFull: "Book a check-up", langLabel: "Site language" },
+    pages: { h: "Services in detail", note: "Every service has its own page: the steps, the prices, answers to common questions.", more: "Read more" },
+    visit: { h: "How to find us", note: "We are in central Dnipro, close to the metro and parking.", route: "Get directions", call: "Call us", hoursTitle: "Hours", follow: "Follow us", mapTitle: "The clinic on the map" },
+    svcMore: "Read more",
     hero: {
       chipHours: "Mon–Fri till 20:00, Sat till 18:00",
       chipAddr: "Hrushevskoho St",
@@ -94,3 +100,17 @@ export const pearl = {
     footer: { legal: "Mykhaila Hrushevskoho St, central Dnipro", credits: "Photographs via Wikimedia Commons" },
   },
 } as const;
+
+// the clinic on the map (the same point as the old site's map) and its accounts
+export const clinicLinks = {
+  mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10583.881065077816!2d35.03985051583366!3d48.45710003338652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dbe3206666c9dd%3A0x316566a1e70291e4!2sMykhaila%20Hrushevskoho%20St%2C%2029%2C%20Dnipro%2C%20Dnipropetrovs'ka%20oblast%2C%2049000!5e0!3m2!1sen!2sua!4v1780852088302!5m2!1sen!2sua",
+  mapLink: "https://maps.app.goo.gl/7qWRBubjgCrJuS2T9",
+  tiktok: "https://www.tiktok.com/@mad__dentist",
+  instagram: "https://www.instagram.com/mad__dentist/",
+  handle: "@mad__dentist",
+};
+
+export const icons = {
+  tiktok: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03a10.6 10.6 0 0 1-5.82-1.9c-.01 2.92.01 5.84-.02 8.75a7.6 7.6 0 0 1-1.35 3.94 7.4 7.4 0 0 1-5.91 3.21 7.3 7.3 0 0 1-4.08-1.03 7.5 7.5 0 0 1-3.65-5.71c-.02-.5-.03-1-.01-1.49a7.6 7.6 0 0 1 2.58-4.96 7.3 7.3 0 0 1 6.15-1.72c.02 1.48-.04 2.96-.04 4.44a3.4 3.4 0 0 0-3.02.37 3.5 3.5 0 0 0-1.36 1.75c-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87a3.4 3.4 0 0 0 2.77-1.61c.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>',
+};
