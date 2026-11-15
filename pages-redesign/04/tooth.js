@@ -60,7 +60,7 @@ function subMesh(src, keep, lift = 0) {
 // enamel white on the crown, a warm ivory band at the cementoenamel junction, cementum on the roots
 function paint(g) {
   const P = g.attributes.position, col = new Float32Array(P.count * 3), c = new THREE.Color();
-  const enamel = new THREE.Color(0xfdfbf8), cej = new THREE.Color(0xf0dcbc), root = new THREE.Color(0xe2c294);
+  const enamel = new THREE.Color(0xf1ede6), cej = new THREE.Color(0xf0dcbc), root = new THREE.Color(0xe2c294);
   for (let i = 0; i < P.count; i++) {
     const y = P.getY(i);
     c.copy(enamel).lerp(cej, smooth(-.02, -.2, y)).lerp(root, smooth(-.2, -.9, y));
@@ -96,7 +96,7 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance' });
   let dpr = dprMax; renderer.setPixelRatio(dpr);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.06;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .94;
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), .04).texture; pmrem.dispose();
@@ -104,8 +104,9 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   const key = new THREE.DirectionalLight(0xffffff, 1.3); key.position.set(3, 5, 6); scene.add(key);
   const rim = new THREE.DirectionalLight(0xc6e6ff, 1.8); rim.position.set(-5, 2, -4); scene.add(rim);
   const warm = new THREE.DirectionalLight(0xffe2cc, .5); warm.position.set(2, -3, 3); scene.add(warm);
+  const glintA = new THREE.PointLight(0xffffff, 42, 10, 2), glintB = new THREE.PointLight(0xdff0ff, 24, 10, 2); scene.add(glintA, glintB);
 
-  const enamel = new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: .24, clearcoat: 1, clearcoatRoughness: .08, sheen: .45, sheenRoughness: .45, sheenColor: new THREE.Color(0xffeef3) });
+  const enamel = new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: .16, ior: 1.62, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: .035, envMapIntensity: .85, sheen: .35, sheenRoughness: .4, sheenColor: new THREE.Color(0xffeef3) });
   const veneerMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .05, clearcoat: 1, clearcoatRoughness: .02, iridescence: .7, iridescenceIOR: 1.35, side: THREE.DoubleSide, transparent: true, opacity: 0 });
   const zirconia = new THREE.MeshPhysicalMaterial({ color: 0xfffdf9, roughness: .3, clearcoat: 1, clearcoatRoughness: .1, transparent: true, opacity: 0 });
   const titanium = new THREE.MeshStandardMaterial({ color: 0xc3c9d1, metalness: 1, roughness: .3, transparent: true, opacity: 0 });
@@ -174,6 +175,8 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     px += ((m ? 0 : (p < .14 ? 2.65 : -1.7)) - px) * .06;
     py += ((m ? (p < .14 ? -.55 : 1.15) : (p < .14 ? -.05 : .3)) - py) * .06;
     tooth.position.set(px, py + Math.sin(t * .9) * .045, 0);
+    glintA.position.set(px + 1.6 + Math.sin(t * .5) * .8, py + 1.9, 2.6 + Math.cos(t * .4) * .6);
+    glintB.position.set(px - 1.8, py + 1.2 + Math.sin(t * .35) * .5, 2.2);
     camera.position.set(0, .35, (m ? 13.4 : 9.8) - xr * .5 - vn * .7 + fin * .3);
     camera.lookAt(0, -.15, 0);
     renderer.render(scene, camera);

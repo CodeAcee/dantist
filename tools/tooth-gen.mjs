@@ -53,15 +53,17 @@ function chain(px, py, pz, pts) {
 const CUSPS = [[-.37, -.25, .3], [.36, -.27, .29], [-.36, .27, .28], [.35, .28, .27]];
 function crownSDF(x, y, z) {
   const qy = y - .38;
-  // widest at mid crown, a light waist at the cementoenamel junction, the trunk below it
   const s = 1 - .1 * smoothstep(-.2, -.7, qy);
-  let d = roundBox(x / s, qy + .22, z / s, .78, .66, .62, .4) * s;
-  // pointed cusps: tall narrow lobes with a tight blend
-  for (const [cx, cz, r] of CUSPS) d = smin(d, ellipsoid(x - cx, qy - .36, z - cz, r * .85, .34, r * .8), .16);
-  // sharp fissures: the central one, the transverse one, the creases down the faces
-  d = smax(d, -capsule(x, qy, z, -.72, .62, 0, .72, .62, 0, .055), .06);
-  d = smax(d, -capsule(x, qy, z, 0, .62, -.6, 0, .62, .6, .06), .07);
-  return d;
+  // the occlusal surface as one relief, not knobs: four broad low lobes, a shallow central fossa,
+  // soft mesiodistal and buccolingual grooves; the lobes fade down the walls
+  const g2 = (dx, dz, sg) => Math.exp(-(dx * dx + dz * dz) / (2 * sg * sg));
+  let h = 0;
+  for (const [cx, cz] of CUSPS) h += .13 * g2(x - cx, z - cz, .26);
+  h -= .055 * Math.exp(-(z * z) / (2 * .09 * .09)) * smoothstep(.8, .2, Math.abs(x));
+  h -= .065 * Math.exp(-(x * x) / (2 * .1 * .1)) * smoothstep(.7, .15, Math.abs(z));
+  h -= .03 * g2(x, z, .18);
+  const w = smoothstep(-.1, .4, qy);
+  return roundBox(x / s, qy + .22 - h * w, z / s, .78, .66, .62, .34) * s;
 }
 const ROOTS = [
   [[-.38, -.35, .08, .32], [-.46, -1.0, .1, .27], [-.52, -1.62, .08, .19], [-.5, -2.15, .05, .1], [-.44, -2.55, .03, .025]],
