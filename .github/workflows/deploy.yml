@@ -5,6 +5,9 @@ on:
     branches:
       - master
   workflow_dispatch:
+  # a Sanity webhook publishes content -> rebuild (POST /repos/CodeAcee/dantist/dispatches)
+  repository_dispatch:
+    types: [sanity-publish]
 
 permissions:
   contents: read
