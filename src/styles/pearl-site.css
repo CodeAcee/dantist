@@ -130,3 +130,10 @@ body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), t
 .end__row span { display: inline-flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; }
 .end__row a { display: inline-block; padding: 8px 0; margin: 0; }
 .pg-foot a { padding: 6px 0; }
+
+/* the hero address chip leads to "How to find us" */
+.chip--link { color: inherit; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.chip--link span { transition: transform .2s ease; }
+.chip--link:hover { box-shadow: inset 0 0 0 1px var(--ink, #111); }
+.chip--link:hover span { transform: translateY(2px); }
+.chip--link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }

@@ -68,6 +68,15 @@ jobs:
           PUBLIC_SANITY_DATASET: production
           PUBLIC_CONTACT_WORKER_URL: ${{ secrets.PUBLIC_CONTACT_WORKER_URL }}
 
+      # old preview links (/dantist/new/...) and unknown paths land on the site
+      - name: Redirect old preview links
+        run: |
+          cat > dist-gh/404.html <<'EOF'
+          <!doctype html><meta charset="utf-8"><title>Chirkova Dentist</title>
+          <script>var p = location.pathname, n = p.replace(/^\/dantist\/new(\/|$)/, '/dantist/'); location.replace((n === p ? '/dantist/' : n) + location.search + location.hash)</script>
+          <a href="/dantist/">Chirkova Dentist</a>
+          EOF
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist-gh

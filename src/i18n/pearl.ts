@@ -16,7 +16,6 @@ export const pearl = {
     svcMore: "Детальніше",
     hero: {
       chipHours: "Пн–Пт до 20:00, Сб до 18:00",
-      chipAddr: "вул. Грушевського",
       h1pre: "Стоматологія в центрі",
       h1em: "Дніпра",
       lead: "Вініри, коронки, імпланти й лікування без нотацій. Перша консультація безкоштовна.",
@@ -70,7 +69,6 @@ export const pearl = {
     svcMore: "Read more",
     hero: {
       chipHours: "Mon–Fri till 20:00, Sat till 18:00",
-      chipAddr: "Hrushevskoho St",
       h1pre: "A dental clinic in central",
       h1em: "Dnipro",
       lead: "Veneers, crowns, implants and treatment with no lectures. The first consultation is free.",

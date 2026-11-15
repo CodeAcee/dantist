@@ -80,7 +80,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
       <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="acts">
         <div class="act act--hero is-on" data-act="0">
-          <div class="meta"><span class="chip"><i></i>{t.hero.chipHours}</span><span class="chip">{t.hero.chipAddr}</span></div>
+          <div class="meta"><span class="chip"><i></i>{t.hero.chipHours}</span><a class="chip chip--link" href="#visit">{ui.address}<span aria-hidden="true">↓</span></a></div>
           <h1 style="margin-top: 18px">{t.hero.h1pre} <em class="s">{t.hero.h1em}</em></h1>
           <p class="lead">{t.hero.lead}</p>
           <img class="act__img" src={P + "slides/act0.webp"} width={slides[0][0]} height={slides[0][1]} alt="" decoding="async" fetchpriority="high">
