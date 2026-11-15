@@ -1,6 +1,5 @@
-// Copy for the pearl / liquid-glass design (the 04 direction). CMS data (services, prices, cases,
-// team, reviews) comes from Sanity with the zoomer STRINGS as the fallback; this file holds only
-// the design's own words.
+// Copy for the pearl / liquid-glass design (the 04 direction): only the design's own words.
+// Services, prices, the case, doctors, reviews and the service pages come from Sanity.
 export type PearlLang = "uk" | "en";
 
 export const pearl = {
@@ -15,9 +14,9 @@ export const pearl = {
       ctaPrices: "Ціни",
     },
     acts: [
-      { tag: "Огляд і діагностика", h: ["Спочатку ", "бачимо", " все"], p: "Лікар оглядає зуби, за потреби робить цифровий скан і називає точну ціну до початку лікування.", price: "Скан 2 000 грн · огляд при болю безкоштовно" },
-      { tag: "Вініри", h: ["Нова форма і ", "колір", ""], p: "Композитні або керамічні E-max. Вісім вінірів ми робили за два тижні.", price: "від 3 500 грн" },
-      { tag: "Коронки й імпланти", h: ["Зуб, який ", "повернули", ""], p: "Коронки з металокераміки або цирконію, імплант замість втраченого кореня.", price: "Коронка від 5 000 грн" },
+      { tag: "Огляд і діагностика", h: ["Спочатку ", "бачимо", " все"], p: "Лікар оглядає зуби, за потреби робить цифровий скан і називає точну ціну до початку лікування.", price: "" },
+      { tag: "Вініри", h: ["Нова форма і ", "колір", ""], p: "Композитні або керамічні E-max. Вісім вінірів ми робили за два тижні.", price: "" },
+      { tag: "Коронки й імпланти", h: ["Зуб, який ", "повернули", ""], p: "Коронки з металокераміки або цирконію, імплант замість втраченого кореня.", price: "" },
       { tag: "Результат", h: ["Посмішка, якою ", "хочеться", " ділитися"], p: "2400+ посмішок і 4,9 у Google. Без нотацій і без осуду.", price: "" },
     ],
     services: { h: "Послуги", note: "Ціни «від». Точну суму лікар називає на безкоштовній консультації." },
@@ -60,9 +59,9 @@ export const pearl = {
       ctaPrices: "Prices",
     },
     acts: [
-      { tag: "Exam and diagnostics", h: ["First we ", "see", " everything"], p: "The doctor examines your teeth, takes a digital scan if needed and names the exact price before treatment starts.", price: "Scan ₴2,000 · pain exam free" },
-      { tag: "Veneers", h: ["A new shape and ", "shade", ""], p: "Composite or ceramic E-max. We have fitted eight veneers in two weeks.", price: "from ₴3,500" },
-      { tag: "Crowns and implants", h: ["The tooth you ", "get back", ""], p: "Metal-ceramic or zirconia crowns, an implant in place of a lost root.", price: "Crowns from ₴5,000" },
+      { tag: "Exam and diagnostics", h: ["First we ", "see", " everything"], p: "The doctor examines your teeth, takes a digital scan if needed and names the exact price before treatment starts.", price: "" },
+      { tag: "Veneers", h: ["A new shape and ", "shade", ""], p: "Composite or ceramic E-max. We have fitted eight veneers in two weeks.", price: "" },
+      { tag: "Crowns and implants", h: ["The tooth you ", "get back", ""], p: "Metal-ceramic or zirconia crowns, an implant in place of a lost root.", price: "" },
       { tag: "The result", h: ["A smile you ", "want", " to share"], p: "2,400+ smiles and 4.9 on Google. No lectures, no judgement.", price: "" },
     ],
     services: { h: "Services", note: "Prices are “from”. The exact cost is confirmed at the free consultation." },

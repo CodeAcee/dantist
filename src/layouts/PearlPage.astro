@@ -3,7 +3,7 @@
 // pearl name. Styles come from styles/pearl.css, shared with the home page.
 import "../styles/pearl.css";
 import SeoHead from "../components/SeoHead.astro";
-import { SERVICES, PAGE_UI, type Lang } from "../i18n/services";
+import { PAGE_UI, type Lang, type Service } from "../i18n/services";
 import { pearl } from "../i18n/pearl";
 
 interface Props {
@@ -13,8 +13,9 @@ interface Props {
   lang?: Lang;
   ogLocale?: string;
   extraSchema?: Record<string, unknown>[];
+  pages: Service[];
 }
-const { title, description, keywords, lang = "uk", ogLocale = "uk_UA", extraSchema = [] } = Astro.props;
+const { title, description, keywords, lang = "uk", ogLocale = "uk_UA", extraSchema = [], pages } = Astro.props;
 
 const ui = PAGE_UI[lang];
 const t = pearl[lang];
@@ -60,7 +61,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
     <div class="wrap">
       <div class="pg-foot">
         <div><b>{ui.contactsTitle}</b><a href={"tel:" + ui.phone.replace(/[^+\d]/g, "")}>{ui.phone}</a><span>{ui.address}</span><span>{ui.hours}</span></div>
-        <div><b>{ui.services}</b>{SERVICES.map((s) => <a href={home + s.slug}>{s[lang].name}</a>)}</div>
+        <div><b>{ui.services}</b>{pages.map((s) => <a href={home + s.slug}>{s[lang].name}</a>)}</div>
       </div>
       <p class="word" id="word" aria-hidden="true">Chirkova</p>
       <div class="end__row">

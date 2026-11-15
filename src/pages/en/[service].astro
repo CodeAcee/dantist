@@ -1,24 +1,20 @@
 ---
-import PageLayout from "../../layouts/PearlPage.astro";
-import ServiceArticle from "../../components/PearlServiceArticle.astro";
-import { SERVICES, serviceSchema, type Service } from "../../i18n/services";
+import PearlPage from "../../layouts/PearlPage.astro";
+import PearlServiceArticle from "../../components/PearlServiceArticle.astro";
+import { serviceSchema, type Service } from "../../i18n/services";
+import { getServicePages } from "../../lib/content";
 
-export function getStaticPaths() {
-  return SERVICES.map((s) => ({ params: { service: s.slug }, props: { service: s } }));
+// every service page comes from Sanity (servicePage documents)
+export async function getStaticPaths() {
+  const pages = await getServicePages();
+  return pages.map((s) => ({ params: { service: s.slug }, props: { service: s, pages } }));
 }
 
-const { service } = Astro.props as { service: Service };
+const { service, pages } = Astro.props as { service: Service; pages: Service[] };
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const t = service.en;
 const extraSchema = serviceSchema(service, "en", Astro.site!.href, base);
 ---
-<PageLayout
-  title={t.metaTitle}
-  description={t.metaDescription}
-  keywords={t.keywords}
-  lang="en"
-  ogLocale="en_US"
-  extraSchema={extraSchema}
->
-  <ServiceArticle service={service} lang="en" base={base} />
-</PageLayout>
+<PearlPage title={t.metaTitle} description={t.metaDescription} keywords={t.keywords} lang="en" ogLocale="en_US" extraSchema={extraSchema} pages={pages}>
+  <PearlServiceArticle service={service} pages={pages} lang="en" base={base} />
+</PearlPage>

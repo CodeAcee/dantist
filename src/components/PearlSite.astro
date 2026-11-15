@@ -1,38 +1,36 @@
 ---
 // The pearl / liquid-glass site (the 04 direction) as one component: markup from the approved demo,
-// copy from i18n/pearl, data from Sanity with the zoomer STRINGS as fallback.
+// copy from i18n/pearl. Services, prices, the case, doctors and reviews come only from Sanity.
 // Regenerate from the demo with: python3 tools/gen-pearl.py (see the redesign branch history).
 import "../styles/pearl.css";
 import SeoHead from "./SeoHead.astro";
-import { getContent } from "../lib/content";
-import { STRINGS } from "./zoomer/strings";
+import { getContent, getServicePages } from "../lib/content";
 import { translations } from "../i18n/translations";
 import { pearl, type PearlLang } from "../i18n/pearl";
-import { PAGE_UI, SERVICES } from "../i18n/services";
+import { PAGE_UI } from "../i18n/services";
 
 interface Props { lang: PearlLang; }
 const { lang } = Astro.props;
 const t = pearl[lang];
-const S = STRINGS[lang];
 const tr = translations[lang];
 const data = await getContent(lang);
 const ui = PAGE_UI[lang];
 const tel = "tel:" + ui.phone.replace(/[^+\d]/g, "");
 const home = lang === "en" ? import.meta.env.BASE_URL.replace(/\/?$/, "/") + "en/" : import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
-const svcAll = data.services.length ? data.services : S.services.list;
+const pages = await getServicePages();
+const svcAll = data.services;
 const svc = svcAll.slice(0, 6);
-const reviews = (data.reviews.length ? data.reviews : S.reviews.list).slice(0, 8);
-const team = data.team.length ? data.team : S.team.members;
+const reviews = data.reviews.slice(0, 8);
+const team = data.team;
 const founder = team[0];
 const kase = data.cases[0];
-const caseAlt = S.beforeAfter.cases[0];
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const P = base + "pearl/";
 const photos = ["photo-f29462631-960.jpg", "photo-f123751291-960.jpg", "photo-f156042973-960.jpg", "photo-f190774253-960.jpg", "photo-f14101125-960.jpg", "photo-f130333575-960.jpg"].map((f) => P + "img/" + f);
-const caseBefore = kase?.beforeImg || P + "img/case-veneers-before.jpg";
-const caseAfter = kase?.afterImg || P + "img/case-veneers-after.jpg";
+const caseBefore = kase?.beforeImg;
+const caseAfter = kase?.afterImg;
 const slides = [[572, 1163], [598, 1214], [617, 1242], [592, 922], [842, 1696]];
 const importmap = JSON.stringify({ imports: { three: P + "vendor/three.module.min.js", "three/addons/": P + "vendor/" } });
 const CONTACT = import.meta.env.PUBLIC_CONTACT_WORKER_URL || "";
@@ -110,15 +108,15 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
     </div>
   </section>
 
-  <section class="blk" id="cases" aria-labelledby="cases-h">
+  {kase && caseBefore && caseAfter && <section class="blk" id="cases" aria-labelledby="cases-h">
     <div class="wrap">
       <div class="head">
         <h2 id="cases-h" class="split">{t.cases.h}</h2>
         <p data-rv>{t.cases.note}</p>
       </div>
       <div class="ba" id="ba" data-rv style="--pos: 50%">
-        <img src={caseBefore} width="820" height="615" alt={caseAlt?.before}>
-        <img class="ba__after" src={caseAfter} width="820" height="615" alt={caseAlt?.after}>
+        <img src={caseBefore} width="820" height="615" alt={kase?.before ?? ""}>
+        <img class="ba__after" src={caseAfter} width="820" height="615" alt={kase?.after ?? ""}>
         <span class="ba__tag ba__tag--l">{t.cases.before}</span><span class="ba__tag ba__tag--r">{t.cases.after}</span>
         <span class="ba__line" aria-hidden="true"></span><span class="ba__knob" aria-hidden="true">⇆</span>
         <input type="range" min="0" max="100" value="50" aria-label={t.cases.h}>
@@ -129,7 +127,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
         ))}
       </div>
     </div>
-  </section>
+  </section>}
 
   <section class="blk" id="prices" aria-labelledby="prices-h">
     <div class="wrap">
@@ -148,7 +146,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
     </div>
   </section>
 
-  <section class="blk" id="reviews" aria-labelledby="reviews-h" style="padding-bottom: 60px">
+  {reviews.length > 0 && <section class="blk" id="reviews" aria-labelledby="reviews-h" style="padding-bottom: 60px">
     <div class="wrap head">
       <h2 id="reviews-h" class="split">{t.reviews.h}</h2>
       <p class="g49" data-rv><b>4,9</b><span>{t.reviews.badge}</span></p>
@@ -161,9 +159,9 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
         </figure>
       ))}
     </div>
-  </section>
+  </section>}
 
-  <section class="blk" id="team" aria-labelledby="team-h">
+  {founder && <section class="blk" id="team" aria-labelledby="team-h">
     <div class="wrap founder">
       <div>
         <p class="sr-only" id="team-h">{t.team.tag}</p>
@@ -174,9 +172,9 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
           ))}
         </div>
       </div>
-      <div class="orbpic" data-rv style="--i:2"><img src={P + "img/photo-f22521718-960.jpg"} width="960" height="798" alt="" loading="lazy"></div>
+      <div class="orbpic" data-rv style="--i:2"><img src={founder.img || P + "img/photo-f22521718-960.jpg"} width="960" height="798" alt={founder.img ? founder.name : ""} loading="lazy"></div>
     </div>
-  </section>
+  </section>}
 
   <section class="blk" id="booking" aria-labelledby="booking-h">
     <div class="wrap book">
@@ -201,7 +199,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
 
 <footer class="end">
   <div class="wrap">
-    <nav class="end__svc" aria-label={ui.services}>{SERVICES.map((s) => <a class="chip" href={home + s.slug}>{s[lang].name}</a>)}</nav>
+    <nav class="end__svc" aria-label={ui.services}>{pages.map((s) => <a class="chip" href={home + s.slug}>{s[lang].name}</a>)}</nav>
     <p class="word" id="word" aria-hidden="true">Chirkova</p>
     <div class="end__row">
       <span>© {new Date().getFullYear()} Chirkova Dentist · {ui.address} · <a href={tel}>{ui.phone}</a></span>

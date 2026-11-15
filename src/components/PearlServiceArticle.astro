@@ -1,13 +1,13 @@
 ---
 // A service page in the pearl / liquid-glass style: the same SEO content as ServiceArticle
 // (intro, benefits, process, prices, FAQ, CTA, other services), laid out in glass blocks.
-import { SERVICES, PAGE_UI, type Lang, type Service } from "../i18n/services";
-const { service, lang, base } = Astro.props as { service: Service; lang: Lang; base: string };
+import { PAGE_UI, type Lang, type Service } from "../i18n/services";
+const { service, pages, lang, base } = Astro.props as { service: Service; pages: Service[]; lang: Lang; base: string };
 const t = service[lang];
 const ui = PAGE_UI[lang];
 const home = lang === "en" ? base + "en/" : base;
 const tel = "tel:" + ui.phone.replace(/[^+\d]/g, "");
-const others = SERVICES.filter((s) => s.slug !== service.slug);
+const others = pages.filter((s) => s.slug !== service.slug);
 ---
 <article class="sp">
   <header class="sp-hero wrap">
@@ -47,14 +47,14 @@ const others = SERVICES.filter((s) => s.slug !== service.slug);
     </ol>
   </section>
 
-  <section class="wrap sp-sec">
+  {t.prices.length > 0 && <section class="wrap sp-sec">
     <h2 data-rv>{t.priceTitle}</h2>
     <div class="pc" data-rv>
       <ul class="sp-prices">
         {t.prices.map((p) => <li><span>{p.name}</span><span>{p.price}</span></li>)}
       </ul>
     </div>
-  </section>
+  </section>}
 
   <section class="wrap sp-sec">
     <h2 data-rv>{t.faqTitle}</h2>

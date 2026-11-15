@@ -139,3 +139,43 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
     return EMPTY;
   }
 }
+
+/* ---------- service pages (/viniry, /implantaciya, ...) ---------- */
+import type { Service, ServiceContent } from "../i18n/services";
+
+const SERVICE_PAGES_QUERY = `*[_type == "servicePage" && defined(slug.current)] | order(order asc) {
+  "slug": slug.current, order,
+  nameUk, nameEn, eyebrowUk, eyebrowEn, metaTitleUk, metaTitleEn, metaDescriptionUk, metaDescriptionEn,
+  keywordsUk, keywordsEn, h1Uk, h1En, introUk, introEn,
+  benefitsTitleUk, benefitsTitleEn, benefits[]{ titleUk, titleEn, textUk, textEn },
+  processTitleUk, processTitleEn, process[]{ titleUk, titleEn, textUk, textEn },
+  priceTitleUk, priceTitleEn,
+  "catItems": priceCategory->priceItems[]{ nameUk, nameEn, priceUk, priceEn },
+  prices[]{ nameUk, nameEn, priceUk, priceEn },
+  faqTitleUk, faqTitleEn, faq[]{ qUk, qEn, aUk, aEn },
+  ctaTitleUk, ctaTitleEn, ctaTextUk, ctaTextEn
+}`;
+
+let pagesCache: Promise<Service[]> | null = null;
+
+// The service pages exist only in Sanity. A failed fetch at build time fails the build: shipping a site
+// without its service pages (and their URLs) would be worse than not shipping.
+export function getServicePages(): Promise<Service[]> {
+  if (!sanity) return Promise.reject(new Error("Sanity is not configured (PUBLIC_SANITY_PROJECT_ID / PUBLIC_SANITY_DATASET)"));
+  pagesCache ??= sanity.fetch(SERVICE_PAGES_QUERY).then((rows: any[]) =>
+    (rows ?? []).map((p: any) => {
+      const pick = (l: "Uk" | "En"): ServiceContent => ({
+        metaTitle: p[`metaTitle${l}`], metaDescription: p[`metaDescription${l}`], keywords: p[`keywords${l}`] ?? "",
+        eyebrow: p[`eyebrow${l}`], name: p[`name${l}`], h1: p[`h1${l}`], intro: p[`intro${l}`],
+        benefitsTitle: p[`benefitsTitle${l}`], benefits: (p.benefits ?? []).map((b: any) => ({ title: b[`title${l}`], text: b[`text${l}`] })),
+        processTitle: p[`processTitle${l}`], process: (p.process ?? []).map((b: any) => ({ title: b[`title${l}`], text: b[`text${l}`] })),
+        priceTitle: p[`priceTitle${l}`],
+        prices: (p.catItems ?? p.prices ?? []).map((it: any) => ({ name: it[`name${l}`], price: it[`price${l}`] })),
+        faqTitle: p[`faqTitle${l}`], faq: (p.faq ?? []).map((f: any) => ({ q: f[`q${l}`], a: f[`a${l}`] })),
+        ctaTitle: p[`ctaTitle${l}`], ctaText: p[`ctaText${l}`],
+      });
+      return { slug: p.slug, accent: "", uk: pick("Uk"), en: pick("En") };
+    }),
+  );
+  return pagesCache;
+}
