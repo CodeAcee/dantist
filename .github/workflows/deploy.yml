@@ -52,6 +52,16 @@ jobs:
           PUBLIC_SANITY_DATASET: production
           PUBLIC_CONTACT_WORKER_URL: ${{ secrets.PUBLIC_CONTACT_WORKER_URL }}
 
+      # ── Redesign demo (branch redesign-demo) at /dantist/redesign/, Pages only ──
+      - name: Add redesign demo
+        run: |
+          if git fetch --depth 1 origin redesign-demo; then
+            git archive FETCH_HEAD pages-redesign | tar -x -C dist-gh
+            mv dist-gh/pages-redesign dist-gh/redesign
+          else
+            echo "no redesign-demo branch, skipping"
+          fi
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist-gh
