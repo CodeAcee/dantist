@@ -20,6 +20,7 @@ export const pearl = {
       h1em: "Дніпра",
       lead: "Вініри, коронки, імпланти й лікування без нотацій. Перша консультація безкоштовна.",
       ctaPrices: "Ціни",
+      spin: "Покрути пальцем",
     },
     acts: [
       { tag: "Огляд і діагностика", h: ["Спочатку ", "бачимо", " все"], p: "Лікар оглядає зуби, за потреби робить цифровий скан і називає точну ціну до початку лікування.", price: "" },
@@ -73,6 +74,7 @@ export const pearl = {
       h1em: "Dnipro",
       lead: "Veneers, crowns, implants and treatment with no lectures. The first consultation is free.",
       ctaPrices: "Prices",
+      spin: "Spin it with a finger",
     },
     acts: [
       { tag: "Exam and diagnostics", h: ["First we ", "see", " everything"], p: "The doctor examines your teeth, takes a digital scan if needed and names the exact price before treatment starts.", price: "" },

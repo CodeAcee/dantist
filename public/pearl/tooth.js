@@ -88,6 +88,79 @@ const fresnel = color => new THREE.ShaderMaterial({
   transparent: true, depthWrite: false, side: THREE.DoubleSide,
 });
 
+// The phone hero: the same molar alone in a small box over the still. It spins slowly, follows a finger
+// drag with inertia, drops to half rate when idle, pauses off screen and refuses software GL (the still
+// stays then). Reduced motion: one frame, redrawn only while the finger spins it.
+export async function mountHeroTooth(canvas, { src = 'tooth.bin', still = false } = {}) {
+  const [toothG] = await loadMeshes(src);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: true });
+  const dprMax = Math.min(devicePixelRatio || 1, 2);
+  let dpr = dprMax; renderer.setPixelRatio(dpr);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .94;
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), .04).texture; pmrem.dispose();
+  const key = new THREE.DirectionalLight(0xffffff, 1.3); key.position.set(3, 5, 6);
+  const rim = new THREE.DirectionalLight(0xc6e6ff, 1.8); rim.position.set(-5, 2, -4);
+  const warm = new THREE.DirectionalLight(0xffe2cc, .5); warm.position.set(2, -3, 3);
+  const glint = new THREE.PointLight(0xffffff, 42, 10, 2); glint.position.set(1.6, 1.4, 2.6);
+  scene.add(key, rim, warm, glint);
+  const enamel = new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: .16, ior: 1.62, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: .035, envMapIntensity: .85, sheen: .35, sheenRoughness: .4, sheenColor: new THREE.Color(0xffeef3) });
+  const tooth = new THREE.Mesh(paint(toothG), enamel);
+  scene.add(tooth);
+
+  // centre the tooth and pull the camera back just far enough for it to fill the box
+  toothG.computeBoundingBox();
+  const bb = toothG.boundingBox, mid = bb.getCenter(new THREE.Vector3());
+  const baseY = -mid.y;
+  tooth.position.y = baseY;
+  const camera = new THREE.PerspectiveCamera(30, 1, .1, 50);
+  camera.position.set(0, .3, (bb.max.y - bb.min.y) * .62 / Math.tan(Math.PI / 12));
+  camera.lookAt(0, 0, 0);
+
+  let lw = 0, lh = 0;
+  function size() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h || (w === lw && h === lh)) return;
+    lw = w; lh = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  size(); addEventListener('resize', size);
+
+  let spin = 0, spinV = 0, drag = null, t = 0, last = 0, running = false, onScreen = true, flip = false;
+  canvas.addEventListener('pointerdown', e => { drag = e.clientX; spinV = 0; run(); });
+  addEventListener('pointerup', () => { drag = null; });
+  canvas.addEventListener('pointercancel', () => { drag = null; });
+  canvas.addEventListener('pointermove', e => { if (drag !== null) { spinV = (e.clientX - drag) * .012; spin += spinV; drag = e.clientX; } }, { passive: true });
+  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) run(); }).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) run(); });
+
+  let acc = 0, n = 0;
+  function draw(dt) {
+    if (drag === null) { spinV *= .95; spin += spinV; }
+    if (!still) t += dt;
+    tooth.rotation.y = t * .25 + spin;
+    tooth.rotation.x = .16 + Math.sin(t * .6) * .03;
+    tooth.position.y = baseY + (still ? 0 : Math.sin(t * .9) * .05);
+    const a = performance.now(); renderer.render(scene, camera); acc += performance.now() - a; n++;
+    if (n >= 40) { if (acc / n > 20 && dpr > 1) { dpr = Math.max(1, dpr - .25); renderer.setPixelRatio(dpr); lw = 0; size(); } acc = n = 0; }
+  }
+  function run() {
+    if (running) return; running = true; last = performance.now();
+    const step = now => {
+      const settled = drag === null && Math.abs(spinV) < .0004;
+      if (!onScreen || document.hidden || (still && settled)) { running = false; return; }
+      const dt = Math.min(.05, (now - last) / 1000); last = now;
+      flip = !flip;
+      if (!settled || flip) draw(settled ? dt * 2 : dt);
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  draw(0);
+  await new Promise(r => requestAnimationFrame(() => { draw(0); canvas.classList.add('on'); r(); }));
+  if (!still) run();
+}
+
 export async function mountTooth(canvas, { progress, still = false, host, src = 'tooth.bin', rot = .5, dprCap, keep = false }) {
   const mobile = () => innerWidth < 900;
   const lite = (navigator.hardwareConcurrency || 4) <= 4 || mobile();

@@ -137,3 +137,17 @@ body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), t
 .chip--link:hover { box-shadow: inset 0 0 0 1px var(--ink, #111); }
 .chip--link:hover span { transform: translateY(2px); }
 .chip--link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* phones: the live tooth over the hero still; the still stays until WebGL draws its first frame */
+.tooth-mob { position: relative; }
+.tooth-mob canvas, .tooth-hint { display: none; }
+@media (max-width: 899px) {
+  .tooth-mob { margin: 36px auto 0; }
+  .tooth-mob .act__img, .act--hero .tooth-mob .act__img { margin: 0 auto; }
+  .tooth-mob canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s ease; touch-action: pan-y; }
+  .tooth-mob canvas.on { opacity: 1; }
+  .tooth-mob.live .act__img { opacity: 0; transition: opacity .9s ease .2s; }
+  .tooth-hint { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); display: inline-flex; padding: 7px 14px; border-radius: 99px; background: rgb(255 255 255 / .72); box-shadow: inset 0 0 0 1px var(--line); backdrop-filter: blur(8px); font-size: 13px; font-weight: 500; color: var(--muted); white-space: nowrap; opacity: 0; transition: opacity .6s ease .4s; pointer-events: none; }
+  .tooth-mob.live .tooth-hint { opacity: 1; }
+  .tooth-mob.touched .tooth-hint { opacity: 0; transition-delay: 0s; }
+}
