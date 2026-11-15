@@ -27,7 +27,9 @@
     --ease: cubic-bezier(.22, 1, .36, 1); --gut: clamp(20px, 5vw, 80px); --r: 28px;
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  [id] { scroll-margin-top: 86px; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.55 var(--sans); overflow-x: clip; }
   img { max-width: 100%; display: block; }
   a { color: inherit; }
@@ -579,7 +581,7 @@ addEventListener('resize', () => { hsSize(); onScroll(); });
 hsSize(); onScroll();
 // ?at=0.5 scrolls to that share of the story (for review shots)
 const at = new URLSearchParams(location.search).get('at');
-if (at !== null) { scrollTo(0, (story.offsetHeight - innerHeight) * +at); onScroll(); }
+if (at !== null) { scrollTo({ top: (story.offsetHeight - innerHeight) * +at, behavior: 'instant' }); onScroll(); }
 </script>
 </body>
 </html>
