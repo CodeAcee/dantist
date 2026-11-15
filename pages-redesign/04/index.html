@@ -17,6 +17,7 @@
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
 <link rel="modulepreload" href="vendor/three.module.min.js">
 <link rel="modulepreload" href="tooth.js">
+<link rel="preload" href="tooth.bin" as="fetch" crossorigin>
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   :root {
@@ -430,7 +431,7 @@ function storyProgress() {
 /* ---------- 3D tooth (tooth.js) ---------- */
 try {
   const { mountTooth } = await import('./tooth.js');
-  window.__tooth = mountTooth(document.getElementById('tooth'), { progress: () => P, still, host: story });
+  window.__tooth = await mountTooth(document.getElementById('tooth'), { progress: () => P, still, host: story });
 } catch (e) { console.warn('tooth', e); document.documentElement.classList.add('no-gl'); }
 
 /* ---------- services: vertical scroll drives the track ---------- */
