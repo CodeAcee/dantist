@@ -1,6 +1,6 @@
 import { createImageUrlBuilder } from "@sanity/image-url";
 import { sanity } from "../db/sanity";
-import type { Lang } from "../components/zoomer/strings";
+import type { Lang } from "../i18n/services";
 
 export interface ServiceRow {
   num: string;

@@ -1,4 +1,4 @@
-/* generated from the approved demo (redesign/04) by tools/gen-pearl.py */
+/* the pearl / liquid-glass design: tokens, layout, glass, the story acts */
 
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   :root {
