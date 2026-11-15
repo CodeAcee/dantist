@@ -7,6 +7,7 @@ import SeoHead from "../components/SeoHead.astro";
 import { PAGE_UI, type Lang, type Service } from "../i18n/services";
 import { pearl, clinicLinks as L, icons } from "../i18n/pearl";
 import AnnounceBar from "../components/AnnounceBar.astro";
+import CookieBar from "../components/CookieBar.astro";
 import { getAnnouncement } from "../lib/content";
 
 interface Props {
@@ -88,6 +89,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
   </footer>
 
   <div class="bar" id="bar"><a class="btn btn--ink" href={home + "#booking"}>{t.nav.bookFull}</a></div>
+  <CookieBar text={t.cookie.text} accept={t.cookie.accept} decline={t.cookie.decline} />
 
   <script is:inline type="module" src={P + "chrome.js"}></script>
 

@@ -6,6 +6,7 @@ import "../styles/pearl-site.css";
 import SeoHead from "./SeoHead.astro";
 import { getContent, getServicePages, getAnnouncement } from "../lib/content";
 import AnnounceBar from "./AnnounceBar.astro";
+import CookieBar from "./CookieBar.astro";
 import { pearl, clinicLinks as L, icons, type PearlLang } from "../i18n/pearl";
 import { PAGE_UI } from "../i18n/services";
 
@@ -298,6 +299,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
 </footer>
 
 <div class="bar" id="bar"><a class="btn btn--ink" href="#booking">{t.nav.bookFull}</a></div>
+<CookieBar text={t.cookie.text} accept={t.cookie.accept} decline={t.cookie.decline} />
 
 <script is:inline type="module">const PB = window.__PB || '/';
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -407,6 +409,7 @@ formEl.addEventListener('submit', async e => {
     }) });
     if (!res.ok) throw new Error('bad status');
     statusEl.textContent = FD.ok; formEl.reset();
+    window.gtag && gtag('event', 'generate_lead');
   } catch (err) { console.warn('form', err); statusEl.textContent = FD.err; }
   btn.disabled = false;
 });
