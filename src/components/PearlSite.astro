@@ -48,7 +48,8 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
 <SeoHead title={tr.seo.title} description={tr.seo.description} keywords={tr.seo.keywords} lang={tr.htmlLang} ogLocale={tr.ogLocale} />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"></noscript>
 <link rel="preload" href={P + "tooth.bin"} as="fetch" crossorigin media="(min-width: 900px)">
 <link rel="preload" href={P + "slides/act0.webp"} as="image" media="(max-width: 899px)">
 <script type="importmap" is:inline set:html={importmap} />
@@ -76,7 +77,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
 
 <main id="top">
   <section class="story" id="story" aria-label={t.nav.services}>
-    <div class="stage">
+    <div class="stage" style={`--still: url(${P}slides/act0.webp)`}>
       <div class="glow" aria-hidden="true"></div>
       <canvas id="tooth" aria-hidden="true"></canvas>
       <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
@@ -135,8 +136,8 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
         </div>
       )}
       <div class="ba" id="ba" data-rv style="--pos: 50%" data-cases={caseData}>
-        <img src={caseBefore} width="820" height="615" alt={kase?.before ?? ""}>
-        <img class="ba__after" src={caseAfter} width="820" height="615" alt={kase?.after ?? ""}>
+        <img src={caseBefore} width="820" height="615" alt={kase?.before ?? ""} loading="lazy" decoding="async">
+        <img class="ba__after" src={caseAfter} width="820" height="615" alt={kase?.after ?? ""} loading="lazy" decoding="async">
         <span class="ba__tag ba__tag--l">{t.cases.before}</span><span class="ba__tag ba__tag--r">{t.cases.after}</span>
         <span class="ba__line" aria-hidden="true"></span><span class="ba__knob" aria-hidden="true">⇆</span>
         <input type="range" min="0" max="100" value="50" aria-label={t.cases.h}>
@@ -396,7 +397,9 @@ formEl.addEventListener('submit', async e => {
 
 
 /* ---------- pearl ground, liquid glass, the name ---------- */
-import(PB + 'pearl.js').then(m => m.mountPearl(document.getElementById('pearl'))).catch(e => console.warn('pearl', e));
+const startPearl = () => import(PB + 'pearl.js').then(m => m.mountPearl(document.getElementById('pearl'))).catch(e => console.warn('pearl', e));
+const idle = f => ('requestIdleCallback' in window ? requestIdleCallback(f, { timeout: 2500 }) : setTimeout(f, 1200));
+if (document.readyState === 'complete') idle(startPearl); else addEventListener('load', () => idle(startPearl), { once: true });
 document.querySelectorAll('.nav, .chip, .btn--ghost, .act .price, .svc, .fact, .pc, .rv figure, .form, .bar, .demo, .glass').forEach(el => el.classList.add('lg'));
 let gq = null;
 addEventListener('pointermove', e => {

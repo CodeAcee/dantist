@@ -56,9 +56,9 @@ const EMPTY: SiteContent = {
 };
 
 const builder = sanity ? createImageUrlBuilder(sanity) : null;
-function imgUrl(source: unknown): string | undefined {
+function imgUrl(source: unknown, width = 1400): string | undefined {
   if (!builder || !source) return undefined;
-  return builder.image(source as never).url();
+  return builder.image(source as never).width(width).fit("max").auto("format").quality(78).url();
 }
 
 const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
@@ -123,7 +123,7 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         years: m.years,
         yearsLabel: en ? m.yearsLabelEn : m.yearsLabelUk,
         bio: en ? m.bioEn : m.bioUk,
-        img: imgUrl(m.photo),
+        img: imgUrl(m.photo, 900),
       })),
       reviews: (reviews ?? []).map((r: any) => ({
         initials: r.initials,

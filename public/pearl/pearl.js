@@ -27,7 +27,8 @@ void main(){
 }`;
 
 export function mountPearl(canvas) {
-  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: 'low-power' });
+  // software GL (no GPU, a blocklisted driver) would block the page for seconds: keep the CSS pearl then
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true });
   if (!gl) return null;
   const sh = (type, src) => { const o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; };
   const pr = gl.createProgram();
@@ -73,6 +74,7 @@ export function mountPearl(canvas) {
     requestAnimationFrame(frame);
   }
   draw();
+  requestAnimationFrame(() => canvas.classList.add('on'));
   if (!still) requestAnimationFrame(frame);
   return { gl };
 }

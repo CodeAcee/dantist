@@ -5,4 +5,5 @@ export default defineConfig({
   site: "https://chirkovadentist.com",
   base: "/",
   integrations: [react()],
+  build: { inlineStylesheets: "always" },
 });

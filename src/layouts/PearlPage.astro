@@ -39,7 +39,8 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
   <SeoHead title={title} description={description} keywords={keywords} lang={lang} ogLocale={ogLocale} extraSchema={extraSchema} />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"></noscript>
   <script is:inline set:html={bootstrap} />
 </head>
 <body>

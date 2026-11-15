@@ -4,7 +4,9 @@ const PB = window.__PB || '/';
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-import(PB + 'pearl.js').then(m => m.mountPearl(document.getElementById('pearl'))).catch(e => console.warn('pearl', e));
+const startPearl = () => import(PB + 'pearl.js').then(m => m.mountPearl(document.getElementById('pearl'))).catch(e => console.warn('pearl', e));
+const idle = f => ('requestIdleCallback' in window ? requestIdleCallback(f, { timeout: 2500 }) : setTimeout(f, 1200));
+if (document.readyState === 'complete') idle(startPearl); else addEventListener('load', () => idle(startPearl), { once: true });
 
 document.querySelectorAll('.nav, .chip, .btn--ghost, .glass, .pc, .bar').forEach(el => el.classList.add('lg'));
 let gq = null;

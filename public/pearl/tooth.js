@@ -94,7 +94,7 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   const dprMax = dprCap || Math.min(devicePixelRatio || 1, lite ? 1.5 : 1.75);
   const [toothG, pulpG] = await loadMeshes(src);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: keep });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: keep, failIfMajorPerformanceCaveat: !keep });
   let dpr = dprMax; renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .94;
   const scene = new THREE.Scene();

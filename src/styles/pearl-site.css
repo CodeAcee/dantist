@@ -114,3 +114,19 @@ html.has-announce { --ann: 58px; }
 }
 html.has-announce .sp-hero { padding-top: calc(140px + var(--ann)); }
 @media (max-width: 899px) { html.has-announce .sp-hero { padding-top: calc(110px + var(--ann)); } }
+
+/* the pearl ground before (or without) the shader: soft CSS pearl, the canvas fades in over it */
+body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), transparent 70%), radial-gradient(55% 45% at 18% 72%, rgb(255 214 232 / .45), transparent 70%), radial-gradient(50% 40% at 70% 85%, rgb(214 247 228 / .45), transparent 70%), #f2efe9; background-attachment: fixed; }
+#pearl { opacity: 0; transition: opacity 1.2s ease; }
+#pearl.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { #pearl { transition: none; } }
+
+/* desktop without hardware 3D: the rendered still of the tooth instead of the canvas */
+@media (min-width: 900px) {
+  html.no-gl .stage::after { left: auto; right: 6vw; top: 54%; width: min(34vw, 500px); height: 74vh; aspect-ratio: auto; transform: translateY(-50%); border-radius: 0; box-shadow: none; background: var(--still) center / contain no-repeat; }
+}
+
+/* footer links: a finger-sized target (24px+) with room between them */
+.end__row span { display: inline-flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; }
+.end__row a { display: inline-block; padding: 8px 0; margin: 0; }
+.pg-foot a { padding: 6px 0; }
