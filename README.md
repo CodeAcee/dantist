@@ -1,36 +1,29 @@
 # Chirkova Dentist
 
-Marketing site for Chirkova Dentist Studio (Dnipro), built with [Astro](https://astro.build) + React. The site is a single-page app (`src/components/ZoomerMode.tsx`) with a Supabase backend for the contact form and dynamic content (services, prices, cases, team, reviews).
+Marketing site for Chirkova Dentist Studio (Dnipro): a static [Astro](https://astro.build) site whose content (services, prices, service pages, cases, doctors, reviews, announcements) comes from [Sanity](https://www.sanity.io) at build time.
 
-Production domain: **https://chirkovadentist.com**
+Production domain: **https://chirkovadentist.com** · preview: https://codeacee.github.io/dantist/
 
 ## Local development
 
 ```bash
 npm install
-cp .env.example .env   # then fill in your Supabase keys
+cp .env.example .env   # Sanity project id + the contact Worker URL
 npm run dev            # http://localhost:4321
 ```
 
-## Environment variables
+## Where things live
 
-Copy `.env.example` to `.env` and fill in:
-
-- `PUBLIC_SUPABASE_URL` / `PUBLIC_SUPABASE_ANON_KEY` — used by the browser to read content and submit the contact form. Safe to expose.
-- `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` — **server-side only**, used by the Supabase edge function (`supabase/functions/notify-telegram`). Set these with `supabase secrets set`, never in the deployed front-end.
-
-`.env` is git-ignored — never commit real keys.
+- `src/components/PearlSite.astro` — the home page (UA and EN), styles in `src/styles/pearl.css` and `pearl-site.css`, design copy in `src/i18n/pearl.ts`.
+- `src/layouts/PearlPage.astro` + `src/components/PearlServiceArticle.astro` — the service pages (`/viniry`, `/en/viniry`, …).
+- `src/lib/content.ts` — all Sanity queries.
+- `public/pearl/` — the pearl shader, the 3D tooth (`tooth.bin`), phone stills, vendored three.js.
+- `studio/` — Sanity Studio (`npx sanity deploy` from that folder). How to edit content: `HOW_TO_CMS.md`.
+- `worker/` — Cloudflare Worker that forwards the booking form to Telegram.
 
 ## Build & deploy
 
-```bash
-npm run build     # outputs the static site to ./dist
-npm run preview   # preview the production build locally
-```
+`.github/workflows/deploy.yml` runs on every push to `master`, on manual dispatch, and on Sanity publish (a webhook sends `repository_dispatch` type `sanity-publish`):
 
-Deployment runs automatically via `.github/workflows/deploy.yml` on every push to `master` (GitHub Pages). The custom domain is configured through `public/CNAME` (`chirkovadentist.com`); set the same domain in the repository's Pages settings. The `PUBLIC_SUPABASE_*` values are injected from repository secrets at build time.
-
-## Backend
-
-- `supabase/schema.sql`, `supabase/services.sql`, `supabase/prices.sql` — database schema and seed data.
-- `supabase/functions/notify-telegram` — edge function that forwards new contact requests to Telegram (triggered by a Database Webhook on `contact_requests`).
+- `build` — builds with base `/` and uploads `dist/` to Hostiq over FTP (secrets `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`).
+- `build-pages` / `deploy-pages` — builds with base `/dantist` and publishes to GitHub Pages.
