@@ -22,6 +22,15 @@ js = rep(js, "import('./pearl.js').then(m => m.mountPearl(document.getElementByI
 js = rep(js, "const { mountTooth } = await import('./tooth.js');",
           "const { mountTooth } = await import(PB + 'tooth.js');")
 js = rep(js, ".rv figure, .form, .bar, .demo')", ".rv figure, .form, .bar, .demo, .glass')")
+js = js + """
+// the map: Google Maps only after a click, so no third-party cookies before it
+const gate = document.getElementById('map-gate');
+if (gate) gate.querySelector('button').addEventListener('click', () => {
+  const f = document.createElement('iframe');
+  f.src = gate.dataset.src; f.title = gate.dataset.title; f.loading = 'lazy'; f.allowFullscreen = true;
+  f.referrerPolicy = 'no-referrer-when-downgrade';
+  gate.replaceWith(f);
+});"""
 js = rep(js, "range.addEventListener('input', () => ba.style.setProperty('--pos', range.value + '%'));", """range.addEventListener('input', () => ba.style.setProperty('--pos', range.value + '%'));
 // several cases: the tabs swap the pair under the slider
 const CASES = JSON.parse(ba.dataset.cases || '[]');
@@ -74,7 +83,8 @@ frontmatter = '''---
 import "../styles/pearl.css";
 import "../styles/pearl-site.css";
 import SeoHead from "./SeoHead.astro";
-import { getContent, getServicePages } from "../lib/content";
+import { getContent, getServicePages, getAnnouncement } from "../lib/content";
+import AnnounceBar from "./AnnounceBar.astro";
 import { translations } from "../i18n/translations";
 import { pearl, clinicLinks as L, icons, type PearlLang } from "../i18n/pearl";
 import { PAGE_UI } from "../i18n/services";
@@ -89,6 +99,7 @@ const tel = "tel:" + ui.phone.replace(/[^+\d]/g, "");
 const home = lang === "en" ? import.meta.env.BASE_URL.replace(/\/?$/, "/") + "en/" : import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
 const pages = await getServicePages();
+const announce = await getAnnouncement(lang);
 const svcAll = data.services;
 const svc = svcAll.slice(0, 6);
 const reviews = data.reviews.slice(0, 8);
@@ -141,6 +152,7 @@ markup = '''<!doctype html>
     <a class="btn btn--ink" href="#booking">{t.nav.book}</a>
   </div>
 </header>
+<AnnounceBar a={announce} base={base} closeLabel={t.announceClose} />
 
 <main id="top">
   <section class="story" id="story" aria-label={t.nav.services}>
@@ -315,7 +327,13 @@ markup = '''<!doctype html>
           </div>
         </div>
         <div class="visit__map glass" data-rv style="--i:1">
-          <iframe src={L.mapEmbed} title={t.visit.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <div class="map-gate" id="map-gate" data-src={L.mapEmbed} data-title={t.visit.mapTitle}>
+            <div>
+              <div class="map-gate__pin" aria-hidden="true"></div>
+              <button class="btn btn--ink" type="button">{t.visit.mapShow}</button>
+              <p>{t.visit.mapNote}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

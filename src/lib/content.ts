@@ -182,3 +182,26 @@ export function getServicePages(): Promise<Service[]> {
   );
   return pagesCache;
 }
+
+/* ---------- the announcement bar ---------- */
+export interface Announcement { id: string; tone: string; text: string; linkLabel?: string; link?: string; startsAt?: string; endsAt?: string; }
+
+const ANNOUNCE_QUERY = `*[_type == "announcement" && active == true
+  && (!defined(endsAt) || endsAt > now())] | order(_createdAt desc) [0] {
+  "id": _id + ":" + _rev, tone, textUk, textEn, linkLabelUk, linkLabelEn, link, startsAt, endsAt
+}`;
+
+let annCache: Promise<any> | null = null;
+
+// The newest active announcement whose window has not ended at build time. The page checks the window
+// again in the browser, so one that ends between two builds hides itself.
+export async function getAnnouncement(lang: Lang): Promise<Announcement | null> {
+  if (!sanity) return null;
+  annCache ??= sanity.fetch(ANNOUNCE_QUERY).catch(() => null);
+  const a = await annCache;
+  if (!a) return null;
+  const en = lang === "en";
+  const text = en ? a.textEn : a.textUk;
+  if (!text) return null;
+  return { id: a.id, tone: a.tone ?? "news", text, linkLabel: (en ? a.linkLabelEn : a.linkLabelUk) || undefined, link: a.link || undefined, startsAt: a.startsAt || undefined, endsAt: a.endsAt || undefined };
+}

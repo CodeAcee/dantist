@@ -6,7 +6,8 @@ export const pearl = {
   uk: {
     nav: { services: "Послуги", results: "Результати", prices: "Ціни", reviews: "Відгуки", contacts: "Контакти", book: "Записатися", bookFull: "Записатися на огляд", langLabel: "Мова сайту" },
     pages: { h: "Детально про послуги", note: "Кожна послуга має свою сторінку: етапи, ціни, відповіді на часті питання.", more: "Детальніше", askTag: "Консультація", askH: "Не знайшли свою послугу?", askP: "Лікар оглядає зуби і підбирає лікування на безкоштовній консультації.", askMore: "Записатися" },
-    visit: { h: "Як нас знайти", note: "Ми в центрі Дніпра. Поруч метро і паркінг.", route: "Прокласти маршрут", call: "Зателефонувати", hoursTitle: "Графік", follow: "Ми в соцмережах", mapTitle: "Клініка на карті" },
+    visit: { h: "Як нас знайти", note: "Ми в центрі Дніпра. Поруч метро і паркінг.", route: "Прокласти маршрут", call: "Зателефонувати", hoursTitle: "Графік", follow: "Ми в соцмережах", mapTitle: "Клініка на карті", mapShow: "Показати карту", mapNote: "Карта завантажується з Google Maps після натискання." },
+    announceClose: "Закрити оголошення",
     svcMore: "Детальніше",
     hero: {
       chipHours: "Пн–Пт до 20:00, Сб до 18:00",
@@ -54,7 +55,8 @@ export const pearl = {
   en: {
     nav: { services: "Services", results: "Results", prices: "Prices", reviews: "Reviews", contacts: "Contacts", book: "Book now", bookFull: "Book a check-up", langLabel: "Site language" },
     pages: { h: "Services in detail", note: "Every service has its own page: the steps, the prices, answers to common questions.", more: "Read more", askTag: "Consultation", askH: "Can’t find your service?", askP: "The doctor examines your teeth and picks the treatment at a free consultation.", askMore: "Book now" },
-    visit: { h: "How to find us", note: "We are in central Dnipro, close to the metro and parking.", route: "Get directions", call: "Call us", hoursTitle: "Hours", follow: "Follow us", mapTitle: "The clinic on the map" },
+    visit: { h: "How to find us", note: "We are in central Dnipro, close to the metro and parking.", route: "Get directions", call: "Call us", hoursTitle: "Hours", follow: "Follow us", mapTitle: "The clinic on the map", mapShow: "Show the map", mapNote: "The map loads from Google Maps after you click." },
+    announceClose: "Close the announcement",
     svcMore: "Read more",
     hero: {
       chipHours: "Mon–Fri till 20:00, Sat till 18:00",

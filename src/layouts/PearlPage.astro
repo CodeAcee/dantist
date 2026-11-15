@@ -6,6 +6,8 @@ import "../styles/pearl-site.css";
 import SeoHead from "../components/SeoHead.astro";
 import { PAGE_UI, type Lang, type Service } from "../i18n/services";
 import { pearl, clinicLinks as L, icons } from "../i18n/pearl";
+import AnnounceBar from "../components/AnnounceBar.astro";
+import { getAnnouncement } from "../lib/content";
 
 interface Props {
   title: string;
@@ -19,6 +21,7 @@ interface Props {
 const { title, description, keywords, lang = "uk", ogLocale = "uk_UA", extraSchema = [], pages } = Astro.props;
 
 const ui = PAGE_UI[lang];
+const announce = await getAnnouncement(lang);
 const t = pearl[lang];
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const P = base + "pearl/";
@@ -56,6 +59,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};document.documentElement.cla
       <a class="btn btn--ink" href={home + "#booking"}>{t.nav.book}</a>
     </div>
   </header>
+  <AnnounceBar a={announce} base={base} closeLabel={t.announceClose} />
 
   <main id="main">
     <slot />

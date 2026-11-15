@@ -1,0 +1,30 @@
+---
+// The announcement from Sanity as a glass bar under the nav. Hidden when closed (per announcement and
+// revision, remembered in localStorage) or when the date window is over (checked in the browser too).
+import type { Announcement } from "../lib/content";
+interface Props { a: Announcement | null; base: string; closeLabel: string; }
+const { a, base, closeLabel } = Astro.props;
+const href = a?.link ? (/^(https?:|mailto:|tel:|#)/.test(a.link) ? a.link : base + a.link.replace(/^\//, "")) : undefined;
+const external = !!href && /^https?:/.test(href);
+const icon = a?.tone === "promo" ? "✦" : a?.tone === "important" ? "!" : "•";
+---
+{a && (
+  <aside class={`announce announce--${a.tone} glass`} id="announce" data-id={a.id} data-from={a.startsAt} data-until={a.endsAt} hidden>
+    <span class="announce__dot" aria-hidden="true">{icon}</span>
+    <p class="announce__text">{a.text}{href && a.linkLabel && <> <a href={href} {...(external ? { target: "_blank", rel: "noopener" } : {})}>{a.linkLabel} →</a></>}</p>
+    <button class="announce__x" type="button" aria-label={closeLabel}>×</button>
+  </aside>
+)}
+<script is:inline>
+  (() => {
+    const el = document.getElementById('announce'); if (!el) return;
+    const now = Date.now(), from = Date.parse(el.dataset.from || ''), until = Date.parse(el.dataset.until || '');
+    let closed = false; try { closed = localStorage.getItem('announce-closed') === el.dataset.id; } catch {}
+    if (closed || (from && now < from) || (until && now > until)) return;
+    el.hidden = false; document.documentElement.classList.add('has-announce');
+    el.querySelector('.announce__x').addEventListener('click', () => {
+      el.hidden = true; document.documentElement.classList.remove('has-announce');
+      try { localStorage.setItem('announce-closed', el.dataset.id); } catch {}
+    });
+  })();
+</script>
