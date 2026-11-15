@@ -102,18 +102,22 @@
   html:not(.js) .acts { position: static; }
   html:not(.js) .act { position: static; opacity: 1; transform: none; padding: 60px var(--gut); }
 
-  /* phones: five rendered stills of the tooth instead of live 3D, one per act */
-  .slides { display: none; }
+  /* phones: no sticky stage. The story is a plain column: the hero, then each act as a block with its
+     rendered still above the words. Nothing is fixed, nothing overlaps, nothing swaps on scroll. */
+  .act__img { display: none; }
   @media (max-width: 899px) {
-    .stage canvas { display: none; }
-    .slides { display: block; position: absolute; inset: 0; pointer-events: none; animation: hover 6s ease-in-out infinite alternate; }
-    .slides img { position: absolute; left: 50%; top: calc(64px + 4svh); width: auto; height: 40svh; transform: translate(-50%, 14px) scale(.96); opacity: 0; transition: opacity .55s var(--ease), transform .9s var(--ease); }
-    .slides img.is-on { opacity: 1; transform: translate(-50%, 0) scale(1); }
-    .slides img[data-i="0"] { top: auto; bottom: calc(92px + env(safe-area-inset-bottom)); height: 38svh; }
-    .slides img[data-i="1"] { height: 41.5svh; } .slides img[data-i="2"] { height: 42.5svh; }
-    .slides img[data-i="3"] { height: 31.5svh; top: calc(64px + 8svh); } .slides img[data-i="4"] { height: 46svh; }
+    html.js .story { height: auto; }
+    html.js .stage { position: relative; height: auto; overflow: clip; }
+    .stage canvas, .progress, .hint { display: none; }
+    .acts { position: relative; z-index: 1; }
+    .act, .act.is-on, .act--hero, .act--hero.is-on { position: static; opacity: 1; transform: none; pointer-events: auto; max-width: none; padding: 0 var(--gut) 72px; }
+    .act--hero { padding-top: 104px; padding-bottom: 40px; }
+    .act--hero .row { position: static; margin-top: 24px; }
+    .act__img { display: block; width: auto; height: min(46svh, 440px); margin: 0 auto 28px; }
+    .act--hero .act__img { height: min(48svh, 460px); margin: 36px auto 0; }
+    .act h2 { font-size: clamp(34px, 9vw, 48px); }
   }
-  @keyframes hover { to { transform: translateY(-10px); } }
+
 
   /* sections */
   section.blk { padding-block: clamp(80px, 12vw, 160px); }
@@ -266,13 +270,6 @@
     <div class="stage">
       <div class="glow" aria-hidden="true"></div>
       <canvas id="tooth" aria-hidden="true"></canvas>
-      <div class="slides" aria-hidden="true">
-        <img data-i="0" src="slides/act0.webp" width="572" height="1163" alt="" decoding="async" fetchpriority="high">
-        <img data-i="1" src="slides/act1.webp" width="598" height="1214" alt="" decoding="async">
-        <img data-i="2" src="slides/act2.webp" width="617" height="1242" alt="" decoding="async">
-        <img data-i="3" src="slides/act3.webp" width="592" height="922" alt="" decoding="async">
-        <img data-i="4" src="slides/act4.webp" width="842" height="1696" alt="" decoding="async">
-      </div>
       <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="acts">
         <div class="act act--hero is-on" data-act="0">
@@ -280,26 +277,31 @@
           <h1 style="margin-top: 18px">Стоматологія в&nbsp;центрі <em class="s">Дніпра</em></h1>
           <p class="lead">Вініри, коронки, імпланти й лікування без нотацій. Перша консультація безкоштовна.</p>
           <div class="row"><a class="btn btn--ink" href="#booking">Записатися на огляд</a><a class="btn btn--ghost" href="#prices">Ціни</a></div>
+          <img class="act__img" src="slides/act0.webp" width="572" height="1163" alt="" decoding="async" fetchpriority="high">
         </div>
         <div class="act" data-act="1">
+          <img class="act__img" src="slides/act1.webp" width="598" height="1214" alt="" decoding="async" loading="lazy">
           <span class="act__n"><b>01</b>Огляд і діагностика</span>
           <h2>Спочатку <em class="s">бачимо</em> все</h2>
           <p>Лікар оглядає зуби, за потреби робить цифровий скан і називає точну ціну до початку лікування.</p>
           <span class="price">Скан 2 000 грн · огляд при болю безкоштовно</span>
         </div>
         <div class="act" data-act="2">
+          <img class="act__img" src="slides/act2.webp" width="617" height="1242" alt="" decoding="async" loading="lazy">
           <span class="act__n"><b>02</b>Вініри</span>
           <h2>Нова форма і <em class="s">колір</em></h2>
           <p>Композитні або керамічні E-max. Вісім вінірів ми робили за два тижні.</p>
           <span class="price">від 3 500 грн</span>
         </div>
         <div class="act" data-act="3">
+          <img class="act__img" src="slides/act3.webp" width="592" height="922" alt="" decoding="async" loading="lazy">
           <span class="act__n"><b>03</b>Коронки й імпланти</span>
           <h2>Зуб, який <em class="s">повернули</em></h2>
           <p>Коронки з металокераміки або цирконію, імплант замість втраченого кореня.</p>
           <span class="price">Коронка від 5 000 грн</span>
         </div>
         <div class="act" data-act="4">
+          <img class="act__img" src="slides/act4.webp" width="842" height="1696" alt="" decoding="async" loading="lazy">
           <span class="act__n"><b>04</b>Результат</span>
           <h2>Посмішка, якою <em class="s">хочеться</em> ділитися</h2>
           <p>2400+ посмішок і 4,9 у Google. Без нотацій і без осуду.</p>
@@ -436,7 +438,6 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 const story = document.getElementById('story');
 const acts = [...document.querySelectorAll('.act')];
 const pips = [...document.querySelectorAll('.progress i')];
-const slides = [...document.querySelectorAll('.slides img')];
 const ranges = [[0, .16], [.16, .38], [.38, .58], [.58, .8], [.8, 1.01]];
 let P = 0;
 function storyProgress() {
@@ -446,7 +447,6 @@ function storyProgress() {
   const k = ranges.findIndex(([a, b]) => P >= a && P < b);
   acts.forEach((a, i) => a.classList.toggle('is-on', i === k));
   pips.forEach((p, i) => p.classList.toggle('is-on', i === k));
-  slides.forEach((s, i) => s.classList.toggle('is-on', i === k));
 }
 
 /* ---------- 3D tooth (tooth.js) ---------- */
