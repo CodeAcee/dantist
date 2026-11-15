@@ -45,6 +45,19 @@ jobs:
           server-dir: /public_html/
           dangerous-clean-slate: false
 
+  # Pages builds on its own, so an FTP failure never blocks it
+  build-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: npm ci
+
       # ── Build for GitHub Pages (base "/dantist") ─────────────────
       - run: npx astro build --base /dantist --outDir dist-gh
         env:
@@ -67,7 +80,7 @@ jobs:
           path: ./dist-gh
 
   deploy-pages:
-    needs: build
+    needs: build-pages
     runs-on: ubuntu-latest
 
     permissions:
