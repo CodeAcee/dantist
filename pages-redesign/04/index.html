@@ -14,6 +14,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
+<link rel="modulepreload" href="vendor/three.module.min.js">
+<link rel="modulepreload" href="tooth.js">
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   :root {
@@ -40,17 +43,19 @@
 
   /* buttons: ink pill with an iridescent ring */
   .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 99px; font: 600 16px/1 var(--sans); text-decoration: none; border: 0; cursor: pointer; transition: transform .4s var(--ease); }
-  .btn--ink { background: var(--ink); color: #fff; isolation: isolate; }
-  .btn--ink::before { content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: inherit; background: var(--iri); animation: spin 6s linear infinite; }
-  .btn--ink::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--ink); }
-  .btn--ghost { background: rgb(255 255 255 / .55); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); backdrop-filter: blur(10px); }
+  .btn--ink { background: var(--ink); color: #fff; isolation: isolate; overflow: hidden; box-shadow: 0 0 0 2px transparent; }
+  .btn--ink::before { content: ""; position: absolute; left: 50%; top: 50%; width: 220%; aspect-ratio: 1; z-index: -2; background: conic-gradient(#ffd3e6, #cfe8ff, #d2f7e4, #fff2c9, #ffd3e6); transform: translate(-50%, -50%) rotate(0deg); animation: turn 6s linear infinite; will-change: transform; }
+  .btn--ink::after { content: ""; position: absolute; inset: 2px; z-index: -1; border-radius: inherit; background: var(--ink); }
+  @keyframes turn { to { transform: translate(-50%, -50%) rotate(360deg); } }
+  .btn--ghost { background: rgb(255 255 255 / .82); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
   .btn:active { transform: scale(.97); }
   @keyframes spin { to { --a: 360deg; } }
 
   /* nav */
   .nav { position: fixed; inset: 12px 12px auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 18px; border-radius: 99px; background: rgb(251 250 248 / .72); backdrop-filter: blur(16px) saturate(1.4); box-shadow: 0 1px 0 rgb(255 255 255 / .8) inset, 0 10px 30px rgb(18 20 23 / .06); }
   .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.03em; text-decoration: none; }
-  .logo i { width: 22px; height: 22px; border-radius: 50%; background: var(--iri); animation: spin 8s linear infinite; }
+  .logo i { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(#ffd3e6, #cfe8ff, #d2f7e4, #fff2c9, #ffd3e6); animation: turn0 8s linear infinite; will-change: transform; }
+  @keyframes turn0 { to { transform: rotate(360deg); } }
   .nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font-size: 15px; font-weight: 500; }
   .nav ul a { text-decoration: none; }
   .nav .btn { min-height: 44px; padding: 0 20px; font-size: 15px; }
@@ -62,7 +67,7 @@
   .stage { position: relative; height: 100svh; overflow: hidden; }
   html.js .stage { position: sticky; top: 0; }
   .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
-  .glow { position: absolute; inset: -20%; pointer-events: none; background: radial-gradient(40% 35% at 50% 42%, rgb(255 255 255 / .9), transparent 70%), radial-gradient(30% 30% at 30% 60%, rgb(255 201 223 / .55), transparent 70%), radial-gradient(30% 30% at 72% 35%, rgb(143 208 255 / .45), transparent 70%), radial-gradient(35% 30% at 60% 75%, rgb(201 245 223 / .5), transparent 70%); filter: blur(20px); animation: drift 14s ease-in-out infinite alternate; }
+  .glow { position: absolute; inset: -20%; pointer-events: none; background: radial-gradient(40% 35% at 50% 42%, rgb(255 255 255 / .9), transparent 70%), radial-gradient(30% 30% at 30% 60%, rgb(255 201 223 / .55), transparent 70%), radial-gradient(30% 30% at 72% 35%, rgb(143 208 255 / .45), transparent 70%), radial-gradient(35% 30% at 60% 75%, rgb(201 245 223 / .5), transparent 70%); will-change: transform; animation: drift 14s ease-in-out infinite alternate; }
   @keyframes drift { to { transform: translate3d(3%, -2%, 0) rotate(6deg) scale(1.05); } }
   .no-gl .stage canvas { display: none; }
   .no-gl .stage::after { content: ""; position: absolute; left: 50%; top: 40%; width: min(56vw, 360px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 46% 46% 40% 40%; background: radial-gradient(60% 60% at 35% 30%, #fff, #f1ece6 60%, #e2dcd4); box-shadow: 0 40px 80px rgb(18 20 23 / .12); }
@@ -74,13 +79,13 @@
   .act__n b { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 10px; border-radius: 99px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); }
   .act h2 { font-size: clamp(38px, 6.4vw, 84px); }
   .act p { margin-top: 14px; font-size: clamp(17px, 1.6vw, 20px); color: var(--ink); max-width: 44ch; }
-  .act .price { display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 99px; background: rgb(255 255 255 / .7); backdrop-filter: blur(8px); font-weight: 600; box-shadow: inset 0 0 0 1px var(--line); }
+  .act .price { display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 99px; background: rgb(255 255 255 / .86); font-weight: 600; box-shadow: inset 0 0 0 1px var(--line); }
   .act--hero { bottom: auto; top: calc(96px + 2svh); max-width: none; }
   .act--hero h1 { font-size: clamp(46px, 11vw, 150px); line-height: .92; max-width: 10ch; }
   .act--hero .lead { margin-top: 18px; font-size: clamp(17px, 1.7vw, 21px); max-width: 34ch; }
   .act--hero .row { position: fixed; left: var(--gut); right: var(--gut); bottom: calc(24px + env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; gap: 10px; }
   .act--hero .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
-  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: rgb(255 255 255 / .6); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: rgb(255 255 255 / .82); box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; }
   .chip i { width: 8px; height: 8px; border-radius: 50%; background: #3ccf7a; box-shadow: 0 0 0 4px rgb(60 207 122 / .18); }
   .progress { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); display: grid; gap: 8px; }
   .progress i { width: 4px; height: 22px; border-radius: 4px; background: rgb(18 20 23 / .12); transition: background .4s, height .4s var(--ease); }
@@ -167,7 +172,7 @@
   .rv figure::before { content: "“"; position: absolute; right: 18px; top: -18px; font: italic 140px/1 var(--serif); color: rgb(18 20 23 / .06); }
   .rv blockquote { margin: 0; font-size: 20px; line-height: 1.45; letter-spacing: -0.01em; }
   .rv footer { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--muted); }
-  .rv .av { width: 42px; height: 42px; border-radius: 50%; background: var(--iri); display: grid; place-items: center; color: var(--ink); font-weight: 700; animation: spin 10s linear infinite; }
+  .rv .av { width: 42px; height: 42px; border-radius: 50%; background: var(--iri); display: grid; place-items: center; color: var(--ink); font-weight: 700; }
   .rv .st { margin-left: auto; letter-spacing: 2px; color: var(--ink); }
   .g49 { display: inline-flex; align-items: baseline; gap: 10px; }
   .g49 b { font-size: clamp(56px, 8vw, 110px); letter-spacing: -0.06em; line-height: .9; }
@@ -179,7 +184,7 @@
   .doc { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }
   .doc span:last-child { font-weight: 600; white-space: nowrap; }
   .orbpic { position: relative; aspect-ratio: 1; border-radius: 50%; overflow: hidden; isolation: isolate; }
-  .orbpic::before { content: ""; position: absolute; inset: -3px; z-index: -1; border-radius: 50%; background: var(--iri); animation: spin 9s linear infinite; }
+  .orbpic::before { content: ""; position: absolute; inset: -3px; z-index: -1; border-radius: 50%; background: conic-gradient(#ffd3e6, #cfe8ff, #d2f7e4, #fff2c9, #ffd3e6); animation: turn0 9s linear infinite; will-change: transform; }
   .orbpic img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); border-radius: 50%; object-fit: cover; }
   @media (max-width: 899px) { .founder { grid-template-columns: 1fr; } .orbpic { width: min(80vw, 360px); justify-self: center; } }
 
@@ -198,7 +203,7 @@
   @media (max-width: 899px) { .book { grid-template-columns: 1fr; } }
 
   footer.end { padding: 80px 0 140px; overflow: hidden; }
-  .word { font-size: clamp(64px, 19vw, 300px); line-height: .8; letter-spacing: -0.075em; font-weight: 700; margin: 0; background: var(--iri); -webkit-background-clip: text; background-clip: text; color: transparent; animation: spin 12s linear infinite; white-space: nowrap; }
+  .word { font-size: clamp(64px, 19vw, 300px); line-height: .8; letter-spacing: -0.075em; font-weight: 700; margin: 0; background: linear-gradient(100deg, #f2b8d0, #a9d4f5 35%, #b8ecd2 65%, #f0dc9c); -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap; }
   .end__row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-top: 32px; color: var(--muted); font-size: 14px; }
   .end__row a { margin-right: 18px; }
 
@@ -401,7 +406,6 @@
 
 <div class="bar" id="bar"><a class="btn btn--ink" href="#booking">Записатися на огляд</a></div>
 
-<script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }</script>
 <script type="module">
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -423,145 +427,11 @@ function storyProgress() {
   pips.forEach((p, i) => p.classList.toggle('is-on', i === k));
 }
 
-/* ---------- 3D tooth ---------- */
-let gl = true;
+/* ---------- 3D tooth (tooth.js) ---------- */
 try {
-  const THREE = await import('three');
-  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
-  const canvas = document.getElementById('tooth');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
-  const scene = new THREE.Scene();
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(3, 4, 5); scene.add(key);
-  const rim = new THREE.DirectionalLight(0xbfe3ff, 1.2); rim.position.set(-4, 2, -3); scene.add(rim);
-
-  const V = (r, y) => new THREE.Vector2(r, y);
-  const crownProfile = [V(.6, 0), V(.65, .08), V(.73, .27), V(.78, .5), V(.77, .68), V(.7, .83), V(.55, .93), V(.36, .9), V(.16, .83), V(.001, .8)];
-  function shapeCrown(g) {
-    const p = g.attributes.position, v = new THREE.Vector3();
-    for (let i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i);
-      const th = Math.atan2(v.z, v.x), t = clamp((v.y - .55) / .38), r = Math.hypot(v.x, v.z);
-      v.y += (.13 * Math.max(0, Math.cos(4 * th + .4)) * t) * clamp(r / .5);
-      v.z *= .9;
-      p.setXYZ(i, v.x, v.y, v.z);
-    }
-    g.computeVertexNormals();
-    return g;
-  }
-  const enamel = new THREE.MeshPhysicalMaterial({ color: 0xfbf8f2, roughness: .16, clearcoat: 1, clearcoatRoughness: .06, sheen: .6, sheenColor: new THREE.Color(0xffe9f2), iridescence: .35, iridescenceIOR: 1.4, transparent: true });
-  const rootMat = new THREE.MeshPhysicalMaterial({ color: 0xf1e6d6, roughness: .4, clearcoat: .4, transparent: true });
-
-  const tooth = new THREE.Group();
-  const crown = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(crownProfile, 96)), enamel);
-  tooth.add(crown);
-  const neck = new THREE.Mesh(new THREE.LatheGeometry([V(.46, -.34), V(.55, -.16), V(.6, 0)], 64), rootMat);
-  neck.scale.z = .9; tooth.add(neck);
-  const roots = new THREE.Group();
-  const rootProfile = [V(.001, -1.8), V(.09, -1.68), V(.19, -1.2), V(.26, -.65), V(.3, -.15)];
-  [-1, 1].forEach(s => { const m = new THREE.Mesh(new THREE.LatheGeometry(rootProfile, 48), rootMat); m.position.x = .27 * s; m.rotation.z = .2 * s; m.scale.z = .95; roots.add(m); });
-  tooth.add(roots);
-
-  // x-ray: a wire twin
-  const wireMat = new THREE.MeshBasicMaterial({ color: 0x5aa9e6, wireframe: true, transparent: true, opacity: 0 });
-  const xray = new THREE.Group();
-  [crown, neck, ...roots.children].forEach(m => { const w = new THREE.Mesh(m.geometry, wireMat); w.position.copy(m.position); w.rotation.copy(m.rotation); w.scale.copy(m.scale).multiplyScalar(1.004); xray.add(w); });
-  tooth.add(xray);
-
-  // veneer: the front half of the upper crown, a thin glossy shell
-  const venProfile = crownProfile.slice(2, 8).map(p => V(p.x * 1.05, p.y + .01));
-  const veneerMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .05, clearcoat: 1, clearcoatRoughness: .02, transmission: .25, thickness: .2, iridescence: .6, side: THREE.DoubleSide, transparent: true, opacity: 0 });
-  const veneer = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(venProfile, 64, -Math.PI / 2, Math.PI)), veneerMat);
-  tooth.add(veneer);
-
-  // crown cap (zirconia)
-  const capMat = new THREE.MeshPhysicalMaterial({ color: 0xfffdf8, roughness: .22, clearcoat: 1, sheen: .4, transparent: true, opacity: 0 });
-  const cap = new THREE.Mesh(shapeCrown(new THREE.LatheGeometry(crownProfile.map(p => V(p.x * 1.05, p.y * 1.03 + .01)), 96)), capMat);
-  tooth.add(cap);
-
-  // implant: titanium screw with a thread
-  const ti = new THREE.MeshStandardMaterial({ color: 0xbfc5cd, metalness: 1, roughness: .28, transparent: true, opacity: 0 });
-  const implant = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(.2, .12, 1.5, 48), ti); body.position.y = -.75; implant.add(body);
-  class Helix extends THREE.Curve { getPoint(t, o = new THREE.Vector3()) { const a = t * Math.PI * 2 * 9, r = .215 - .07 * t; return o.set(Math.cos(a) * r, -t * 1.42, Math.sin(a) * r); } }
-  implant.add(new THREE.Mesh(new THREE.TubeGeometry(new Helix(), 400, .032, 8, false), ti));
-  const abut = new THREE.Mesh(new THREE.CylinderGeometry(.16, .21, .3, 32), ti); abut.position.y = .12; implant.add(abut);
-  tooth.add(implant);
-
-  // a soft ring of light under the tooth
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.25, .012, 16, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .0 }));
-  ring.rotation.x = Math.PI / 2; ring.position.y = -1.9; scene.add(ring);
-
-  scene.add(tooth);
-
-  // pointer and touch tilt
-  let tx = 0, ty = 0, cx = 0, cy = 0, drag = null, spin = 0, px = innerWidth < 900 ? 0 : 2.25, py = innerWidth < 900 ? -1.05 : .25;
-  addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * .6; ty = (e.clientY / innerHeight - .5) * .3; });
-  canvas.addEventListener('pointerdown', e => { drag = e.clientX; });
-  addEventListener('pointerup', () => { drag = null; });
-  canvas.addEventListener('pointermove', e => { if (drag !== null) { spin += (e.clientX - drag) * .01; drag = e.clientX; } });
-
-  function size() {
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h; camera.updateProjectionMatrix();
-  }
-  size(); addEventListener('resize', size);
-
-  let visible = true;
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(story);
-  const clock = new THREE.Clock();
-  const mobile = () => innerWidth < 900;
-
-  function frame() {
-    requestAnimationFrame(frame);
-    if (!visible) return;
-    const t = clock.getElapsedTime();
-    const p = still ? 0 : P;
-    cx += (tx - cx) * .05; cy += (ty - cy) * .05;
-
-    const xr = seg(p, .16, .26) * (1 - seg(p, .32, .4));
-    const vn = ease(seg(p, .4, .52)) * (1 - seg(p, .6, .66));
-    const cp = ease(seg(p, .6, .74));
-    const im = ease(seg(p, .62, .78));
-    const fin = seg(p, .8, .95);
-
-    enamel.opacity = 1 - xr * .75 - cp * .6;
-    rootMat.opacity = (1 - xr * .7) * (1 - im);
-    wireMat.opacity = xr * .55;
-    veneerMat.opacity = vn;
-    veneer.position.z = (1 - vn) * 1.6; veneer.position.y = (1 - vn) * .2;
-    capMat.opacity = cp;
-    cap.position.y = (1 - cp) * 2.2;
-    ti.opacity = im;
-    implant.position.y = -.3 - (1 - im) * 3.2;
-    implant.rotation.y = (1 - im) * 18;
-    ring.material.opacity = fin * .8;
-    [enamel, rootMat, veneerMat, capMat, ti].forEach(m => { const tr = m.opacity < .995; if (m.transparent !== tr) { m.transparent = tr; m.depthWrite = !tr || m === veneerMat; m.needsUpdate = true; } });
-    veneer.visible = vn > .01; cap.visible = cp > .01; implant.visible = im > .01; xray.visible = xr > .01; roots.visible = neck.visible = rootMat.opacity > .01;
-
-    const base = t * .25 + p * Math.PI * 4 + spin;
-    tooth.rotation.y = base + cx;
-    tooth.rotation.x = .12 + cy + Math.sin(t * .6) * .03;
-    const gy = mobile() ? (p < .14 ? -1.05 : .7) : .25;
-    py += (gy - py) * .06;
-    tooth.position.y = Math.sin(t * .9) * .05 + py;
-    const goal = mobile() ? 0 : (p < .14 ? 2.25 : -1.95);
-    px += (goal - px) * .06;
-    tooth.position.x = px;
-    const z = (mobile() ? 11 : 7.6) - xr * 1.2 - vn * .9 + fin * .3;
-    camera.position.set(0, .35, z); camera.lookAt(tooth.position.x * .0, -.1, 0);
-    renderer.render(scene, camera);
-  }
-  frame();
-} catch (e) {
-  console.warn('tooth', e); gl = false; document.documentElement.classList.add('no-gl');
-}
+  const { mountTooth } = await import('./tooth.js');
+  window.__tooth = mountTooth(document.getElementById('tooth'), { progress: () => P, still, host: story });
+} catch (e) { console.warn('tooth', e); document.documentElement.classList.add('no-gl'); }
 
 /* ---------- services: vertical scroll drives the track ---------- */
 const hs = document.getElementById('services'), track = document.getElementById('hs-track'), bar = document.getElementById('hs-bar');
@@ -606,8 +476,9 @@ document.getElementById('form').addEventListener('submit', e => {
   if (bad.length) { e.preventDefault(); bad[0].focus(); document.getElementById('f-status').textContent = `Виправ ${bad.length === 1 ? 'одне поле' : 'два поля'}.`; }
 });
 
+let queued = false;
 function onScroll() { storyProgress(); hsMove(); barShow(); }
-addEventListener('scroll', onScroll, { passive: true });
+addEventListener('scroll', () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; onScroll(); }); }, { passive: true });
 addEventListener('resize', () => { hsSize(); onScroll(); });
 hsSize(); onScroll();
 // ?at=0.5 scrolls to that share of the story (for review shots)
