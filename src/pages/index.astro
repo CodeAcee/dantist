@@ -1,16 +1,4 @@
 ---
-import { translations } from '../i18n/translations';
-import Layout from '../layouts/Layout.astro';
-import SeoContent from '../components/SeoContent.astro';
-
-const t = translations.uk;
+import PearlSite from "../components/PearlSite.astro";
 ---
-<Layout
-  title={t.seo.title}
-  description={t.seo.description}
-  keywords={t.seo.keywords}
-  ogLocale={t.ogLocale}
-  lang={t.htmlLang}
->
-  <SeoContent t={t.content} lang="uk" />
-</Layout>
+<PearlSite lang="uk" />

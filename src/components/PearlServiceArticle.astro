@@ -1,0 +1,117 @@
+---
+// A service page in the pearl / liquid-glass style: the same SEO content as ServiceArticle
+// (intro, benefits, process, prices, FAQ, CTA, other services), laid out in glass blocks.
+import { SERVICES, PAGE_UI, type Lang, type Service } from "../i18n/services";
+const { service, lang, base } = Astro.props as { service: Service; lang: Lang; base: string };
+const t = service[lang];
+const ui = PAGE_UI[lang];
+const home = lang === "en" ? base + "en/" : base;
+const tel = "tel:" + ui.phone.replace(/[^+\d]/g, "");
+const others = SERVICES.filter((s) => s.slug !== service.slug);
+---
+<article class="sp">
+  <header class="sp-hero wrap">
+    <nav class="sp-crumbs" aria-label="breadcrumb">
+      <a href={home}>{ui.home}</a><span>/</span><span aria-current="page">{t.name}</span>
+    </nav>
+    <span class="chip"><i></i>{t.eyebrow}</span>
+    <h1>{t.h1}</h1>
+    <p class="sp-intro">{t.intro}</p>
+    <div class="sp-actions">
+      <a class="btn btn--ink" href={home + "#booking"}>{ui.book}</a>
+      <a class="btn btn--ghost" href={tel}>{ui.phone}</a>
+    </div>
+  </header>
+
+  <section class="wrap sp-sec">
+    <h2 data-rv>{t.benefitsTitle}</h2>
+    <div class="sp-grid">
+      {t.benefits.map((b, i) => (
+        <div class="glass sp-card" data-rv style={`--i:${i}`}>
+          <h3>{b.title}</h3>
+          <p>{b.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap sp-sec">
+    <h2 data-rv>{t.processTitle}</h2>
+    <ol class="sp-steps">
+      {t.process.map((p, i) => (
+        <li class="glass" data-rv style={`--i:${i}`}>
+          <span class="sp-num">{String(i + 1).padStart(2, "0")}</span>
+          <div><h3>{p.title}</h3><p>{p.text}</p></div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wrap sp-sec">
+    <h2 data-rv>{t.priceTitle}</h2>
+    <div class="pc" data-rv>
+      <ul class="sp-prices">
+        {t.prices.map((p) => <li><span>{p.name}</span><span>{p.price}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap sp-sec">
+    <h2 data-rv>{t.faqTitle}</h2>
+    <div class="pc">
+      {t.faq.map((f, i) => (
+        <details open={i === 0}>
+          <summary><b>{f.q}</b><i aria-hidden="true">+</i></summary>
+          <p class="sp-answer">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap sp-sec">
+    <div class="glass sp-cta" data-rv>
+      <h2>{t.ctaTitle}</h2>
+      <p>{t.ctaText}</p>
+      <a class="btn btn--ink" href={home + "#booking"}>{ui.book}</a>
+    </div>
+  </section>
+
+  <section class="wrap sp-sec sp-other">
+    <p class="sp-otitle">{ui.otherServices}</p>
+    <div class="sp-olinks">
+      {others.map((s) => <a class="chip" href={home + s.slug}>{s[lang].name} →</a>)}
+    </div>
+  </section>
+</article>
+
+<style is:global>
+  .sp-hero { padding-top: 140px; padding-bottom: 40px; }
+  .sp-crumbs { display: flex; gap: 8px; font-size: 14px; color: var(--muted); margin-bottom: 22px; }
+  .sp-crumbs a { text-decoration: none; }
+  .sp-hero h1 { margin-top: 18px; font-size: clamp(40px, 7vw, 96px); max-width: 16ch; }
+  .sp-intro { margin-top: 18px; font-size: clamp(17px, 1.7vw, 21px); max-width: 52ch; }
+  .sp-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .sp-sec { padding-block: clamp(40px, 7vw, 90px); }
+  .sp-sec > h2 { font-size: clamp(32px, 5vw, 64px); margin-bottom: 28px; }
+  .sp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .sp-card { padding: 26px; border-radius: 24px; }
+  .sp-card h3, .sp-steps h3 { font-size: 22px; letter-spacing: -0.02em; }
+  .sp-card p, .sp-steps p { margin-top: 10px; color: var(--muted); }
+  .sp-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .sp-steps li { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 22px 26px; border-radius: 24px; align-items: start; }
+  .sp-num { font: italic 34px/1 var(--serif); color: var(--muted); }
+  .sp-prices { list-style: none; margin: 0; padding: 10px 0; }
+  .sp-prices li { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-top: 1px dashed var(--line); }
+  .sp-prices li:first-child { border-top: 0; }
+  .sp-prices li span:last-child { font-weight: 600; white-space: nowrap; }
+  .pc summary b { font-size: clamp(18px, 2.2vw, 26px); }
+  .sp .pc summary { grid-template-columns: 1fr 44px; }
+  .sp-answer { padding: 0 0 22px; color: var(--muted); max-width: 70ch; }
+  .sp-cta { padding: clamp(28px, 5vw, 56px); border-radius: 32px; display: grid; gap: 16px; justify-items: start; }
+  .sp-cta h2 { font-size: clamp(30px, 4.6vw, 60px); }
+  .sp-cta p { max-width: 50ch; color: var(--muted); }
+  .sp-otitle { font-weight: 600; margin-bottom: 14px; }
+  .sp-olinks { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sp-olinks a { text-decoration: none; }
+  @media (max-width: 899px) { .sp-hero { padding-top: 110px; } }
+</style>
