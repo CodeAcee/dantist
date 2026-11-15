@@ -88,13 +88,13 @@ const fresnel = color => new THREE.ShaderMaterial({
   transparent: true, depthWrite: false, side: THREE.DoubleSide,
 });
 
-export async function mountTooth(canvas, { progress, still = false, host, src = 'tooth.bin' }) {
+export async function mountTooth(canvas, { progress, still = false, host, src = 'tooth.bin', rot = .5, dprCap, keep = false }) {
   const mobile = () => innerWidth < 900;
   const lite = (navigator.hardwareConcurrency || 4) <= 4 || mobile();
-  const dprMax = Math.min(devicePixelRatio || 1, lite ? 1.5 : 1.75);
+  const dprMax = dprCap || Math.min(devicePixelRatio || 1, lite ? 1.5 : 1.75);
   const [toothG, pulpG] = await loadMeshes(src);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: (devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: keep });
   let dpr = dprMax; renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .94;
   const scene = new THREE.Scene();
@@ -131,7 +131,14 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   addEventListener('pointerup', () => { drag = null; });
   canvas.addEventListener('pointermove', e => { if (drag !== null) { spinV = (e.clientX - drag) * .012; spin += spinV; drag = e.clientX; } }, { passive: true });
 
-  function size() { const w = canvas.clientWidth, h = canvas.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  // resize only on a real change: a mobile toolbar showing or hiding moves the height a little, and
+  // reallocating the drawing buffer then would stutter the scroll
+  let lw = 0, lh = 0;
+  function size() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (w === lw && Math.abs(h - lh) < 160 && lh) return;
+    lw = w; lh = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
   size(); addEventListener('resize', size);
 
   let onScreen = true;
@@ -143,9 +150,9 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     acc += ms; n++;
     if (n < 40) return;
     const avg = acc / n; acc = n = 0;
-    if (avg > 24 && dpr > 1) { dpr = Math.max(1, dpr - .25); renderer.setPixelRatio(dpr); size(); }
+    if (avg > 24 && dpr > 1) { dpr = Math.max(1, dpr - .25); renderer.setPixelRatio(dpr); lh = 0; size(); }
     else if (avg > 28 && dpr <= 1) skip = true;
-    else if (avg < 14 && dpr < dprMax) { dpr = Math.min(dprMax, dpr + .25); renderer.setPixelRatio(dpr); size(); skip = false; }
+    else if (avg < 14 && dpr < dprMax) { dpr = Math.min(dprMax, dpr + .25); renderer.setPixelRatio(dpr); lh = 0; size(); skip = false; }
   }
 
   let px = mobile() ? 0 : 2.65, py = mobile() ? -.55 : -.05, running = false, t = 0, last = 0;
@@ -153,28 +160,28 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
 
   function draw(dt) {
     t += dt;
-    const p = still ? 0 : progress();
+    const p = progress ? progress() : 0;
     cx += (tx - cx) * .06; cy += (ty - cy) * .06;
     if (drag === null) { spinV *= .95; spin += spinV; }
     const xr = seg(p, .16, .24) * (1 - seg(p, .32, .4));
     const vn = ease(seg(p, .4, .52)) * (1 - seg(p, .6, .66));
-    const cp = ease(seg(p, .6, .74)), im = ease(seg(p, .62, .78)), fin = seg(p, .8, .95);
+    const fin = seg(p, .8, .92), cp = ease(seg(p, .6, .74)) * (1 - fin), im = ease(seg(p, .62, .78)) * (1 - fin);
 
     enamel.opacity = (1 - xr * .85) * (1 - Math.max(cp, im)); setT(enamel, enamel.opacity < .995);
     xrayMat.uniforms.o.value = xr; pulpMat.opacity = xr * .7;
     veneerMat.opacity = vn; veneer.position.set(0, (1 - vn) * .25, (1 - vn) * 1.6);
     zirconia.opacity = cp; setT(zirconia, cp < .995); cap.position.y = (1 - cp) * 2.4;
     titanium.opacity = im; setT(titanium, im < .995);
-    implant.position.y = -.42 - (1 - im) * 3.2; implant.rotation.y = (1 - im) * 16;
+    implant.position.y = -.2 - (1 - im) * 3.2; implant.rotation.y = (1 - im) * 16;
     ring.material.opacity = fin * .75;
     natural.visible = enamel.opacity > .01; xray.visible = xr > .01; veneer.visible = vn > .01; cap.visible = cp > .01; implant.visible = im > .01;
 
-    tooth.rotation.y = (still ? .5 : t * .22) + p * Math.PI * 4 + spin + cx;
+    tooth.rotation.y = (still ? rot : t * .22 + p * Math.PI * 4) + spin + cx;
     tooth.rotation.x = .16 + cy + Math.sin(t * .6) * .025;
     const m = mobile();
-    px += ((m ? 0 : (p < .14 ? 2.65 : -1.7)) - px) * .06;
-    py += ((m ? (p < .14 ? -.55 : 1.15) : (p < .14 ? -.05 : .3)) - py) * .06;
-    tooth.position.set(px, py + Math.sin(t * .9) * .045, 0);
+    const gx = m ? 0 : (p < .14 ? 2.65 : -1.7), gy = m ? (p < .14 ? -.55 : 1.15) : (p < .14 ? -.05 : .3);
+    if (still) { px = gx; py = gy; } else { px += (gx - px) * .06; py += (gy - py) * .06; }
+    tooth.position.set(px, py + (still ? 0 : Math.sin(t * .9) * .045), 0);
     glintA.position.set(px + 1.6 + Math.sin(t * .5) * .8, py + 1.9, 2.6 + Math.cos(t * .4) * .6);
     glintB.position.set(px - 1.8, py + 1.2 + Math.sin(t * .35) * .5, 2.2);
     camera.position.set(0, .35, (m ? 13.4 : 9.8) - xr * .5 - vn * .7 + fin * .3);
@@ -193,6 +200,6 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     };
     requestAnimationFrame(step);
   }
-  if (still) { draw(0); requestAnimationFrame(() => draw(0)); } else loop();
+  if (still) { draw(0); await new Promise(r => requestAnimationFrame(() => { draw(0); r(); })); } else loop();
   return { info: () => ({ ...renderer.info.render, dpr }) };
 }

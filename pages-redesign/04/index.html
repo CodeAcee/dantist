@@ -15,9 +15,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
-<link rel="modulepreload" href="vendor/three.module.min.js">
-<link rel="modulepreload" href="tooth.js">
-<link rel="preload" href="tooth.bin" as="fetch" crossorigin>
+<link rel="preload" href="tooth.bin" as="fetch" crossorigin media="(min-width: 900px)">
+<link rel="preload" href="slides/act0.webp" as="image" media="(max-width: 899px)">
 <style>
   @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
   :root {
@@ -102,6 +101,19 @@
   }
   html:not(.js) .acts { position: static; }
   html:not(.js) .act { position: static; opacity: 1; transform: none; padding: 60px var(--gut); }
+
+  /* phones: five rendered stills of the tooth instead of live 3D, one per act */
+  .slides { display: none; }
+  @media (max-width: 899px) {
+    .stage canvas { display: none; }
+    .slides { display: block; position: absolute; inset: 0; pointer-events: none; animation: hover 6s ease-in-out infinite alternate; }
+    .slides img { position: absolute; left: 50%; top: calc(64px + 4svh); width: auto; height: 40svh; transform: translate(-50%, 14px) scale(.96); opacity: 0; transition: opacity .55s var(--ease), transform .9s var(--ease); }
+    .slides img.is-on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    .slides img[data-i="0"] { top: auto; bottom: calc(92px + env(safe-area-inset-bottom)); height: 38svh; }
+    .slides img[data-i="1"] { height: 41.5svh; } .slides img[data-i="2"] { height: 42.5svh; }
+    .slides img[data-i="3"] { height: 31.5svh; top: calc(64px + 8svh); } .slides img[data-i="4"] { height: 46svh; }
+  }
+  @keyframes hover { to { transform: translateY(-10px); } }
 
   /* sections */
   section.blk { padding-block: clamp(80px, 12vw, 160px); }
@@ -254,6 +266,13 @@
     <div class="stage">
       <div class="glow" aria-hidden="true"></div>
       <canvas id="tooth" aria-hidden="true"></canvas>
+      <div class="slides" aria-hidden="true">
+        <img data-i="0" src="slides/act0.webp" width="572" height="1163" alt="" decoding="async" fetchpriority="high">
+        <img data-i="1" src="slides/act1.webp" width="598" height="1214" alt="" decoding="async">
+        <img data-i="2" src="slides/act2.webp" width="617" height="1242" alt="" decoding="async">
+        <img data-i="3" src="slides/act3.webp" width="592" height="922" alt="" decoding="async">
+        <img data-i="4" src="slides/act4.webp" width="842" height="1696" alt="" decoding="async">
+      </div>
       <div class="progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="acts">
         <div class="act act--hero is-on" data-act="0">
@@ -417,6 +436,7 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 const story = document.getElementById('story');
 const acts = [...document.querySelectorAll('.act')];
 const pips = [...document.querySelectorAll('.progress i')];
+const slides = [...document.querySelectorAll('.slides img')];
 const ranges = [[0, .16], [.16, .38], [.38, .58], [.58, .8], [.8, 1.01]];
 let P = 0;
 function storyProgress() {
@@ -426,10 +446,11 @@ function storyProgress() {
   const k = ranges.findIndex(([a, b]) => P >= a && P < b);
   acts.forEach((a, i) => a.classList.toggle('is-on', i === k));
   pips.forEach((p, i) => p.classList.toggle('is-on', i === k));
+  slides.forEach((s, i) => s.classList.toggle('is-on', i === k));
 }
 
 /* ---------- 3D tooth (tooth.js) ---------- */
-try {
+if (matchMedia('(min-width: 900px)').matches) try {
   const { mountTooth } = await import('./tooth.js');
   window.__tooth = await mountTooth(document.getElementById('tooth'), { progress: () => P, still, host: story });
 } catch (e) { console.warn('tooth', e); document.documentElement.classList.add('no-gl'); }

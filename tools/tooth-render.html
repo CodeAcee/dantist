@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
+<style>html, body { margin: 0; background: transparent; } canvas { width: 100vw; height: 100vh; display: block; }</style>
+</head><body><canvas id="c"></canvas>
+<script type="module">
+// renders one act of the tooth as a still, for the phone slides (tools: shot with a transparent background)
+import { mountTooth } from './tooth.js';
+const q = new URLSearchParams(location.search), p = +(q.get('p') || 0);
+await mountTooth(document.getElementById('c'), { progress: () => p, still: true, rot: +(q.get('r') || .5), dprCap: +(q.get('dpr') || 3), keep: true });
+const pre = document.createElement('pre'); pre.id = 'out'; pre.textContent = document.getElementById('c').toDataURL('image/png'); document.body.append(pre);
+document.title = 'ready';
+</script></body></html>
