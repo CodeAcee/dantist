@@ -75,6 +75,20 @@ jobs:
             echo "no redesign-demo branch, skipping"
           fi
 
+      # ── The Astro redesign (branch redesign) at /dantist/new/, Pages only ──
+      - name: Build redesign preview
+        env:
+          PUBLIC_SANITY_PROJECT_ID: ry5ky7kc
+          PUBLIC_SANITY_DATASET: production
+          PUBLIC_CONTACT_WORKER_URL: ${{ secrets.PUBLIC_CONTACT_WORKER_URL }}
+        run: |
+          if git fetch --depth 1 origin redesign; then
+            mkdir -p ../rd && git archive FETCH_HEAD | tar -x -C ../rd
+            cd ../rd && npm ci && npx astro build --base /dantist/new --outDir "$GITHUB_WORKSPACE/dist-gh/new"
+          else
+            echo "no redesign branch, skipping"
+          fi
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist-gh
