@@ -32,19 +32,12 @@ export interface ReviewRow {
   age: string;
   text: string;
 }
-export interface ClinicMediaRow {
-  type: "image" | "video";
-  imageUrl?: string;
-  videoUrl?: string;
-  caption?: string;
-}
 
 export interface SiteContent {
   services: ServiceRow[];
   cases: CaseRow[];
   team: TeamRow[];
   reviews: ReviewRow[];
-  clinicMedia: ClinicMediaRow[];
 }
 
 const EMPTY: SiteContent = {
@@ -52,7 +45,6 @@ const EMPTY: SiteContent = {
   cases: [],
   team: [],
   reviews: [],
-  clinicMedia: [],
 };
 
 const builder = sanity ? createImageUrlBuilder(sanity) : null;
@@ -81,20 +73,15 @@ const REVIEWS_QUERY = `*[_type == "review"] | order(order asc) {
   name, initials, since, textUk, textEn
 }`;
 
-const CLINIC_QUERY = `*[_type == "clinicMedia"] | order(order asc) {
-  mediaType, image, "videoUrl": video.asset->url, captionUk, captionEn
-}`;
-
 export async function getContent(lang: Lang): Promise<SiteContent> {
   if (!sanity) return EMPTY;
   const en = lang === "en";
   try {
-    const [services, cases, team, reviews, clinicMedia] = await Promise.all([
+    const [services, cases, team, reviews] = await Promise.all([
       sanity.fetch(SERVICES_QUERY),
       sanity.fetch(CASES_QUERY),
       sanity.fetch(TEAM_QUERY),
       sanity.fetch(REVIEWS_QUERY),
-      sanity.fetch(CLINIC_QUERY),
     ]);
 
     return {
@@ -130,12 +117,6 @@ export async function getContent(lang: Lang): Promise<SiteContent> {
         name: r.name,
         age: r.since != null ? `${en ? "since" : "з"} ${r.since}` : "",
         text: en ? r.textEn : r.textUk,
-      })),
-      clinicMedia: (clinicMedia ?? []).map((m: any) => ({
-        type: m.mediaType,
-        imageUrl: imgUrl(m.image),
-        videoUrl: m.videoUrl,
-        caption: en ? m.captionEn : m.captionUk,
       })),
     };
   } catch {

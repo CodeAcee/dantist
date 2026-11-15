@@ -6,14 +6,12 @@ import "../styles/pearl-site.css";
 import SeoHead from "./SeoHead.astro";
 import { getContent, getServicePages, getAnnouncement } from "../lib/content";
 import AnnounceBar from "./AnnounceBar.astro";
-import { translations } from "../i18n/translations";
 import { pearl, clinicLinks as L, icons, type PearlLang } from "../i18n/pearl";
 import { PAGE_UI } from "../i18n/services";
 
 interface Props { lang: PearlLang; }
 const { lang } = Astro.props;
 const t = pearl[lang];
-const tr = translations[lang];
 const data = await getContent(lang);
 const ui = PAGE_UI[lang];
 const tel = "tel:" + ui.phone.replace(/[^+\d]/g, "");
@@ -42,9 +40,9 @@ const langUk = base, langEn = base + "en/";
 const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stringify(CONTACT)};document.documentElement.classList.add("js")`;
 ---
 <!doctype html>
-<html lang={tr.htmlLang}>
+<html lang={lang}>
 <head>
-<SeoHead title={tr.seo.title} description={tr.seo.description} keywords={tr.seo.keywords} lang={tr.htmlLang} ogLocale={tr.ogLocale} />
+<SeoHead title={t.seo.title} description={t.seo.description} keywords={t.seo.keywords} lang={lang} ogLocale={lang === "en" ? "en_US" : "uk_UA"} />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" onload="this.onload=null;this.rel='stylesheet'">

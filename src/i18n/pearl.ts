@@ -4,6 +4,11 @@ export type PearlLang = "uk" | "en";
 
 export const pearl = {
   uk: {
+    seo: {
+      title: "Стоматолог Дніпро — імплантація, вініри, відбілювання | Chirkova Dentist",
+      description: "Cтоматологія у Дніпрі (Чиркова Валерія): імплантація зубів, вініри, елайнери, професійна чистка та лікування карієсу. Перша консультація безкоштовно.",
+      keywords: "стоматолог Дніпро, дантист Дніпро, імплантація зубів Дніпро, послуги стоматолога Дніпро, Чиркова Валерія, вініри Дніпро, відбілювання зубів, чистка зубів, лікування карієсу, терапія, естетична стоматологія Дніпро, елайнери Дніпро",
+    },
     nav: { services: "Послуги", results: "Результати", prices: "Ціни", reviews: "Відгуки", contacts: "Контакти", book: "Записатися", bookFull: "Записатися на огляд", langLabel: "Мова сайту" },
     pages: { h: "Детально про послуги", note: "Кожна послуга має свою сторінку: етапи, ціни, відповіді на часті питання.", more: "Детальніше", askTag: "Консультація", askH: "Не знайшли свою послугу?", askP: "Лікар оглядає зуби і підбирає лікування на безкоштовній консультації.", askMore: "Записатися" },
     visit: { h: "Як нас знайти", note: "Ми в центрі Дніпра. Поруч метро і паркінг.", route: "Прокласти маршрут", call: "Зателефонувати", hoursTitle: "Графік", follow: "Ми в соцмережах", mapTitle: "Клініка на карті", mapShow: "Показати карту", mapNote: "Карта завантажується з Google Maps після натискання." },
@@ -53,6 +58,11 @@ export const pearl = {
     footer: { legal: "вул. Михайла Грушевського, центр Дніпра", credits: "Photographs via Wikimedia Commons" },
   },
   en: {
+    seo: {
+      title: "Dentist in Dnipro — Implants, Veneers, Whitening | Chirkova Dentist",
+      description: "Boutique dental clinic in Dnipro (Chirkova Valeria): dental implants, veneers, aligners, professional cleaning and caries treatment. Free first consultation.",
+      keywords: "dentist Dnipro, dental clinic Dnipro, dental implants Dnipro, Chirkova Valeria, veneers Dnipro, teeth whitening, teeth cleaning, caries treatment, aligners, emergency dentist Dnipro",
+    },
     nav: { services: "Services", results: "Results", prices: "Prices", reviews: "Reviews", contacts: "Contacts", book: "Book now", bookFull: "Book a check-up", langLabel: "Site language" },
     pages: { h: "Services in detail", note: "Every service has its own page: the steps, the prices, answers to common questions.", more: "Read more", askTag: "Consultation", askH: "Can’t find your service?", askP: "The doctor examines your teeth and picks the treatment at a free consultation.", askMore: "Book now" },
     visit: { h: "How to find us", note: "We are in central Dnipro, close to the metro and parking.", route: "Get directions", call: "Call us", hoursTitle: "Hours", follow: "Follow us", mapTitle: "The clinic on the map", mapShow: "Show the map", mapNote: "The map loads from Google Maps after you click." },
