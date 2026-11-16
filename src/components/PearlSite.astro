@@ -227,6 +227,24 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
     </div>
   </section>}
 
+  {data.clinic.length > 0 && <section class="blk" id="clinic" aria-labelledby="clinic-h">
+    <div class="wrap head">
+      <h2 id="clinic-h" class="split">{t.clinic.h}</h2>
+      <p data-rv>{t.clinic.note}</p>
+      <div class="gal__nav" data-rv style="--i:1">
+        <button class="gal__btn" id="gal-prev" aria-label={t.clinic.prev}>←</button>
+        <button class="gal__btn" id="gal-next" aria-label={t.clinic.next}>→</button>
+      </div>
+    </div>
+    <div class="gal" id="gal" tabindex="0" aria-label={t.clinic.h}>
+      {data.clinic.map((m, i) => (
+        <figure data-rv style={`--i:${i % 3}`}>
+          <img src={m.url} alt={m.alt} loading="lazy" decoding="async" draggable="false">
+        </figure>
+      ))}
+    </div>
+  </section>}
+
   <section class="blk" id="visit" aria-labelledby="visit-h">
     <div class="wrap">
       <div class="head">
@@ -361,6 +379,14 @@ function hsMove() {
   const r = hs.getBoundingClientRect(), total = hs.offsetHeight - innerHeight;
   hsT = (total > 0 ? clamp(-r.top / total) : 0) * hsMax;
   if (!hsOn) { hsOn = true; requestAnimationFrame(hsStep); }
+}
+
+/* ---------- the clinic gallery: native snap scroll, buttons page it ---------- */
+const gal = document.getElementById('gal');
+if (gal) {
+  const step = dir => gal.scrollBy({ left: dir * (gal.querySelector('figure').clientWidth + 16), behavior: still ? 'auto' : 'smooth' });
+  document.getElementById('gal-prev').addEventListener('click', () => step(-1));
+  document.getElementById('gal-next').addEventListener('click', () => step(1));
 }
 
 /* ---------- reveals, letters, counts ---------- */

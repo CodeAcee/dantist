@@ -105,7 +105,7 @@
 
 
   /* sections */
-  section.blk { padding-block: clamp(80px, 12vw, 160px); }
+  section.blk { padding-block: clamp(64px, 8vw, 112px); }
   .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 40px; }
   .head p { max-width: 38ch; color: var(--muted); }
   [data-rv] { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: calc(var(--i, 0) * 90ms); }

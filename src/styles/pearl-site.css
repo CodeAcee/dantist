@@ -162,3 +162,16 @@ body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), t
 
 /* the honeypot field: off screen for people, present for bots */
 .form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* the clinic gallery: a snap slider of photos, arrows in the heading row */
+.gal { display: flex; gap: 16px; margin-top: 36px; padding-inline: max(var(--gut), calc(50vw - 640px)); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: max(var(--gut), calc(50vw - 640px)); scrollbar-width: none; }
+.gal::-webkit-scrollbar { display: none; }
+.gal figure { flex: none; margin: 0; width: min(78vw, 560px); aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; scroll-snap-align: start; box-shadow: 0 1px 0 rgb(255 255 255 / .9) inset, 0 30px 60px -30px rgb(18 20 23 / .25); }
+.gal img { width: 100%; height: 100%; object-fit: cover; user-select: none; transition: transform 1s var(--ease); }
+.gal figure:hover img { transform: scale(1.03); }
+.gal:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.gal__nav { display: flex; gap: 8px; }
+.gal__btn { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgb(255 255 255 / .82); box-shadow: inset 0 0 0 1px var(--line); font-size: 18px; color: var(--ink); cursor: pointer; transition: transform .25s var(--ease), background .25s; }
+.gal__btn:hover { background: #fff; transform: translateY(-2px); }
+.gal__btn:active { transform: translateY(0); }
+@media (max-width: 899px) { .gal__nav { display: none; } .gal figure { width: 82vw; } }

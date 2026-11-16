@@ -40,6 +40,7 @@ export const pearl = {
     prices: { h: "Повний прайс", note: "Відкрий категорію. Ціни з прайсу клініки, у гривнях." },
     reviews: { h: "Відгуки", badge: "у Google", starsLabel: "5 з 5", patient: "пацієнт" },
     team: { tag: "Лікарі клініки" },
+    clinic: { h: "Про клініку", note: "Світло, тиша і техніка, якій ми довіряємо. Подивись, де тебе лікуватимуть.", prev: "Попереднє фото", next: "Наступне фото" },
     booking: {
       h: "Запис на огляд",
       note: "Залиш ім’я і телефон. Передзвонимо протягом 2 годин. Перша консультація безкоштовна.",
@@ -95,6 +96,7 @@ export const pearl = {
     prices: { h: "Full price list", note: "Open a category. Prices from the clinic’s list, in hryvnias." },
     reviews: { h: "Reviews", badge: "on Google", starsLabel: "5 out of 5", patient: "patient" },
     team: { tag: "Our doctors" },
+    clinic: { h: "The clinic", note: "Light, calm and equipment we trust. See where you will be treated.", prev: "Previous photo", next: "Next photo" },
     booking: {
       h: "Book a check-up",
       note: "Leave your name and phone. We call back within 2 hours. The first consultation is free.",
