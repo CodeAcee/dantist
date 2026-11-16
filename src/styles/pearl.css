@@ -81,7 +81,8 @@
     .act--hero { top: 150px; transform: translateY(28px); }
     .act--hero.is-on { transform: none; }
     .act--hero .row { position: static; margin-top: 30px; }
-    .act:not(.act--hero) { left: auto; right: var(--gut); max-width: 520px; }
+    /* the text hangs just right of centre, near the tooth, instead of hugging the far edge */
+    .act:not(.act--hero) { left: calc(50% + clamp(24px, 5vw, 110px)); right: var(--gut); max-width: 520px; }
   }
   html:not(.js) .acts { position: static; }
   html:not(.js) .act { position: static; opacity: 1; transform: none; padding: 60px var(--gut); }
