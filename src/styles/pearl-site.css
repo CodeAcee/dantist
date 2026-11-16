@@ -159,3 +159,6 @@ body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), t
 .cookie__row { display: flex; gap: 8px; margin-top: 14px; }
 .cookie__row .btn { flex: 1; min-height: 44px; font-size: 14px; }
 @media (max-width: 899px) { .cookie { right: 16px; left: 16px; width: auto; bottom: calc(84px + env(safe-area-inset-bottom)); } }
+
+/* the honeypot field: off screen for people, present for bots */
+.form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

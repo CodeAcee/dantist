@@ -274,6 +274,7 @@ const bootstrap = `window.__PB=${JSON.stringify(P)};window.__CONTACT=${JSON.stri
         <div class="field"><label for="f-phone">{t.booking.phone}</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="e-phone"><p class="field__err" id="e-phone" hidden>{t.booking.phoneErr}</p></div>
         <div class="field"><label for="f-service">{t.booking.service}</label><select id="f-service" name="service"><option value="">{t.booking.servicePlaceholder}</option>{svcAll.map((s) => <option>{s.name}</option>)}</select></div>
         <div class="field"><label for="f-note">{t.booking.note2}</label><textarea id="f-note" name="note" placeholder={t.booking.notePlaceholder}></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
         <button class="btn btn--ink" type="submit">{t.booking.submit}</button>
         <p role="status" id="f-status" style="font-size: 14px; color: var(--muted)">{t.booking.idle}</p>
       </form>
@@ -406,6 +407,7 @@ formEl.addEventListener('submit', async e => {
       phone: document.getElementById('f-phone').value.trim(),
       service: document.getElementById('f-service').value || undefined,
       note: document.getElementById('f-note').value.trim() || undefined,
+      website: document.getElementById('f-web').value || undefined,
     }) });
     if (!res.ok) throw new Error('bad status');
     statusEl.textContent = FD.ok; formEl.reset();

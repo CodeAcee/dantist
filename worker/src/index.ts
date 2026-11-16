@@ -1,6 +1,8 @@
 export interface Env {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
+  // Workers rate-limiting binding (wrangler.toml); absent in local dev
+  LIMITER?: { limit(options: { key: string }): Promise<{ success: boolean }> };
 }
 
 const ALLOWED_ORIGINS = new Set([
@@ -24,53 +26,67 @@ interface ContactPayload {
   service?: string;
   contact_via?: string;
   note?: string;
+  website?: string; // honeypot: humans never see this field
 }
+
+// Telegram Markdown v1: these four characters open formatting entities; escaped, user text
+// stays literal and cannot inject links or break the message
+const esc = (s: string) => s.replace(/([_*`[])/g, "\\$1");
+const clip = (s: string | undefined, max: number) => (s ?? "").trim().slice(0, max);
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const origin = request.headers.get("Origin");
     const cors = corsHeaders(origin);
+    const json = (status: number, body: unknown) =>
+      new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
 
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: cors });
     }
-
     if (request.method !== "POST") {
-      return new Response(JSON.stringify({ ok: false, error: "Method not allowed" }), {
-        status: 405,
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
+      return json(405, { ok: false, error: "Method not allowed" });
+    }
+    if (Number(request.headers.get("Content-Length") ?? 0) > 4096) {
+      return json(413, { ok: false, error: "Payload too large" });
+    }
+
+    // a few submissions a minute per IP is plenty for a booking form
+    if (env.LIMITER) {
+      const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
+      const { success } = await env.LIMITER.limit({ key: ip });
+      if (!success) return json(429, { ok: false, error: "Too many requests" });
     }
 
     let body: ContactPayload;
     try {
       body = await request.json();
     } catch {
-      return new Response(JSON.stringify({ ok: false, error: "Invalid JSON" }), {
-        status: 400,
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
+      return json(400, { ok: false, error: "Invalid JSON" });
     }
 
-    const name = body.name?.trim();
-    const phone = body.phone?.trim();
+    // a filled honeypot is a bot: pretend success, send nothing
+    if (body.website) return json(200, { ok: true });
+
+    const name = clip(body.name, 80);
+    const phone = clip(body.phone, 32);
     if (!name || !phone) {
-      return new Response(JSON.stringify({ ok: false, error: "name and phone are required" }), {
-        status: 400,
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
+      return json(400, { ok: false, error: "name and phone are required" });
     }
+    const service = clip(body.service, 120);
+    const via = clip(body.contact_via, 40);
+    const note = clip(body.note, 600);
 
     const kyivTime = new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kyiv" });
 
     const lines = [
       "🦷 *Нова заявка — Chirkova Dentist*",
       "",
-      `👤 *Ім'я:* ${name}`,
-      `📞 *Телефон:* ${phone}`,
-      body.service ? `🔬 *Послуга:* ${body.service}` : "",
-      body.contact_via ? `💬 *Зв'язок через:* ${body.contact_via}` : "",
-      body.note ? `📝 *Коментар:* ${body.note.trim()}` : "",
+      `👤 *Ім'я:* ${esc(name)}`,
+      `📞 *Телефон:* ${esc(phone)}`,
+      service ? `🔬 *Послуга:* ${esc(service)}` : "",
+      via ? `💬 *Зв'язок через:* ${esc(via)}` : "",
+      note ? `📝 *Коментар:* ${esc(note)}` : "",
       "",
       `🕐 ${kyivTime}`,
     ]
@@ -93,15 +109,9 @@ export default {
     if (!tgRes.ok) {
       const errText = await tgRes.text();
       console.error("Telegram send failed:", errText);
-      return new Response(JSON.stringify({ ok: false, error: "Telegram delivery failed" }), {
-        status: 502,
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
+      return json(502, { ok: false, error: "Telegram delivery failed" });
     }
 
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { ...cors, "Content-Type": "application/json" },
-    });
+    return json(200, { ok: true });
   },
 };
