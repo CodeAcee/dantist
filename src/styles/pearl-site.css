@@ -171,7 +171,7 @@ body { background: radial-gradient(60% 50% at 78% 18%, rgb(214 232 255 / .55), t
 .gal figure:hover img { transform: scale(1.03); }
 .gal:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .gal__nav { display: flex; gap: 8px; }
-.gal__btn { width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgb(255 255 255 / .82); box-shadow: inset 0 0 0 1px var(--line); font-size: 18px; color: var(--ink); cursor: pointer; transition: transform .25s var(--ease), background .25s; }
+.gal__btn { display: grid; place-items: center; padding: 0; line-height: 1; width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgb(255 255 255 / .82); box-shadow: inset 0 0 0 1px var(--line); font-size: 18px; color: var(--ink); cursor: pointer; transition: transform .25s var(--ease), background .25s; }
 .gal__btn:hover { background: #fff; transform: translateY(-2px); }
 .gal__btn:active { transform: translateY(0); }
 @media (max-width: 899px) { .gal__nav { display: none; } .gal figure { width: 82vw; } }
