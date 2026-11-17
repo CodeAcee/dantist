@@ -118,7 +118,8 @@
   .split.in .ch { transform: none; }
 
   /* services: a horizontal track driven by vertical scroll */
-  .hs { position: relative; }
+  /* the sticky screen centres the cards, leaving a tall empty tail; the next section climbs into it */
+  .hs { position: relative; margin-bottom: -10svh; }
   html.js .hs { height: var(--hs-h, 400svh); }
   .hs__stick { height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
   html.js .hs__stick { position: sticky; top: 0; }

@@ -194,8 +194,6 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
   const veneer = new THREE.Mesh(subMesh(toothG, (x, y, z) => z > .12 && y > -.02, .03), veneerMat); tooth.add(veneer);
   const cap = new THREE.Mesh(subMesh(toothG, (x, y) => y > .02, .025), zirconia); tooth.add(cap);
   const implant = implantGroup(titanium, lite); tooth.add(implant);
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.3, .01, 8, 160), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false }));
-  ring.rotation.x = Math.PI / 2; ring.position.y = -2.8; scene.add(ring);
   scene.add(tooth);
 
   let tx = 0, ty = 0, cx = 0, cy = 0, drag = null, spin = 0, spinV = 0;
@@ -246,7 +244,6 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     zirconia.opacity = cp; setT(zirconia, cp < .995); cap.position.y = (1 - cp) * 2.4;
     titanium.opacity = im; setT(titanium, im < .995);
     implant.position.y = -.2 - (1 - im) * 3.2; implant.rotation.y = (1 - im) * 16;
-    ring.material.opacity = fin * .75;
     natural.visible = enamel.opacity > .01; xray.visible = xr > .01; veneer.visible = vn > .01; cap.visible = cp > .01; implant.visible = im > .01;
 
     tooth.rotation.y = (still ? rot : t * .22 + p * Math.PI * 4) + spin + cx;
