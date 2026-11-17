@@ -252,8 +252,12 @@ export async function mountTooth(canvas, { progress, still = false, host, src = 
     tooth.rotation.y = (still ? rot : t * .22 + p * Math.PI * 4) + spin + cx;
     tooth.rotation.x = .16 + cy + Math.sin(t * .6) * .025;
     const m = mobile();
-    const gx = m ? 0 : (p < .14 ? 2.65 : -1.7), gy = m ? (p < .14 ? -.55 : 1.15) : (p < .14 ? -.05 : .3);
-    if (still) { px = gx; py = gy; } else { px += (gx - px) * .06; py += (gy - py) * .06; }
+    // the side switch rides the scroll itself and swoops low, under the text, instead of
+    // gliding across it on its own clock
+    const k = m ? 0 : smooth(.14, .26, p);
+    const gx = m ? 0 : 2.65 - 4.35 * k;
+    const gy = m ? (p < .14 ? -.55 : 1.15) : -.05 + .35 * k - Math.sin(k * Math.PI) * 1.1;
+    if (still) { px = gx; py = gy; } else { px += (gx - px) * .14; py += (gy - py) * .14; }
     tooth.position.set(px, py + (still ? 0 : Math.sin(t * .9) * .045), 0);
     glintA.position.set(px + 1.6 + Math.sin(t * .5) * .8, py + 1.9, 2.6 + Math.cos(t * .4) * .6);
     glintB.position.set(px - 1.8, py + 1.2 + Math.sin(t * .35) * .5, 2.2);
